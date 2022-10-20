@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
-import 'package:petscape/src/features/chats/presentation/chats_screen.dart';
-import 'package:petscape/src/features/home/domain/products/products.dart';
 import 'package:petscape/src/features/home/presentation/carts_screen.dart';
 import 'package:petscape/src/features/home/presentation/products_controller.dart';
+import 'package:petscape/src/features/product/domain/product/product.dart';
+import 'package:petscape/src/features/product/presentation/product_screen.dart';
 import 'package:petscape/src/shared/theme.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -20,8 +20,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final List<bool> _isSelected = [true, false, false, false];
-  List<Products> products = [];
-  List<Products> productsFilter = [];
+  List<Product> products = [];
+  List<Product> productsFilter = [];
 
   @override
   void initState() {
@@ -67,7 +67,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               height: 25.h,
                             ),
                             Text(
-                              "Reading List",
+                              "Home Screen",
                               style: smallAppbar,
                             ),
                             Text(
@@ -107,24 +107,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             } else {
                               Map<String, dynamic> item = (snapshot.data!.data() as Map<String, dynamic>);
                               item["id"] = snapshot.data!.id;
-                              List<String> carts = List<String>.from(item['cart']);
+                              List carts = List.from(item['items']);
                               return InkWell(
                                 onTap: () async {
-                                  var futures = await Future.wait(carts
+                                  List<Map<Product, int>> mapProducts = [];
+                                  final Map<String, int> itemsMap = {for (var e in carts) e['id']: e['qty']};
+                                  final List<String> id = itemsMap.keys.toList();
+                                  final List<int> qty = itemsMap.values.toList();
+
+                                  var snapshot = await Future.wait(id
                                       .map((e) => FirebaseFirestore.instance.collection("products").doc(e).get())
                                       .toList());
-                                  var list = futures.map((e) => e.data()).toList();
-                                  List<Products> products = list.map((e) => Products.fromJson(e!)).toList();
+                                  var list = snapshot.map((e) => e.data()).toList();
+                                  List<Product> products = list.map((e) => Product.fromJson(e!)).toList();
+                                  for (int i = 0; i < products.length; i++) {
+                                    mapProducts.add({products[i]: qty[i]});
+                                  }
 
                                   if (mounted) {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => CartScreen(
-                                            carts: products,
+                                            items: mapProducts,
                                           ),
                                         ));
                                   }
+
+                                  // var futures = await Future.wait(carts
+                                  //     .map((e) => FirebaseFirestore.instance.collection("products").doc(e).get())
+                                  //     .toList());
+                                  // var list = futures.map((e) => e.data()).toList();
+                                  // List<Product> products = list.map((e) => Product.fromJson(e!)).toList();
+
+                                  // if (mounted) {
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //         builder: (context) => CartScreen(
+                                  //           carts: products,
+                                  //         ),
+                                  //       ));
+                                  // }
                                 },
                                 child: Stack(
                                   children: [
@@ -147,7 +171,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         radius: 8.0,
                                         backgroundColor: Colors.red,
                                         child: Text(
-                                          item['cart'].length.toString(),
+                                          item['items'].length.toString(),
                                           style: const TextStyle(
                                             fontSize: 10.0,
                                             color: Colors.white,
@@ -449,22 +473,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   children: [
                                     InkWell(
                                       onTap: () async {
-                                        var futures = await Future.wait([
-                                          FirebaseFirestore.instance
-                                              .collection("products")
-                                              .doc("FWZRr7lkx6N5xkwiArUH")
-                                              .get(),
-                                          FirebaseFirestore.instance
-                                              .collection("products")
-                                              .doc("MPHbqQSgdPC3AZzYxQQE")
-                                              .get(),
-                                          FirebaseFirestore.instance
-                                              .collection("products")
-                                              .doc("PZWCg5YXpWV9r9Lk7Vpg")
-                                              .get(),
-                                        ]);
-                                        var list = futures.map((e) => e.data()).toList();
-                                        print(list);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => const ProductScreen(),
+                                            ));
+                                        // var futures = await Future.wait([
+                                        //   FirebaseFirestore.instance
+                                        //       .collection("products")
+                                        //       .doc("FWZRr7lkx6N5xkwiArUH")
+                                        //       .get(),
+                                        //   FirebaseFirestore.instance
+                                        //       .collection("products")
+                                        //       .doc("MPHbqQSgdPC3AZzYxQQE")
+                                        //       .get(),
+                                        //   FirebaseFirestore.instance
+                                        //       .collection("products")
+                                        //       .doc("PZWCg5YXpWV9r9Lk7Vpg")
+                                        //       .get(),
+                                        // ]);
+                                        // var list = futures.map((e) => e.data()).toList();
+                                        // print(list);
                                       },
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -496,13 +525,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               Row(
                                                 children: [
                                                   TextButton(
-                                                    onPressed: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) => const ChatsScreen(),
-                                                          ));
-                                                    },
+                                                    onPressed: () {},
                                                     style: TextButton.styleFrom(
                                                       foregroundColor: graySecond,
                                                       backgroundColor: graySecond,

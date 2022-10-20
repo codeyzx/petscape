@@ -29,19 +29,13 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 
     final users = ref.read(authControllerProvider);
 
-    final isBg = state == AppLifecycleState.paused;
-    final isClosed = state == AppLifecycleState.detached;
     final isScreen = state == AppLifecycleState.resumed;
-
-    Logger().e('masuk');
 
     if (users != const Users()) {
       Logger().e('masuk');
       if (isScreen) {
-        Logger().e('isBg: $isBg ONLINE');
         FirebaseFirestore.instance.collection('users').doc(users.uid).update({'status': "Online"});
       } else {
-        Logger().e('isBg: $isBg OFFLINE');
         FirebaseFirestore.instance.collection('users').doc(users.uid).update({'status': ""});
       }
     }

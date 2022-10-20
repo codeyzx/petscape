@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:petscape/src/features/chats/presentation/chats_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:petscape/src/features/chat/presentation/chat_screen.dart';
 import 'package:petscape/src/features/home/presentation/home_screen.dart';
 import 'package:petscape/src/features/profile/presentation/profile_screen.dart';
 
@@ -31,61 +32,69 @@ class _BotNavBarScreenState extends ConsumerState<BotNavBarScreen> {
           bucket: bucket,
           child: currentScreen,
         ),
-        bottomNavigationBar: Container(
-          decoration: const BoxDecoration(),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            iconSize: 20.0.sp,
-            currentIndex: currentIndex,
-            onTap: (index) {
-              setState(() {
-                ref.read(currentIndexProvider.state).state = index;
-                switch (index) {
-                  case 0:
-                    ref.read(currentScreenProvider.state).state = const HomeScreen();
-                    break;
-                  case 1:
-                    ref.read(currentScreenProvider.state).state = const ChatsScreen();
-                    break;
-                  case 2:
-                    ref.read(currentScreenProvider.state).state = const ProfileScreen();
-                    break;
-                  case 3:
-                    ref.read(currentScreenProvider.state).state = const ProfileScreen();
-                    break;
-                }
-              });
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8.0.h),
-                  child: const Icon(Icons.home),
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                    padding: EdgeInsets.only(top: 8.0.h),
-                    child: const Icon(Icons.chat_outlined),
-                  ),
-                  label: 'Chat'),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8.0.h),
-                  child: const Icon(Icons.pets),
-                ),
-                label: 'Feed',
-              ),
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8.0.h),
-                  child: const Icon(Icons.person),
-                ),
-                label: 'Profile',
-              ),
-            ],
+        bottomNavigationBar: BottomNavigationBar(
+          fixedColor: Colors.redAccent,
+          selectedLabelStyle: GoogleFonts.poppins(
+            fontSize: 12.sp,
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
           ),
+          unselectedLabelStyle: GoogleFonts.poppins(
+            fontSize: 12.sp,
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+          ),
+          type: BottomNavigationBarType.fixed,
+          iconSize: 20.0.sp,
+          currentIndex: currentIndex,
+          onTap: (index) {
+            setState(() {
+              ref.read(currentIndexProvider.state).state = index;
+              switch (index) {
+                case 0:
+                  ref.read(currentScreenProvider.state).state = const HomeScreen();
+                  break;
+                case 1:
+                  ref.read(currentScreenProvider.state).state = const ChatScreen();
+                  break;
+                case 2:
+                  ref.read(currentScreenProvider.state).state = const ProfileScreen();
+                  break;
+                case 3:
+                  ref.read(currentScreenProvider.state).state = const ProfileScreen();
+                  break;
+              }
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(top: 8.0.h),
+                child: const Icon(Icons.home),
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 8.0.h),
+                  child: const Icon(Icons.chat_bubble),
+                ),
+                label: 'Chat'),
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(top: 8.0.h),
+                child: const Icon(Icons.pets),
+              ),
+              label: 'Feed',
+            ),
+            BottomNavigationBarItem(
+              icon: Padding(
+                padding: EdgeInsets.only(top: 8.0.h),
+                child: const Icon(Icons.person),
+              ),
+              label: 'Profile',
+            ),
+          ],
         ),
       ),
     );
