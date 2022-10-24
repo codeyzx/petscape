@@ -65,7 +65,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.r),
-                            borderSide: BorderSide(width: 1, color: graySecond),
+                            borderSide: BorderSide(width: 1, color: gray),
                           ),
                           contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
                           hintText: 'Email',
@@ -84,7 +84,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.r),
-                            borderSide: BorderSide(width: 1, color: graySecond),
+                            borderSide: BorderSide(width: 1, color: gray),
                           ),
                           contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
                           hintText: 'Password',
@@ -106,7 +106,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.r),
-                            borderSide: BorderSide(width: 1, color: graySecond),
+                            borderSide: BorderSide(width: 1, color: gray),
                           ),
                           contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
                           hintText: 'Password',

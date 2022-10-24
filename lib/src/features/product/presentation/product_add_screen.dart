@@ -135,7 +135,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'Chicken Nugget',
@@ -183,7 +183,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                 //         decoration: InputDecoration(
                 //           border: OutlineInputBorder(
                 //             borderRadius: BorderRadius.circular(6.r),
-                //             borderSide: BorderSide(width: 1, color: graySecond),
+                //             borderSide: BorderSide(width: 1, color: gray),
                 //           ),
                 //           contentPadding: const EdgeInsets.all(12),
                 //           hintStyle: tagHint,
@@ -212,7 +212,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'https://',
@@ -241,7 +241,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'category',
@@ -269,7 +269,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'seller',
@@ -297,7 +297,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'location',
@@ -325,7 +325,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'desc',
@@ -354,7 +354,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'price',
@@ -383,7 +383,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'stock',
@@ -413,7 +413,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: graySecond),
+                          borderSide: BorderSide(width: 1, color: gray),
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'sold',

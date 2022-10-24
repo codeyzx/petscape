@@ -33,7 +33,7 @@ class ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             fit: BoxFit.cover,
             width: double.infinity,
             height: 200,
-            image: NetworkImage(widget.cagesFromScan.image.toString() ?? 'https://picsum.photos/500/300?random=1'),
+            image: NetworkImage(widget.cagesFromScan.image.toString()),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),

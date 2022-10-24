@@ -510,7 +510,9 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                           ),
                           IconButton(
                             icon: const Icon(Icons.photo_camera, color: Colors.redAccent),
-                            onPressed: () {},
+                            onPressed: () async {
+                              // upload 
+                            },
                           ),
                           IconButton(
                             icon: const Icon(Icons.attach_file, color: Colors.redAccent),

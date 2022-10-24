@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petscape/src/features/chat/presentation/chat_screen.dart';
-import 'package:petscape/src/features/home/presentation/home_screen.dart';
+import 'package:petscape/src/features/home/presentation/home_screen_fix.dart';
 import 'package:petscape/src/features/profile/presentation/profile_screen.dart';
 
-final currentScreenProvider = StateProvider<Widget>((ref) => const HomeScreen());
+final currentScreenProvider = StateProvider<Widget>((ref) => const HomeScreenFix());
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
 class BotNavBarScreen extends ConsumerStatefulWidget {
@@ -52,7 +52,7 @@ class _BotNavBarScreenState extends ConsumerState<BotNavBarScreen> {
               ref.read(currentIndexProvider.state).state = index;
               switch (index) {
                 case 0:
-                  ref.read(currentScreenProvider.state).state = const HomeScreen();
+                  ref.read(currentScreenProvider.state).state = const HomeScreenFix();
                   break;
                 case 1:
                   ref.read(currentScreenProvider.state).state = const ChatScreen();

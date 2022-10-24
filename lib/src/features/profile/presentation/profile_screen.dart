@@ -362,9 +362,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await ref.read(authControllerProvider.notifier).googleSignOut();
-                        if (mounted) {
-                          context.goNamed(SignInScreen.routeName);
+                        try {
+                          await ref.read(authControllerProvider.notifier).googleSignOut();
+                          if (mounted) {
+                            context.goNamed(SignInScreen.routeName);
+                          }
+                        } catch (e) {
+                          // snackbar error
+                          showDialog(
+                            context: context,
+                            builder: (context) => SnackBar(content: Text('Error: ${e.toString()}')),
+                          );
                         }
                       },
                       child: Column(

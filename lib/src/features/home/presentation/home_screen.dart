@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
-import 'package:petscape/src/features/home/presentation/carts_screen.dart';
 import 'package:petscape/src/features/home/presentation/products_controller.dart';
 import 'package:petscape/src/features/product/domain/product/product.dart';
 import 'package:petscape/src/features/product/presentation/product_screen.dart';
@@ -125,13 +124,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   }
 
                                   if (mounted) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => CartScreen(
-                                            items: mapProducts,
-                                          ),
-                                        ));
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) => CartScreen(
+                                    //         items: mapProducts,
+                                    //       ),
+                                    //     ));
                                   }
 
                                   // var futures = await Future.wait(carts
@@ -342,7 +341,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Container(
                       width: 1.sw,
                       height: 1,
-                      color: graySecond,
+                      color: gray,
                     ),
                     SizedBox(
                       height: 10.h,
@@ -390,8 +389,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     //                           TextButton(
                     //                             onPressed: () {},
                     //                             style: TextButton.styleFrom(
-                    //                               foregroundColor: graySecond,
-                    //                               backgroundColor: graySecond,
+                    //                               foregroundColor: gray,
+                    //                               backgroundColor: gray,
                     //                             ),
                     //                             child: Text(
                     //                               products[index].category.toString(),
@@ -440,7 +439,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     //         Container(
                     //           width: 1.sw,
                     //           height: 1,
-                    //           color: graySecond,
+                    //           color: gray,
                     //         ),
                     //         SizedBox(
                     //           height: 24.h,
@@ -527,8 +526,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                   TextButton(
                                                     onPressed: () {},
                                                     style: TextButton.styleFrom(
-                                                      foregroundColor: graySecond,
-                                                      backgroundColor: graySecond,
+                                                      foregroundColor: gray,
+                                                      backgroundColor: gray,
                                                     ),
                                                     child: Text(
                                                       item['category'],
@@ -577,7 +576,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 Container(
                                   width: 1.sw,
                                   height: 1,
-                                  color: graySecond,
+                                  color: gray,
                                 ),
                                 SizedBox(
                                   height: 24.h,

@@ -62,7 +62,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.r),
-                            borderSide: BorderSide(width: 1, color: graySecond),
+                            borderSide: BorderSide(width: 1, color: gray),
                           ),
                           contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
                           hintText: 'Email',
@@ -81,7 +81,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.r),
-                            borderSide: BorderSide(width: 1, color: graySecond),
+                            borderSide: BorderSide(width: 1, color: gray),
                           ),
                           contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
                           hintText: 'Password',
@@ -100,9 +100,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           width: 320.w,
                           height: 48.h,
                           child: TextButton(
-                            onPressed: () async {
-                              context.goNamed(BotNavBarScreen.routeName);
-                            },
+                            onPressed: () {},
                             style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primary)),
                             child: Text(
                               'Masuk',
