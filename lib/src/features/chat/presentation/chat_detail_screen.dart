@@ -319,7 +319,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ChatDetailScreen extends ConsumerStatefulWidget {
   final String? usersId;
   final String? messagesId;
-  const ChatDetailScreen({super.key, required this.usersId, required this.messagesId});
+  final bool? isDoctor;
+  const ChatDetailScreen({super.key, required this.usersId, required this.messagesId, this.isDoctor});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ChatDetailScreenState();
@@ -358,14 +359,17 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                         padding: EdgeInsets.only(
                           right: 12.w,
                         ),
-                        child: CircleAvatar(backgroundImage: NetworkImage(item['photoUrl'])),
+                        child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                          widget.isDoctor == null ? item['photoUrl'] : item['doctorImage'],
+                        )),
                       ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              item['name'],
+                              widget.isDoctor == null ? item['name'] : item['doctorName'],
                               style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
                             ),
                             Text(
@@ -511,7 +515,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                           IconButton(
                             icon: const Icon(Icons.photo_camera, color: Colors.redAccent),
                             onPressed: () async {
-                              // upload 
+                              // upload
                             },
                           ),
                           IconButton(

@@ -18,6 +18,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final users = ref.watch(authControllerProvider);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -40,7 +41,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     children: [
                       Text(
                         'Profile',
-                        style: bigAppBar,
+                        style: appBarTitle,
                       ),
                     ],
                   ),
@@ -61,7 +62,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100.r),
                           child: Image.network(
-                            'https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1510033690/xtys6miadoejvaigkxf7.jpg',
+                            // 'https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1510033690/xtys6miadoejvaigkxf7.jpg',
+                            users.photoUrl ??
+                                'https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1510033690/xtys6miadoejvaigkxf7.jpg',
+
                             width: 54.w,
                             height: 54.h,
                             fit: BoxFit.cover,
@@ -74,13 +78,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'John Doe',
+                              // 'John Doe',
+                              users.name ?? '',
                               style: profileName,
                             ),
-                            Text(
-                              'Member since 2021',
-                              style: profileEmail,
-                            ),
+                            // Text(
+                            //   'Member since 2021',
+                            //   style: profileEmail,
+                            // ),
                           ],
                         ),
                       ],
@@ -363,10 +368,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     InkWell(
                       onTap: () async {
                         try {
-                          await ref.read(authControllerProvider.notifier).googleSignOut();
-                          if (mounted) {
-                            context.goNamed(SignInScreen.routeName);
-                          }
+                          context.goNamed(SignInScreen.routeName);
+                          ref.read(authControllerProvider.notifier).googleSignOut();
                         } catch (e) {
                           // snackbar error
                           showDialog(

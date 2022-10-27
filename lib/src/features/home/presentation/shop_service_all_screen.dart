@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
-import 'package:petscape/src/features/product/presentation/product_item_screen.dart';
+import 'package:petscape/src/features/product/presentation/product_screen.dart';
 import 'package:petscape/src/shared/theme.dart';
 
 class ShopServiceAll extends StatefulWidget {
@@ -49,7 +49,8 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ProductItemScreen(
+                      builder: (context) => ProductScreen(
+                            type: 'food',
                             usersId: widget.usersId,
                           )),
                 );
@@ -107,7 +108,15 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
               height: 16.h,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductScreen(
+                              type: 'toys',
+                              usersId: widget.usersId,
+                            )));
+              },
               style: ElevatedButton.styleFrom(
                   minimumSize: Size.zero, // Set this
                   padding: EdgeInsets.zero, // and this
@@ -161,7 +170,15 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
               height: 16.h,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductScreen(
+                              type: 'medicine',
+                              usersId: widget.usersId,
+                            )));
+              },
               style: ElevatedButton.styleFrom(
                   minimumSize: Size.zero, // Set this
                   padding: EdgeInsets.zero, // and this
@@ -215,7 +232,15 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
               height: 16.h,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductScreen(
+                              type: 'treatment',
+                              usersId: widget.usersId,
+                            )));
+              },
               style: ElevatedButton.styleFrom(
                   minimumSize: Size.zero, // Set this
                   padding: EdgeInsets.zero, // and this
@@ -269,7 +294,15 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
               height: 16.h,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductScreen(
+                              type: 'accessories',
+                              usersId: widget.usersId,
+                            )));
+              },
               style: ElevatedButton.styleFrom(
                   minimumSize: Size.zero, // Set this
                   padding: EdgeInsets.zero, // and this

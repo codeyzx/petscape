@@ -27,13 +27,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: 32.h, left: 16.w),
-            child: Text(
-              'sevly',
-              style: appName,
-            ),
-          ),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,

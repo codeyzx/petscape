@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:petscape/src/features/product/domain/product/product.dart';
+import 'package:petscape/src/features/product/domain/product.dart';
 
 class ProductController extends StateNotifier<List<Product>> {
   ProductController() : super(const []);
@@ -26,6 +26,6 @@ class ProductController extends StateNotifier<List<Product>> {
   }
 }
 
-final productsControllerProvider = StateNotifierProvider<ProductController, List<Product>>(
+final productControllerProvider = StateNotifierProvider<ProductController, List<Product>>(
   (ref) => ProductController(),
 );

@@ -31,6 +31,7 @@ class AuthController extends StateNotifier<Users> {
             'name': userCredential.user!.displayName,
             'email': userCredential.user!.email,
             'photoUrl': userCredential.user!.photoURL,
+            'roles': 'user',
             'status': '',
           });
           await FirebaseFirestore.instance.collection('carts').doc(userCredential.user!.uid).set({
@@ -47,6 +48,7 @@ class AuthController extends StateNotifier<Users> {
             name: userCredential.user!.displayName,
             email: userCredential.user!.email,
             photoUrl: userCredential.user!.photoURL,
+            roles: 'user',
           );
           state = users;
         } else {

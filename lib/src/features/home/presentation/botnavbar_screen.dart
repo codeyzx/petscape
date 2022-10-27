@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petscape/src/features/chat/presentation/chat_screen.dart';
-import 'package:petscape/src/features/home/presentation/home_screen_fix.dart';
+import 'package:petscape/src/features/home/presentation/home_screen.dart';
+import 'package:petscape/src/features/order/presentation/orders_screen.dart';
 import 'package:petscape/src/features/profile/presentation/profile_screen.dart';
 
-final currentScreenProvider = StateProvider<Widget>((ref) => const HomeScreenFix());
+final currentScreenProvider = StateProvider<Widget>((ref) => const HomeScreen());
 final currentIndexProvider = StateProvider<int>((ref) => 0);
 
 class BotNavBarScreen extends ConsumerStatefulWidget {
@@ -52,15 +53,18 @@ class _BotNavBarScreenState extends ConsumerState<BotNavBarScreen> {
               ref.read(currentIndexProvider.state).state = index;
               switch (index) {
                 case 0:
-                  ref.read(currentScreenProvider.state).state = const HomeScreenFix();
+                  ref.read(currentScreenProvider.state).state = const HomeScreen();
                   break;
                 case 1:
                   ref.read(currentScreenProvider.state).state = const ChatScreen();
                   break;
                 case 2:
-                  ref.read(currentScreenProvider.state).state = const ProfileScreen();
+                  ref.read(currentScreenProvider.state).state = const OrderScreen();
                   break;
                 case 3:
+                  ref.read(currentScreenProvider.state).state = const ProfileScreen();
+                  break;
+                case 4:
                   ref.read(currentScreenProvider.state).state = const ProfileScreen();
                   break;
               }
@@ -80,6 +84,12 @@ class _BotNavBarScreenState extends ConsumerState<BotNavBarScreen> {
                   child: const Icon(Icons.chat_bubble),
                 ),
                 label: 'Chat'),
+            BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(top: 8.0.h),
+                  child: const Icon(Icons.newspaper),
+                ),
+                label: 'Order'),
             BottomNavigationBarItem(
               icon: Padding(
                 padding: EdgeInsets.only(top: 8.0.h),

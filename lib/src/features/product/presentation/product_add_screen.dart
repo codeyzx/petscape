@@ -15,6 +15,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _categoryController = TextEditingController();
+  final _typeController = TextEditingController();
   final _sellerController = TextEditingController();
   final _imageController = TextEditingController();
   final _soldController = TextEditingController();
@@ -29,6 +30,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
     super.dispose();
     _nameController.dispose();
     _categoryController.dispose();
+    _typeController.dispose();
     _sellerController.dispose();
     _imageController.dispose();
     _soldController.dispose();
@@ -88,6 +90,7 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                     'id': db.id,
                     'name': _nameController.text,
                     'category': _categoryController.text,
+                    'type': _typeController.text,
                     'seller': _sellerController.text,
                     'image': _imageController.text == '' ? 'https://picsum.photos/500/300?random=1' : _imageController.text,
                     'stock': int.tryParse(_stockController.text),
@@ -96,6 +99,13 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                     'desc': _descController.text,
                     'location': _locationController.text,
                   });
+                  _typeController.clear();
+                  _nameController.clear();
+                  _imageController.clear();
+                  _categoryController.clear();
+                  _priceController.clear();
+                  _stockController.clear();
+                  _soldController.clear();
                 }
               },
               child: Text(
@@ -113,6 +123,40 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
             key: _formKey,
             child: Column(
               children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'type *',
+                      style: textTitleBookmark,
+                    ),
+                    SizedBox(
+                      height: 6.h,
+                    ),
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter type';
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: _typeController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6.r),
+                          borderSide: BorderSide(width: 1, color: gray),
+                        ),
+                        contentPadding: const EdgeInsets.all(12),
+                        hintText: 'food',
+                        hintStyle: tagHint,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 18.h,
+                    ),
+                  ],
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -147,55 +191,6 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                     ),
                   ],
                 ),
-                // Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Text(
-                //       'category *',
-                //       style: textTitleBookmark,
-                //     ),
-                //     SizedBox(
-                //       height: 6.h,
-                //     ),
-                //     DropdownButtonFormField(
-                //         validator: (value) {
-                //           if (value == null || value.isEmpty) {
-                //             return 'Please enter category';
-                //           }
-                //           return null;
-                //         },
-                //         items: const [
-                //           DropdownMenuItem(
-                //             value: 'koloni',
-                //             child: Text('koloni'),
-                //           ),
-                //           DropdownMenuItem(
-                //             value: 'solo',
-                //             child: Text('solo'),
-                //           ),
-                //           DropdownMenuItem(
-                //             value: 'ip',
-                //             child: Text('ip'),
-                //           ),
-                //         ],
-                //         value: _categoryController.text,
-                //         autovalidateMode: AutovalidateMode.onUserInteraction,
-                //         decoration: InputDecoration(
-                //           border: OutlineInputBorder(
-                //             borderRadius: BorderRadius.circular(6.r),
-                //             borderSide: BorderSide(width: 1, color: gray),
-                //           ),
-                //           contentPadding: const EdgeInsets.all(12),
-                //           hintStyle: tagHint,
-                //         ),
-                //         onChanged: (value) {
-                //           _categoryController.text = value.toString();
-                //         }),
-                //     SizedBox(
-                //       height: 18.h,
-                //     ),
-                //   ],
-                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -224,7 +219,6 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                     ),
                   ],
                 ),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -395,7 +389,6 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                     ),
                   ],
                 ),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

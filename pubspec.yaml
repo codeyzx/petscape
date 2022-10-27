@@ -32,6 +32,7 @@ dependencies:
   intl: ^0.17.0
   json_annotation: ^4.7.0
   logger: ^1.1.0
+  midpay: ^1.1.7
   open_filex: ^4.1.1
   permission_handler: ^10.2.0
   shared_preferences: ^2.0.15

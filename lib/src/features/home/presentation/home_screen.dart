@@ -2,11 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:logger/logger.dart';
 import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
-import 'package:petscape/src/features/home/presentation/products_controller.dart';
-import 'package:petscape/src/features/product/domain/product/product.dart';
+import 'package:petscape/src/features/home/presentation/pet_profile_screen.dart';
+import 'package:petscape/src/features/order/domain/history_health/history_health.dart';
+import 'package:petscape/src/features/order/domain/pet/pet.dart';
+import 'package:petscape/src/features/order/presentation/pet_controller.dart';
+import 'package:petscape/src/features/product/presentation/product_controller.dart';
+import 'package:petscape/src/features/home/presentation/shop_service_all_screen.dart';
+import 'package:petscape/src/features/home/widgets/box_shadow.dart';
+import 'package:petscape/src/features/product/domain/product.dart';
 import 'package:petscape/src/features/product/presentation/product_screen.dart';
+import 'package:petscape/src/features/vets/domain/vets.dart';
+import 'package:petscape/src/features/vets/presentation/vets_all_screen.dart';
+import 'package:petscape/src/features/vets/presentation/vets_controller.dart';
+import 'package:petscape/src/features/vets/presentation/vets_detail_screen.dart';
 import 'package:petscape/src/shared/theme.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -14,13 +24,13 @@ class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  final List<bool> _isSelected = [true, false, false, false];
   List<Product> products = [];
   List<Product> productsFilter = [];
+  List<Vets> vets = [];
 
   @override
   void initState() {
@@ -29,561 +39,563 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> initProducts() async {
-    await ref.read(productsControllerProvider.notifier).getData();
-    final returnProducts = ref.read(productsControllerProvider);
-    products.addAll(returnProducts);
-    productsFilter.addAll(returnProducts);
-    setState(() {});
+    final usersId = ref.read(authControllerProvider).uid;
+    await ref.read(productControllerProvider.notifier).getData();
+    await ref.read(vetsControllerProvider.notifier).getData();
+    await ref.read(petControllerProvider.notifier).getData(usersId.toString());
+    final returnProducts = ref.read(productControllerProvider);
+    final returnVets = ref.read(vetsControllerProvider);
+
+    setState(() {
+      products.addAll(returnProducts);
+      productsFilter.addAll(returnProducts);
+      vets.addAll(returnVets);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final users = ref.watch(authControllerProvider);
-    return SafeArea(
+    final pet = ref.watch(petControllerProvider);
+
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: neutral,
         body: SingleChildScrollView(
-          physics: const ScrollPhysics(),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                width: 1.sw,
-                height: 86.h,
-                decoration: BoxDecoration(
-                  color: HexColor('#F2FEFF'),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 25.h,
-                            ),
-                            Text(
-                              "Home Screen",
-                              style: smallAppbar,
-                            ),
-                            Text(
-                              // DateFormat('d MMMM').format(DateTime.now()),
-                              users.name.toString(),
-                              style: subSmallAppbar,
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 35.w,
-                          height: 35.h,
-                          decoration: BoxDecoration(
-                            color: primary,
-                            borderRadius: BorderRadius.circular(100.r),
-                          ),
-                          child: Center(
-                            child: IconButton(
-                              onPressed: () async {
-                                await FirebaseFirestore.instance.collection("carts").doc(users.uid).update({
-                                  "cart": FieldValue.arrayUnion(["QyLvjUlL1iP5PHBFMs1P"])
-                                });
-                              },
-                              icon: const Icon(
-                                Icons.add,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        StreamBuilder<DocumentSnapshot<Object?>>(
-                          stream: FirebaseFirestore.instance.collection("carts").doc(users.uid).snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) return const Text("Error");
-                            if (snapshot.data?.data() == null) {
-                              return const Text("No Data");
-                            } else {
-                              Map<String, dynamic> item = (snapshot.data!.data() as Map<String, dynamic>);
-                              item["id"] = snapshot.data!.id;
-                              List carts = List.from(item['items']);
-                              return InkWell(
-                                onTap: () async {
-                                  List<Map<Product, int>> mapProducts = [];
-                                  final Map<String, int> itemsMap = {for (var e in carts) e['id']: e['qty']};
-                                  final List<String> id = itemsMap.keys.toList();
-                                  final List<int> qty = itemsMap.values.toList();
-
-                                  var snapshot = await Future.wait(id
-                                      .map((e) => FirebaseFirestore.instance.collection("products").doc(e).get())
-                                      .toList());
-                                  var list = snapshot.map((e) => e.data()).toList();
-                                  List<Product> products = list.map((e) => Product.fromJson(e!)).toList();
-                                  for (int i = 0; i < products.length; i++) {
-                                    mapProducts.add({products[i]: qty[i]});
-                                  }
-
-                                  if (mounted) {
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) => CartScreen(
-                                    //         items: mapProducts,
-                                    //       ),
-                                    //     ));
-                                  }
-
-                                  // var futures = await Future.wait(carts
-                                  //     .map((e) => FirebaseFirestore.instance.collection("products").doc(e).get())
-                                  //     .toList());
-                                  // var list = futures.map((e) => e.data()).toList();
-                                  // List<Product> products = list.map((e) => Product.fromJson(e!)).toList();
-
-                                  // if (mounted) {
-                                  //   Navigator.push(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //         builder: (context) => CartScreen(
-                                  //           carts: products,
-                                  //         ),
-                                  //       ));
-                                  // }
-                                },
-                                child: Stack(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.only(top: 8.0, right: 8.0),
-                                      child: CircleAvatar(
-                                        radius: 14.0,
-                                        backgroundColor: Colors.white,
-                                        child: Icon(
-                                          Icons.shopping_cart,
-                                          size: 20.0,
-                                          color: Colors.blueGrey,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: CircleAvatar(
-                                        radius: 8.0,
-                                        backgroundColor: Colors.red,
-                                        child: Text(
-                                          item['items'].length.toString(),
-                                          style: const TextStyle(
-                                            fontSize: 10.0,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                padding: EdgeInsets.symmetric(horizontal: 18.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 16.h,
+                      height: 40.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "Daily Goals (10/day)",
-                          style: barTitle,
+                        Container(
+                          width: 280.w,
+                          height: 36.h,
+                          decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
+                            buildPrimaryBoxShadow(),
+                          ]),
+                          child: Center(
+                            child: TextField(
+                              style: homeSearchText,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  prefixIcon: Image.asset(
+                                    "assets/icons/search-icon.png",
+                                    scale: 4,
+                                  ),
+                                  hintText: "Search Something",
+                                  hintStyle: homeSearchHint,
+                                  contentPadding: EdgeInsets.only(left: 13.w, top: 4.h, bottom: 7.h)),
+                            ),
+                          ),
                         ),
-                        Text(
-                          "80%",
-                          style: barTitle,
-                        ),
+                        InkWell(
+                            onTap: () {},
+                            child: Image.asset(
+                              "assets/icons/bell-icon.png",
+                              width: 24.w,
+                              height: 24.h,
+                            )),
                       ],
                     ),
                     SizedBox(
-                      height: 24.h,
+                      height: 21.h,
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                    Container(
+                      padding: EdgeInsets.only(left: 9.w, top: 19.h, bottom: 16.h),
+                      width: 324.w,
+                      height: 150.h,
+                      decoration: BoxDecoration(
+                        color: secondary,
+                        borderRadius: BorderRadius.circular(4.r),
+                        image: const DecorationImage(
+                          image: AssetImage('assets/images/petscape/dog-paws-bg.png'),
+                          scale: 1,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ChoiceChip(
-                            selectedColor: primary,
-                            labelPadding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 24.w),
-                            label: Text(
-                              'All',
-                              style: _isSelected[0] ? chipSelected : chipUnSelected,
-                            ),
-                            selected: _isSelected[0],
-                            onSelected: (newBoolValue) {
-                              setState(() {
-                                if (_isSelected[0] == false) {
-                                  _isSelected[0] = true;
-                                  _isSelected[1] = false;
-                                  _isSelected[2] = false;
-                                  _isSelected[3] = false;
-
-                                  products.clear();
-                                  products.addAll(productsFilter);
-                                }
-                                // articles.clear();
-                                // articles.addAll(article);
-                              });
-                            },
+                          Text(
+                            "Consult My Pet",
+                            style: homeWhiteTitle,
                           ),
                           SizedBox(
-                            width: 12.w,
+                            height: 4.h,
                           ),
-                          ChoiceChip(
-                            selectedColor: primary,
-                            labelPadding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 24.w),
-                            label: Text(
-                              'Dog',
-                              style: _isSelected[1] ? chipSelected : chipUnSelected,
-                            ),
-                            selected: _isSelected[1],
-                            onSelected: (newBoolValue) {
-                              setState(() {
-                                if (_isSelected[1] == false) {
-                                  _isSelected[1] = true;
-                                  _isSelected[0] = false;
-                                  _isSelected[2] = false;
-                                  _isSelected[3] = false;
-
-                                  final drugsCategory =
-                                      productsFilter.where((element) => element.category == 'drugs').toList();
-                                  products.clear();
-                                  products.addAll(drugsCategory);
-                                }
-                                // articles.clear();
-                                // articles.addAll(article);
-                              });
-                            },
+                          Text(
+                            "Konsultasikan segala masalah\nhewanmu segera.",
+                            style: homeWhiteSubTitle,
                           ),
                           SizedBox(
-                            width: 12.w,
-                          ),
-                          ChoiceChip(
-                            selectedColor: primary,
-                            labelPadding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 24.w),
-                            label: Text(
-                              'Cat',
-                              style: _isSelected[2] ? chipSelected : chipUnSelected,
-                            ),
-                            selected: _isSelected[2],
-                            onSelected: (newBoolValue) {
-                              setState(() {
-                                if (_isSelected[2] == false) {
-                                  _isSelected[2] = true;
-                                  _isSelected[0] = false;
-                                  _isSelected[1] = false;
-                                  _isSelected[3] = false;
-
-                                  final drugsCategory =
-                                      productsFilter.where((element) => element.category == 'outfit').toList();
-                                  products.clear();
-                                  products.addAll(drugsCategory);
-                                }
-                                // articles.clear();
-                                // articles.addAll(article);
-                              });
-                            },
+                            height: 12.h,
                           ),
                           SizedBox(
-                            width: 12.w,
-                          ),
-                          ChoiceChip(
-                            selectedColor: primary,
-                            labelPadding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 24.w),
-                            label: Text(
-                              'Others',
-                              style: _isSelected[3] ? chipSelected : chipUnSelected,
+                            width: 166.w,
+                            height: 30.h,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(whitish),
+                                padding: MaterialStateProperty.all<EdgeInsets>(
+                                  EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                                ),
+                              ),
+                              child: Text(
+                                "Konsultasi Sekarang",
+                                style: homeBlackButton,
+                              ),
                             ),
-                            selected: _isSelected[3],
-                            onSelected: (newBoolValue) {
-                              setState(() {
-                                if (_isSelected[3] == false) {
-                                  _isSelected[3] = true;
-                                  _isSelected[0] = false;
-                                  _isSelected[1] = false;
-                                  _isSelected[2] = false;
-
-                                  final drugsCategory =
-                                      productsFilter.where((element) => element.category == 'test').toList();
-                                  products.clear();
-                                  products.addAll(drugsCategory);
-                                }
-                                // articles.clear();
-                                // articles.addAll(article);
-                              });
-                            },
-                          ),
-                          SizedBox(
-                            width: 12.w,
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: 24.h,
+                      height: 16.h,
                     ),
-                    Container(
-                      width: 1.sw,
-                      height: 1,
-                      color: gray,
+                    Text(
+                      "Your Pet",
+                      style: homeCategoryTitle,
                     ),
                     SizedBox(
-                      height: 10.h,
+                      height: 12.h,
                     ),
-                    // ListView.builder(
-                    //   physics: const NeverScrollableScrollPhysics(),
-                    //   itemCount: products.length,
-                    //   shrinkWrap: true,
-                    //   itemBuilder: (context, index) {
-                    //     return Column(
-                    //       children: [
-                    //         Column(
-                    //           children: [
-                    //             InkWell(
-                    //               onTap: () async {},
-                    //               child: Row(
-                    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //                 children: [
-                    //                   Column(
-                    //                     crossAxisAlignment: CrossAxisAlignment.start,
-                    //                     children: [
-                    //                       SizedBox(
-                    //                         width: 222.w,
-                    //                         child: Text(
-                    //                           products[index].name.toString(),
-                    //                           style: itemTitle,
-                    //                         ),
-                    //                       ),
-                    //                       SizedBox(
-                    //                         height: 6.h,
-                    //                       ),
-                    //                       SizedBox(
-                    //                         width: 300,
-                    //                         child: Text(
-                    //                           products[index].desc.toString(),
-                    //                           overflow: TextOverflow.fade,
-                    //                           style: itemSource,
-                    //                         ),
-                    //                       ),
-                    //                       SizedBox(
-                    //                         height: 12.h,
-                    //                       ),
-                    //                       Row(
-                    //                         children: [
-                    //                           TextButton(
-                    //                             onPressed: () {},
-                    //                             style: TextButton.styleFrom(
-                    //                               foregroundColor: gray,
-                    //                               backgroundColor: gray,
-                    //                             ),
-                    //                             child: Text(
-                    //                               products[index].category.toString(),
-                    //                               style: articleTag,
-                    //                             ),
-                    //                           ),
-                    //                           const SizedBox(
-                    //                             width: 6,
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ],
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //             SizedBox(
-                    //               height: 2.h,
-                    //             ),
-                    //             Row(
-                    //               mainAxisAlignment: MainAxisAlignment.end,
-                    //               children: [
-                    //                 Image.asset(
-                    //                   'assets/images/share-icon.png',
-                    //                   width: 18.w,
-                    //                   height: 18.h,
-                    //                 ),
-                    //                 SizedBox(
-                    //                   width: 34.w,
-                    //                 ),
-                    //                 Image.asset(
-                    //                   'assets/images/option-icon.png',
-                    //                   width: 4.w,
-                    //                   height: 18.h,
-                    //                 ),
-                    //                 SizedBox(
-                    //                   width: 10.w,
-                    //                 )
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //         SizedBox(
-                    //           height: 15.h,
-                    //         ),
-                    //         Container(
-                    //           width: 1.sw,
-                    //           height: 1,
-                    //           color: gray,
-                    //         ),
-                    //         SizedBox(
-                    //           height: 24.h,
-                    //         ),
-                    //       ],
-                    //     );
-                    //   },
-                    // ),
-                    StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection("products").snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) return const Text("Error");
-                        if (snapshot.data == null) return Container();
-                        if (snapshot.data!.docs.isEmpty) {
-                          return const Text("No Data");
-                        }
-                        final data = snapshot.data!;
-                        final listProducts = ['FWZRr7lkx6N5xkwiArUH', 'MPHbqQSgdPC3AZzYxQQE', 'PZWCg5YXpWV9r9Lk7Vpg'];
-
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
+                  ],
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                    SizedBox(
+                      height: 100.h,
+                      child: ListView.builder(
+                          itemCount: pet.length,
+                          physics: const ScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          itemCount: data.docs.length,
-                          itemBuilder: (context, index) {
-                            Map<String, dynamic> item = (data.docs[index].data() as Map<String, dynamic>);
-                            item["id"] = data.docs[index].id;
-                            return Column(
-                              children: [
-                                Column(
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: EdgeInsets.only(right: 16.w),
+                              child: InkWell(
+                                onTap: () {
+                                  //change page to pet profile
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PetProfileScreen(pet: pet[index]),
+                                      ));
+                                },
+                                child: Column(
                                   children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => const ProductScreen(),
-                                            ));
-                                        // var futures = await Future.wait([
-                                        //   FirebaseFirestore.instance
-                                        //       .collection("products")
-                                        //       .doc("FWZRr7lkx6N5xkwiArUH")
-                                        //       .get(),
-                                        //   FirebaseFirestore.instance
-                                        //       .collection("products")
-                                        //       .doc("MPHbqQSgdPC3AZzYxQQE")
-                                        //       .get(),
-                                        //   FirebaseFirestore.instance
-                                        //       .collection("products")
-                                        //       .doc("PZWCg5YXpWV9r9Lk7Vpg")
-                                        //       .get(),
-                                        // ]);
-                                        // var list = futures.map((e) => e.data()).toList();
-                                        // print(list);
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(100.r),
+                                      child: Image.network(
+                                        // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
+                                        pet[index].image.toString(),
+                                        width: 64.w,
+                                        height: 64.h,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4.h,
+                                    ),
+                                    Text(
+                                      pet[index].name.toString(),
+                                      style: petTitle,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 40.h),
+                      child: InkWell(
+                        onTap: () async {
+                          // Logger().e(pet);
+                          final db = FirebaseFirestore.instance.collection('pets').withConverter(
+                                fromFirestore: (snapshot, _) => Pet.fromJson(snapshot.data()!),
+                                toFirestore: (Pet pet, _) => pet.toJson(),
+                              );
+                          final refz = db.doc('kFwVlWBKr4mAEiS0DxnL');
+                          final data = await refz.get();
+                          var temp = [];
+                          temp.addAll(data.data()!.health!);
+                          // temp.add(data.data()!.health);
+                          // temp.add()
+                          // temp.add(HistoryHealth.fromJson(items));
+                          const history = HistoryHealth(
+                            id: 'asdas',
+                          );
+                          temp.add(history);
+                          Logger().e(temp);
+                        },
+                        child: Container(
+                          width: 64.w,
+                          height: 64.h,
+                          decoration: BoxDecoration(color: whitish, shape: BoxShape.circle, boxShadow: [
+                            buildPrimaryBoxShadow(),
+                          ]),
+                          child: Center(
+                            child: Image.asset(
+                              'assets/icons/add-round-icon.png',
+                              width: 28.w,
+                              height: 28.h,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 32.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 18.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Shop & Services",
+                          style: homeCategoryTitle,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ShopServiceAll(
+                                        usersId: users.uid.toString(),
+                                      )),
+                            );
+                          },
+                          child: Text(
+                            "See All",
+                            style: homeAllButton,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 12.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            //change page to food
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductScreen(
+                                          type: 'food',
+                                          usersId: users.uid.toString(),
+                                        )));
+                          },
+                          child: SizedBox(
+                            width: 60.w,
+                            height: 86.h,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 60.w,
+                                  height: 60.h,
+                                  decoration:
+                                      BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
+                                    buildPrimaryBoxShadow(),
+                                  ]),
+                                  child: Center(
+                                    child: Image.asset(
+                                      'assets/icons/dog-food-icon.png',
+                                      width: 35.w,
+                                      height: 35.h,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Foods",
+                                  style: homeShopItemTitle,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            //change page to toys
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductScreen(
+                                          type: 'toys',
+                                          usersId: users.uid.toString(),
+                                        )));
+                          },
+                          child: SizedBox(
+                            width: 60.w,
+                            height: 86.h,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 60.w,
+                                  height: 60.h,
+                                  decoration:
+                                      BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
+                                    buildPrimaryBoxShadow(),
+                                  ]),
+                                  child: Center(
+                                    child: Image.asset(
+                                      'assets/icons/bone-icon.png',
+                                      width: 35.w,
+                                      height: 35.h,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Toys",
+                                  style: homeShopItemTitle,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            //change page to vets medicine
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductScreen(
+                                          type: 'medicine',
+                                          usersId: users.uid.toString(),
+                                        )));
+                          },
+                          child: SizedBox(
+                            width: 60.w,
+                            height: 86.h,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 60.w,
+                                  height: 60.h,
+                                  decoration:
+                                      BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
+                                    buildPrimaryBoxShadow(),
+                                  ]),
+                                  child: Center(
+                                    child: Image.asset(
+                                      'assets/icons/pill-icon.png',
+                                      width: 35.w,
+                                      height: 35.h,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Medicine",
+                                  style: homeShopItemTitle,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            //change page
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductScreen(
+                                          type: 'treatment',
+                                          usersId: users.uid.toString(),
+                                        )));
+                          },
+                          child: SizedBox(
+                            width: 60.w,
+                            height: 86.h,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 60.w,
+                                  height: 60.h,
+                                  decoration:
+                                      BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
+                                    buildPrimaryBoxShadow(),
+                                  ]),
+                                  child: Center(
+                                    child: Image.asset(
+                                      'assets/icons/scissor-icon.png',
+                                      width: 35.w,
+                                      height: 35.h,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Treatment",
+                                  style: homeShopItemTreatmentTitlee,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 32.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Vets Recommendation",
+                          style: homeCategoryTitle,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => VetsAllScreen(usersId: users.uid.toString())),
+                            );
+                          },
+                          child: Text(
+                            "See All",
+                            style: homeAllButton,
+                          ),
+                        ),
+                      ],
+                    ),
+                    ListView.builder(
+                      itemCount: vets.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Visibility(
+                          visible: index < 4,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VetsDetailScreen(
+                                          vets: vets[index],
+                                          usersId: users.uid.toString(),
+                                        )),
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 16.h),
+                              width: 324.w,
+                              height: 85.h,
+                              padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 8.w, right: 12.w),
+                              decoration:
+                                  BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
+                                buildPrimaryBoxShadow(),
+                              ]),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(4.r),
+                                        child: Image.network(
+                                          // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
+                                          vets[index].image.toString(),
+                                          width: 54.w,
+                                          height: 60.h,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 13.w,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                          Text(
+                                            // "Dr. Naegha Blak",
+                                            vets[index].name.toString(),
+                                            style: homeDoctorName,
+                                          ),
+                                          Text(
+                                            // "Afrika Serikat",
+                                            vets[index].location.toString(),
+                                            style: homeDoctorAddress,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
-                                              SizedBox(
-                                                width: 222.w,
-                                                child: Text(
-                                                  item['name'],
-                                                  style: itemTitle,
-                                                ),
+                                              Image.asset(
+                                                "assets/icons/rating-icon.png",
+                                                width: 18.w,
+                                                height: 18.h,
                                               ),
                                               SizedBox(
-                                                height: 6.h,
+                                                width: 4.w,
                                               ),
-                                              SizedBox(
-                                                width: 300,
-                                                child: Text(
-                                                  item['desc'],
-                                                  overflow: TextOverflow.fade,
-                                                  style: itemSource,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 12.h,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  TextButton(
-                                                    onPressed: () {},
-                                                    style: TextButton.styleFrom(
-                                                      foregroundColor: gray,
-                                                      backgroundColor: gray,
-                                                    ),
-                                                    child: Text(
-                                                      item['category'],
-                                                      style: articleTag,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 6,
-                                                  ),
-                                                ],
+                                              Text(
+                                                vets[index].rate.toString(),
+                                                style: homeRatingNum,
                                               ),
                                             ],
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 2.h,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/share-icon.png',
-                                          width: 18.w,
-                                          height: 18.h,
-                                        ),
-                                        SizedBox(
-                                          width: 34.w,
-                                        ),
-                                        Image.asset(
-                                          'assets/images/option-icon.png',
-                                          width: 4.w,
-                                          height: 18.h,
-                                        ),
-                                        SizedBox(
-                                          width: 10.w,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 15.h,
-                                ),
-                                Container(
-                                  width: 1.sw,
-                                  height: 1,
-                                  color: gray,
-                                ),
-                                SizedBox(
-                                  height: 24.h,
-                                ),
-                              ],
-                            );
-                          },
+                                    ],
+                                  ),
+                                  Image.asset(
+                                    'assets/icons/right-arrow-icon.png',
+                                    width: 15.w,
+                                    height: 15.h,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         );
                       },
                     ),

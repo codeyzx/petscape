@@ -28,6 +28,8 @@ mixin _$Users {
   String? get email => throw _privateConstructorUsedError;
   @JsonKey(name: 'photoUrl')
   String? get photoUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'roles')
+  String? get roles => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,47 +39,57 @@ mixin _$Users {
 /// @nodoc
 abstract class $UsersCopyWith<$Res> {
   factory $UsersCopyWith(Users value, $Res Function(Users) then) =
-      _$UsersCopyWithImpl<$Res>;
+      _$UsersCopyWithImpl<$Res, Users>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'uid') String? uid,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'email') String? email,
-      @JsonKey(name: 'photoUrl') String? photoUrl});
+      @JsonKey(name: 'photoUrl') String? photoUrl,
+      @JsonKey(name: 'roles') String? roles});
 }
 
 /// @nodoc
-class _$UsersCopyWithImpl<$Res> implements $UsersCopyWith<$Res> {
+class _$UsersCopyWithImpl<$Res, $Val extends Users>
+    implements $UsersCopyWith<$Res> {
   _$UsersCopyWithImpl(this._value, this._then);
 
-  final Users _value;
   // ignore: unused_field
-  final $Res Function(Users) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? uid = freezed,
     Object? name = freezed,
     Object? email = freezed,
     Object? photoUrl = freezed,
+    Object? roles = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: uid == freezed
+      uid: freezed == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: name == freezed
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: email == freezed
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      photoUrl: photoUrl == freezed
+      photoUrl: freezed == photoUrl
           ? _value.photoUrl
           : photoUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+      roles: freezed == roles
+          ? _value.roles
+          : roles // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
@@ -86,45 +98,50 @@ abstract class _$$_UsersCopyWith<$Res> implements $UsersCopyWith<$Res> {
   factory _$$_UsersCopyWith(_$_Users value, $Res Function(_$_Users) then) =
       __$$_UsersCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'uid') String? uid,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'email') String? email,
-      @JsonKey(name: 'photoUrl') String? photoUrl});
+      @JsonKey(name: 'photoUrl') String? photoUrl,
+      @JsonKey(name: 'roles') String? roles});
 }
 
 /// @nodoc
-class __$$_UsersCopyWithImpl<$Res> extends _$UsersCopyWithImpl<$Res>
+class __$$_UsersCopyWithImpl<$Res> extends _$UsersCopyWithImpl<$Res, _$_Users>
     implements _$$_UsersCopyWith<$Res> {
   __$$_UsersCopyWithImpl(_$_Users _value, $Res Function(_$_Users) _then)
-      : super(_value, (v) => _then(v as _$_Users));
+      : super(_value, _then);
 
-  @override
-  _$_Users get _value => super._value as _$_Users;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? uid = freezed,
     Object? name = freezed,
     Object? email = freezed,
     Object? photoUrl = freezed,
+    Object? roles = freezed,
   }) {
     return _then(_$_Users(
-      uid: uid == freezed
+      uid: freezed == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: name == freezed
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      email: email == freezed
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      photoUrl: photoUrl == freezed
+      photoUrl: freezed == photoUrl
           ? _value.photoUrl
           : photoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      roles: freezed == roles
+          ? _value.roles
+          : roles // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -137,7 +154,8 @@ class _$_Users implements _Users {
       {@JsonKey(name: 'uid') this.uid,
       @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'email') this.email,
-      @JsonKey(name: 'photoUrl') this.photoUrl});
+      @JsonKey(name: 'photoUrl') this.photoUrl,
+      @JsonKey(name: 'roles') this.roles});
 
   factory _$_Users.fromJson(Map<String, dynamic> json) =>
       _$$_UsersFromJson(json);
@@ -154,10 +172,13 @@ class _$_Users implements _Users {
   @override
   @JsonKey(name: 'photoUrl')
   final String? photoUrl;
+  @override
+  @JsonKey(name: 'roles')
+  final String? roles;
 
   @override
   String toString() {
-    return 'Users(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl)';
+    return 'Users(uid: $uid, name: $name, email: $email, photoUrl: $photoUrl, roles: $roles)';
   }
 
   @override
@@ -165,23 +186,22 @@ class _$_Users implements _Users {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Users &&
-            const DeepCollectionEquality().equals(other.uid, uid) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.email, email) &&
-            const DeepCollectionEquality().equals(other.photoUrl, photoUrl));
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.photoUrl, photoUrl) ||
+                other.photoUrl == photoUrl) &&
+            (identical(other.roles, roles) || other.roles == roles));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(uid),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(email),
-      const DeepCollectionEquality().hash(photoUrl));
+  int get hashCode =>
+      Object.hash(runtimeType, uid, name, email, photoUrl, roles);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_UsersCopyWith<_$_Users> get copyWith =>
       __$$_UsersCopyWithImpl<_$_Users>(this, _$identity);
 
@@ -198,7 +218,8 @@ abstract class _Users implements Users {
       {@JsonKey(name: 'uid') final String? uid,
       @JsonKey(name: 'name') final String? name,
       @JsonKey(name: 'email') final String? email,
-      @JsonKey(name: 'photoUrl') final String? photoUrl}) = _$_Users;
+      @JsonKey(name: 'photoUrl') final String? photoUrl,
+      @JsonKey(name: 'roles') final String? roles}) = _$_Users;
 
   factory _Users.fromJson(Map<String, dynamic> json) = _$_Users.fromJson;
 
@@ -214,6 +235,9 @@ abstract class _Users implements Users {
   @override
   @JsonKey(name: 'photoUrl')
   String? get photoUrl;
+  @override
+  @JsonKey(name: 'roles')
+  String? get roles;
   @override
   @JsonKey(ignore: true)
   _$$_UsersCopyWith<_$_Users> get copyWith =>

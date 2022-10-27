@@ -22,6 +22,8 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
 mixin _$Product {
   @JsonKey(name: 'id')
   String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'type')
+  String? get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'image')
@@ -49,9 +51,11 @@ mixin _$Product {
 /// @nodoc
 abstract class $ProductCopyWith<$Res> {
   factory $ProductCopyWith(Product value, $Res Function(Product) then) =
-      _$ProductCopyWithImpl<$Res>;
+      _$ProductCopyWithImpl<$Res, Product>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'type') String? type,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'image') String? image,
       @JsonKey(name: 'category') String? category,
@@ -64,16 +68,20 @@ abstract class $ProductCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
+class _$ProductCopyWithImpl<$Res, $Val extends Product>
+    implements $ProductCopyWith<$Res> {
   _$ProductCopyWithImpl(this._value, this._then);
 
-  final Product _value;
   // ignore: unused_field
-  final $Res Function(Product) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = freezed,
+    Object? type = freezed,
     Object? name = freezed,
     Object? image = freezed,
     Object? category = freezed,
@@ -85,47 +93,51 @@ class _$ProductCopyWithImpl<$Res> implements $ProductCopyWith<$Res> {
     Object? sold = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: name == freezed
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      image: image == freezed
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
-      category: category == freezed
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String?,
-      seller: seller == freezed
+      seller: freezed == seller
           ? _value.seller
           : seller // ignore: cast_nullable_to_non_nullable
               as String?,
-      location: location == freezed
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
-      desc: desc == freezed
+      desc: freezed == desc
           ? _value.desc
           : desc // ignore: cast_nullable_to_non_nullable
               as String?,
-      stock: stock == freezed
+      stock: freezed == stock
           ? _value.stock
           : stock // ignore: cast_nullable_to_non_nullable
               as int?,
-      price: price == freezed
+      price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int?,
-      sold: sold == freezed
+      sold: freezed == sold
           ? _value.sold
           : sold // ignore: cast_nullable_to_non_nullable
               as int?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -135,8 +147,10 @@ abstract class _$$_ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
           _$_Product value, $Res Function(_$_Product) then) =
       __$$_ProductCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'type') String? type,
       @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'image') String? image,
       @JsonKey(name: 'category') String? category,
@@ -149,17 +163,17 @@ abstract class _$$_ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
+class __$$_ProductCopyWithImpl<$Res>
+    extends _$ProductCopyWithImpl<$Res, _$_Product>
     implements _$$_ProductCopyWith<$Res> {
   __$$_ProductCopyWithImpl(_$_Product _value, $Res Function(_$_Product) _then)
-      : super(_value, (v) => _then(v as _$_Product));
+      : super(_value, _then);
 
-  @override
-  _$_Product get _value => super._value as _$_Product;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = freezed,
+    Object? type = freezed,
     Object? name = freezed,
     Object? image = freezed,
     Object? category = freezed,
@@ -171,43 +185,47 @@ class __$$_ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
     Object? sold = freezed,
   }) {
     return _then(_$_Product(
-      id: id == freezed
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: name == freezed
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      image: image == freezed
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
-      category: category == freezed
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String?,
-      seller: seller == freezed
+      seller: freezed == seller
           ? _value.seller
           : seller // ignore: cast_nullable_to_non_nullable
               as String?,
-      location: location == freezed
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
-      desc: desc == freezed
+      desc: freezed == desc
           ? _value.desc
           : desc // ignore: cast_nullable_to_non_nullable
               as String?,
-      stock: stock == freezed
+      stock: freezed == stock
           ? _value.stock
           : stock // ignore: cast_nullable_to_non_nullable
               as int?,
-      price: price == freezed
+      price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int?,
-      sold: sold == freezed
+      sold: freezed == sold
           ? _value.sold
           : sold // ignore: cast_nullable_to_non_nullable
               as int?,
@@ -220,6 +238,7 @@ class __$$_ProductCopyWithImpl<$Res> extends _$ProductCopyWithImpl<$Res>
 class _$_Product implements _Product {
   const _$_Product(
       {@JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'type') this.type,
       @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'image') this.image,
       @JsonKey(name: 'category') this.category,
@@ -236,6 +255,9 @@ class _$_Product implements _Product {
   @override
   @JsonKey(name: 'id')
   final String? id;
+  @override
+  @JsonKey(name: 'type')
+  final String? type;
   @override
   @JsonKey(name: 'name')
   final String? name;
@@ -266,7 +288,7 @@ class _$_Product implements _Product {
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, image: $image, category: $category, seller: $seller, location: $location, desc: $desc, stock: $stock, price: $price, sold: $sold)';
+    return 'Product(id: $id, type: $type, name: $name, image: $image, category: $category, seller: $seller, location: $location, desc: $desc, stock: $stock, price: $price, sold: $sold)';
   }
 
   @override
@@ -274,35 +296,29 @@ class _$_Product implements _Product {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Product &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.image, image) &&
-            const DeepCollectionEquality().equals(other.category, category) &&
-            const DeepCollectionEquality().equals(other.seller, seller) &&
-            const DeepCollectionEquality().equals(other.location, location) &&
-            const DeepCollectionEquality().equals(other.desc, desc) &&
-            const DeepCollectionEquality().equals(other.stock, stock) &&
-            const DeepCollectionEquality().equals(other.price, price) &&
-            const DeepCollectionEquality().equals(other.sold, sold));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.seller, seller) || other.seller == seller) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
+            (identical(other.desc, desc) || other.desc == desc) &&
+            (identical(other.stock, stock) || other.stock == stock) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.sold, sold) || other.sold == sold));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(image),
-      const DeepCollectionEquality().hash(category),
-      const DeepCollectionEquality().hash(seller),
-      const DeepCollectionEquality().hash(location),
-      const DeepCollectionEquality().hash(desc),
-      const DeepCollectionEquality().hash(stock),
-      const DeepCollectionEquality().hash(price),
-      const DeepCollectionEquality().hash(sold));
+  int get hashCode => Object.hash(runtimeType, id, type, name, image, category,
+      seller, location, desc, stock, price, sold);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_ProductCopyWith<_$_Product> get copyWith =>
       __$$_ProductCopyWithImpl<_$_Product>(this, _$identity);
 
@@ -317,6 +333,7 @@ class _$_Product implements _Product {
 abstract class _Product implements Product {
   const factory _Product(
       {@JsonKey(name: 'id') final String? id,
+      @JsonKey(name: 'type') final String? type,
       @JsonKey(name: 'name') final String? name,
       @JsonKey(name: 'image') final String? image,
       @JsonKey(name: 'category') final String? category,
@@ -332,6 +349,9 @@ abstract class _Product implements Product {
   @override
   @JsonKey(name: 'id')
   String? get id;
+  @override
+  @JsonKey(name: 'type')
+  String? get type;
   @override
   @JsonKey(name: 'name')
   String? get name;

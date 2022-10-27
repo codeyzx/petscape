@@ -36,7 +36,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 children: [
                   Text(
                     'Chat',
-                    style: bigAppBar,
+                    style: appBarTitle,
                   ),
                   SizedBox(
                     height: 12.h,
@@ -138,104 +138,217 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                   final reads = readDocs.where((element) => element != 0).toList();
                                   final readLength = reads.length;
 
-                                  return Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          Future.wait((reads).map(
-                                            (e) {
-                                              return FirebaseFirestore.instance
-                                                  .collection("messages")
-                                                  .doc(e.toString())
-                                                  .update({
-                                                "isRead": true,
-                                              });
-                                            },
-                                          ));
-                                          if (mounted) {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => ChatDetailScreen(
-                                                    usersId: data.id,
-                                                    messagesId: item['messagesId'],
-                                                  ),
+                                  return data.data()!['roles'] != 'doctor'
+                                      ? Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                Future.wait((reads).map(
+                                                  (e) {
+                                                    return FirebaseFirestore.instance
+                                                        .collection("messages")
+                                                        .doc(e.toString())
+                                                        .update({
+                                                      "isRead": true,
+                                                    });
+                                                  },
                                                 ));
-                                          }
-                                        },
-                                        child: ListTile(
-                                          contentPadding: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 5.h),
-                                          leading: CircleAvatar(
-                                            radius: 25.0,
-                                            backgroundImage: NetworkImage(data.data()!['photoUrl']),
-                                          ),
-                                          title: Padding(
-                                            padding: const EdgeInsets.only(bottom: 5.0),
-                                            child: Text(
-                                              data.data()!['name'],
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          subtitle: readLength != 0
-                                              ? Text(
-                                                  item['lastMessage'],
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 14,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                )
-                                              : Text(
-                                                  item['lastMessage'],
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w500,
+                                                if (mounted) {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => ChatDetailScreen(
+                                                          usersId: data.id,
+                                                          messagesId: item['messagesId'],
+                                                        ),
+                                                      ));
+                                                }
+                                              },
+                                              child: ListTile(
+                                                contentPadding: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 5.h),
+                                                leading: CircleAvatar(
+                                                  radius: 25.0,
+                                                  backgroundImage: NetworkImage(data.data()!['photoUrl']),
+                                                ),
+                                                title: Padding(
+                                                  padding: const EdgeInsets.only(bottom: 5.0),
+                                                  child: Text(
+                                                    data.data()!['name'],
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
                                                 ),
-                                          trailing: SizedBox(
-                                            height: 100,
-                                            width: 100,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                  formatDate(item['timeSent']),
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 12,
-                                                    color: readLength != 0 ? Colors.black : Colors.grey,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 7.0,
-                                                ),
-                                                readLength != 0
-                                                    ? CircleAvatar(
-                                                        backgroundColor: Colors.red,
-                                                        radius: 12.0,
-                                                        child: Text(
-                                                          readLength.toString(),
-                                                          style: GoogleFonts.poppins(
-                                                            color: Colors.white,
-                                                            fontSize: 14,
-                                                          ),
+                                                subtitle: readLength != 0
+                                                    ? Text(
+                                                        item['lastMessage'],
+                                                        style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight.w500,
                                                         ),
                                                       )
-                                                    : const SizedBox(
-                                                        height: 23,
+                                                    : Text(
+                                                        item['lastMessage'],
+                                                        style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                        ),
                                                       ),
-                                              ],
+                                                trailing: SizedBox(
+                                                  height: 100,
+                                                  width: 100,
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        formatDate(item['timeSent']),
+                                                        style: GoogleFonts.poppins(
+                                                          fontSize: 12,
+                                                          color: readLength != 0 ? Colors.black : Colors.grey,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 7.0,
+                                                      ),
+                                                      readLength != 0
+                                                          ? CircleAvatar(
+                                                              backgroundColor: Colors.red,
+                                                              radius: 12.0,
+                                                              child: Text(
+                                                                readLength.toString(),
+                                                                style: GoogleFonts.poppins(
+                                                                  color: Colors.white,
+                                                                  fontSize: 14,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : const SizedBox(
+                                                              height: 23,
+                                                            ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
+                                          ],
+                                        )
+                                      : Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                Future.wait((reads).map(
+                                                  (e) {
+                                                    return FirebaseFirestore.instance
+                                                        .collection("messages")
+                                                        .doc(e.toString())
+                                                        .update({
+                                                      "isRead": true,
+                                                    });
+                                                  },
+                                                ));
+                                                if (mounted) {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => ChatDetailScreen(
+                                                          usersId: data.id,
+                                                          messagesId: item['messagesId'],
+                                                          isDoctor: true,
+                                                        ),
+                                                      ));
+                                                }
+                                              },
+                                              child: ListTile(
+                                                contentPadding: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 5.h),
+                                                leading: CircleAvatar(
+                                                  radius: 25.0,
+                                                  backgroundImage: NetworkImage(data.data()!['doctorImage']),
+                                                ),
+                                                title: Padding(
+                                                  padding: const EdgeInsets.only(bottom: 5.0),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        data.data()!['doctorName'],
+                                                        style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5.0,
+                                                      ),
+                                                      // icon from assets
+                                                      Image.asset(
+                                                        'assets/icons/doctor-icon.png',
+                                                        height: 16.h,
+                                                        width: 16.w,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                subtitle: readLength != 0
+                                                    ? Text(
+                                                        item['lastMessage'],
+                                                        style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight.w500,
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        item['lastMessage'],
+                                                        style: GoogleFonts.poppins(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                trailing: SizedBox(
+                                                  height: 100,
+                                                  width: 100,
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        formatDate(item['timeSent']),
+                                                        style: GoogleFonts.poppins(
+                                                          fontSize: 12,
+                                                          color: readLength != 0 ? Colors.black : Colors.grey,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 7.0,
+                                                      ),
+                                                      readLength != 0
+                                                          ? CircleAvatar(
+                                                              backgroundColor: Colors.red,
+                                                              radius: 12.0,
+                                                              child: Text(
+                                                                readLength.toString(),
+                                                                style: GoogleFonts.poppins(
+                                                                  color: Colors.white,
+                                                                  fontSize: 14,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : const SizedBox(
+                                                              height: 23,
+                                                            ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
                                 },
                               );
                             },

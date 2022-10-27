@@ -6,8 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
 import 'package:petscape/src/features/cart/presentation/cart_detail_screen.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
-import 'package:petscape/src/features/product/domain/product/product.dart';
+import 'package:petscape/src/features/product/domain/product.dart';
 import 'package:petscape/src/shared/theme.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
   final String usersId;
@@ -18,6 +19,7 @@ class CartScreen extends ConsumerStatefulWidget {
 }
 
 class _CartScreenState extends ConsumerState<CartScreen> {
+  bool isLoading = false;
   List<Map<Product, int>> cart = [];
   List<Map<Product, int>> cartFilter = [];
   List<Map<Product, int>> cartFilterz = [];
@@ -31,6 +33,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   }
 
   Future<void> initCart() async {
+    setState(() {
+      isLoading = true;
+    });
     await ref.read(cartControllerProvider.notifier).getData(widget.usersId);
     final cartTemp = ref.read(cartControllerProvider);
 
@@ -46,6 +51,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       cart.addAll(temp);
       cartFilter.addAll(temp);
       cartFilterz.addAll(temp);
+      isLoading = false;
       // items.addAll(tempItems);
     });
   }
@@ -71,7 +77,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       items = [];
       cobaPrice = 0;
     }
-    // int cobaPrice = items.fold(
+    // int cobaPrice = items.fold(%
     //     0,
     //     (previousValue, element) =>
     //         previousValue +
@@ -103,218 +109,252 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, bottom: 100),
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          itemCount: cart.length,
-          itemBuilder: (context, index) {
-            final product = cart[index].keys.first;
-            final qty = cart[index].values.first;
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: whitish,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    buildSecondaryBoxShadow(),
-                    buildPrimaryBoxShadow(),
-                  ],
-                ),
-                child: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  value: cartFilterz.contains(cart[index]),
-                  onChanged: (value) {
-                    setState(() {
-                      if (cartFilterz.contains(cart[index])) {
-                        cartFilterz.remove(cart[index]); // unselect
-                      } else {
-                        cartFilterz.add(cart[index]); // select
-                      }
-
-                      // items.clear();
-                      // items.addAll(cartFilter.map((e) => e.keys.first).toList());
-                      // cart.clear();
-                      // cart.addAll(cartFilter);
-                    });
-                  },
-                  title: Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 62.w,
-                          height: 62.h,
+        child: isLoading
+            ? ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            image: DecorationImage(
-                              image: NetworkImage(product.image.toString()),
-                              fit: BoxFit.cover,
-                            ),
+                            color: whitish,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              buildSecondaryBoxShadow(),
+                              buildPrimaryBoxShadow(),
+                            ],
                           ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 140,
-                                  child: Text(
-                                    product.name.toString(),
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: black,
-                                    ),
+                          child: CheckboxListTile(
+                            value: false,
+                            onChanged: (value) {},
+                          )),
+                    ),
+                  );
+                },
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: cart.length,
+                itemBuilder: (context, index) {
+                  final product = cart[index].keys.first;
+                  final qty = cart[index].values.first;
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: whitish,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          buildSecondaryBoxShadow(),
+                          buildPrimaryBoxShadow(),
+                        ],
+                      ),
+                      child: CheckboxListTile(
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: cartFilterz.contains(cart[index]),
+                        onChanged: (value) {
+                          setState(() {
+                            if (cartFilterz.contains(cart[index])) {
+                              cartFilterz.remove(cart[index]); // unselect
+                            } else {
+                              cartFilterz.add(cart[index]); // select
+                            }
+
+                            // items.clear();
+                            // items.addAll(cartFilter.map((e) => e.keys.first).toList());
+                            // cart.clear();
+                            // cart.addAll(cartFilter);
+                          });
+                        },
+                        title: Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 62.w,
+                                height: 62.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  image: DecorationImage(
+                                    image: NetworkImage(product.image.toString()),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text("Delete Item"),
-                                        content: const Text("Are you sure want to delete this item?"),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("Cancel"),
+                              ),
+                              SizedBox(width: 10.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: 140,
+                                        child: Text(
+                                          product.name.toString(),
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: black,
                                           ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              setState(() {
-                                                cartFilterz.remove(cart[index]);
-                                                cart.remove(cart[index]);
-                                              });
-                                              await ref
-                                                  .read(cartControllerProvider.notifier)
-                                                  .deleteItem(widget.usersId, product);
-                                              await ref.read(cartControllerProvider.notifier).getCartsLength(widget.usersId);
-
-                                              if (!mounted) return;
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("Delete"),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  child: Container(
-                                    width: 20.w,
-                                    height: 20.h,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey,
-                                      borderRadius: BorderRadius.circular(5.r),
-                                    ),
-                                    child: const Icon(
-                                      size: 16,
-                                      //  const Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                      // ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 5.h),
-                            Row(
-                              children: [
-                                Text(
-                                  // "Rp ${product.price.toString()}",
-                                  NumberFormat.currency(
-                                    locale: "id",
-                                    symbol: "Rp ",
-                                    decimalDigits: 0,
-                                  ).format(product.price),
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: black,
-                                  ),
-                                ),
-                                SizedBox(width: 25.w),
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        // update qty from product index
-                                        if (qty > 1) {
-                                          setState(() {
-                                            cart[index].update(product, (value) => --value);
-                                          });
-                                          ref.read(cartControllerProvider.notifier).decrementItem(widget.usersId, product);
-                                        }
-                                        // decrement itemCount from firestore
-                                        // setState(() {
-                                        // qty++;
-                                        // // items.clear();
-                                        // // cartFilter.map((e) => e.update(product, (value) => value - 1)).toList();
-                                        // // items.addAll(cartFilter.map((e) => e.keys.first).toList());
-                                        // print(qty);
-                                        // });
+                                      InkWell(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text("Delete Item"),
+                                              content: const Text("Are you sure want to delete this item?"),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("Cancel"),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    setState(() {
+                                                      cartFilterz.remove(cart[index]);
+                                                      cart.remove(cart[index]);
+                                                    });
+                                                    await ref
+                                                        .read(cartControllerProvider.notifier)
+                                                        .deleteItem(widget.usersId, product);
+                                                    await ref
+                                                        .read(cartControllerProvider.notifier)
+                                                        .getCartsLength(widget.usersId);
 
-                                        // updatePrice(index);
-                                      },
-                                      child: Image.asset(
-                                        qty > 1
-                                            ? "assets/icons/subtract-primary-icon.png"
-                                            : "assets/icons/subtract-icon.png",
-                                        width: 20.w,
-                                        height: 20.h,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8.w,
-                                    ),
-                                    Text(
-                                      qty.toString(),
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: black,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8.w,
-                                    ),
-                                    InkWell(
-                                        onTap: () async {
-                                          // update qty from product index
-                                          setState(() {
-                                            cart[index].update(product, (value) => ++value);
-                                          });
-                                          ref.read(cartControllerProvider.notifier).incrementItem(widget.usersId, product);
-
-                                          // updatePrice(index);
+                                                    if (!mounted) return;
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("Delete"),
+                                                ),
+                                              ],
+                                            ),
+                                          );
                                         },
-                                        child: Image.asset(
-                                          "assets/icons/add-primary-icon.png",
+                                        child: Container(
                                           width: 20.w,
                                           height: 20.h,
-                                        )),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius: BorderRadius.circular(5.r),
+                                          ),
+                                          child: const Icon(
+                                            size: 16,
+                                            //  const Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                            // ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5.h),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        // "Rp ${product.price.toString()}",
+                                        NumberFormat.currency(
+                                          locale: "id",
+                                          symbol: "Rp ",
+                                          decimalDigits: 0,
+                                        ).format(product.price),
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: black,
+                                        ),
+                                      ),
+                                      SizedBox(width: 25.w),
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: () async {
+                                              // update qty from product index
+                                              if (qty > 1) {
+                                                setState(() {
+                                                  cart[index].update(product, (value) => --value);
+                                                });
+                                                ref
+                                                    .read(cartControllerProvider.notifier)
+                                                    .decrementItem(widget.usersId, product);
+                                              }
+                                              // decrement itemCount from firestore
+                                              // setState(() {
+                                              // qty++;
+                                              // // items.clear();
+                                              // // cartFilter.map((e) => e.update(product, (value) => value - 1)).toList();
+                                              // // items.addAll(cartFilter.map((e) => e.keys.first).toList());
+                                              // print(qty);
+                                              // });
+
+                                              // updatePrice(index);
+                                            },
+                                            child: Image.asset(
+                                              qty > 1
+                                                  ? "assets/icons/subtract-primary-icon.png"
+                                                  : "assets/icons/subtract-icon.png",
+                                              width: 20.w,
+                                              height: 20.h,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 8.w,
+                                          ),
+                                          Text(
+                                            qty.toString(),
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w400,
+                                              color: black,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 8.w,
+                                          ),
+                                          InkWell(
+                                              onTap: () async {
+                                                // update qty from product index
+                                                setState(() {
+                                                  cart[index].update(product, (value) => ++value);
+                                                });
+                                                ref
+                                                    .read(cartControllerProvider.notifier)
+                                                    .incrementItem(widget.usersId, product);
+
+                                                // updatePrice(index);
+                                              },
+                                              child: Image.asset(
+                                                "assets/icons/add-primary-icon.png",
+                                                width: 20.w,
+                                                height: 20.h,
+                                              )),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
 
       // body: Padding(
@@ -532,7 +572,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 // import 'package:logger/logger.dart';
 // import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
 // import 'package:petscape/src/features/home/widgets/box_shadow.dart';
-// import 'package:petscape/src/features/product/domain/product/product.dart';
+// import 'package:petscape/src/features/product/domain/product.dart';
 // import 'package:petscape/src/shared/theme.dart';
 
 // class CartScreen extends ConsumerStatefulWidget {

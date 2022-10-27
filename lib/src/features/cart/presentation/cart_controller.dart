@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
-import 'package:petscape/src/features/product/domain/product/product.dart';
+import 'package:petscape/src/features/product/domain/product.dart';
 
 class CartController extends StateNotifier<List<Map<Product, int>>> {
   CartController() : super(const []);
@@ -19,6 +18,18 @@ class CartController extends StateNotifier<List<Map<Product, int>>> {
     await getData(docId);
   }
 
+  Future<void> deleteListItem(String docId, List<Product> product) async {
+    final snapshot = await db.doc(docId).get();
+    Map<String, dynamic> item = (snapshot.data() as Map<String, dynamic>);
+    final data = item['items'];
+    for (var i = 0; i < product.length; i++) {
+      final index = data.indexWhere((e) => e['id'] == product[i].id);
+      data.removeAt(index);
+    }
+    await db.doc(docId).update({'items': data});
+    await getData(docId);
+  }
+
   Future<void> getData(String docId) async {
     final data = await db.doc(docId).get();
     final carts = data.data()!;
@@ -31,6 +42,7 @@ class CartController extends StateNotifier<List<Map<Product, int>>> {
 
     final snapshot =
         await Future.wait(id.map((e) => FirebaseFirestore.instance.collection("products").doc(e).get()).toList());
+
     final list = snapshot.map((e) => e.data()).toList();
     final List<Product> products = list.map((e) => Product.fromJson(e!)).toList();
 
@@ -52,7 +64,6 @@ class CartController extends StateNotifier<List<Map<Product, int>>> {
     } else {
       cartsLength = 0;
     }
-    Logger().e(cartsLength);
   }
 
   Future<void> decrementItem(String docId, Product product) async {

@@ -10,6 +10,7 @@ abstract class Users with _$Users {
     @JsonKey(name: 'name') String? name,
     @JsonKey(name: 'email') String? email,
     @JsonKey(name: 'photoUrl') String? photoUrl,
+    @JsonKey(name: 'roles') String? roles,
   }) = _Users;
 
   factory Users.fromJson(Map<String, dynamic> json) => _$UsersFromJson(json);

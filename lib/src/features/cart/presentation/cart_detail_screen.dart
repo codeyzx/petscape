@@ -3,8 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
+import 'package:petscape/src/features/home/presentation/botnavbar_screen.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
-import 'package:petscape/src/features/product/domain/product/product.dart';
+import 'package:petscape/src/features/order/domain/order/order.dart';
+import 'package:petscape/src/features/order/presentation/order_controler.dart';
+import 'package:petscape/src/features/product/domain/product.dart';
 import 'package:petscape/src/shared/theme.dart';
 
 class CartDetailScreen extends ConsumerStatefulWidget {
@@ -17,10 +21,12 @@ class CartDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _CartDetailScreenState extends ConsumerState<CartDetailScreen> {
+  
   @override
   Widget build(BuildContext context) {
     final cart = widget.cart;
     final totalPrice = cart.fold(0, (total, item) => total + item.keys.first.price! * item.values.first);
+
     return Scaffold(
       backgroundColor: neutral,
       appBar: PreferredSize(
@@ -172,7 +178,40 @@ class _CartDetailScreenState extends ConsumerState<CartDetailScreen> {
                 width: 154.w,
                 height: 42.h,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final product = cart.map((e) => e.keys.first).toList();
+                    final List<Map<String, int>> items = [];
+                    for (final item in cart) {
+                      items.add({
+                        item.keys.first.id!: item.values.first,
+                      });
+                    }
+
+                    final order = Order(
+                      createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
+                      items: items,
+                      customerId: widget.usersId,
+                      sellerId: cart.first.keys.first.id!,
+                      itemsCategory: 'Barang',
+                      methodPayment: '',
+                      statusPayment: '',
+                      tokenPayment: '',
+                      totalPayment: totalPrice,
+                    );
+
+                    await ref.read(orderControllerProvider.notifier).buy(items);
+                    await ref.read(orderControllerProvider.notifier).add(order: order, usersId: widget.usersId);
+
+                    await ref.read(cartControllerProvider.notifier).deleteListItem(widget.usersId, product);
+                    await ref.read(cartControllerProvider.notifier).getData(widget.usersId);
+
+                    if (!mounted) return;
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BotNavBarScreen(),
+                        ));
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primary,
                   ),
