@@ -13,7 +13,6 @@ Color failed = HexColor('F94242').withOpacity(0.10);
 Color pending = HexColor('FFD600').withOpacity(0.05);
 Color black = Colors.black;
 
-
 TextStyle bottomSheetLabel = GoogleFonts.poppins(
   fontSize: 14.sp,
   fontWeight: FontWeight.w500,
@@ -97,7 +96,6 @@ TextStyle feedDonationMoneyItem = GoogleFonts.poppins(
   fontWeight: FontWeight.w600,
   color: black.withOpacity(0.75),
 );
-
 
 TextStyle cartItemName = GoogleFonts.poppins(
   fontSize: 15.sp,
@@ -680,7 +678,7 @@ TextStyle petDateDesc = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
   color: black.withOpacity(0.75),
 );
-// others
+
 TextStyle smallAppbar = GoogleFonts.poppins(
   fontSize: 20.sp,
   fontWeight: FontWeight.w600,
@@ -926,7 +924,7 @@ TextStyle onBoardWhiteOnBtn = GoogleFonts.poppins(
   color: whitish,
 );
 
-TextStyle onBoardSkipBtn= GoogleFonts.poppins(
+TextStyle onBoardSkipBtn = GoogleFonts.poppins(
   fontSize: 16.sp,
   fontWeight: FontWeight.w500,
   color: primary,

@@ -165,10 +165,9 @@ class _CartDetailzScreenState extends ConsumerState<CartDetailzScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(4.r),
                                     child: Image.network(
-                                      // "https://i.pinimg.com/1200x/da/66/47/da6647f1615e67791fa6644d1a7663fa.jpg",
                                       product.image!,
                                       width: 64.w,
-                                      height: 64.h,
+                                      height: 56.h,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -181,7 +180,6 @@ class _CartDetailzScreenState extends ConsumerState<CartDetailzScreen> {
                                       SizedBox(
                                           width: 225.w,
                                           child: Text(
-                                            // "Pharma Hemp Chicken Treats",
                                             product.name!,
                                             style: cartItemName,
                                             overflow: TextOverflow.ellipsis,
@@ -282,99 +280,86 @@ class _CartDetailzScreenState extends ConsumerState<CartDetailzScreen> {
                   height: 54.h,
                   child: ElevatedButton(
                     onPressed: () async {
-                      try {
-                        _midtrans = await MidtransSDK.init(
-                          config: MidtransConfig(
-                            clientKey: "SB-Mid-client-Jf7_deynf20wZtJq",
-                            merchantBaseUrl: "https://marcha-api-production.up.railway.app/notification_handler/",
-                          ),
-                        );
-                        _midtrans?.setUIKitCustomSetting(
-                          skipCustomerDetailsPages: true,
-                          showPaymentStatus: true,
-                        );
-                        final product = cart.map((e) => e.keys.first).toList();
-                        final List<Map<String, int>> items = [];
-                        for (final item in cart) {
-                          items.add({
-                            item.keys.first.id!: item.values.first,
-                          });
-                        }
-
-                        final order = Order(
-                          createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
-                          items: items,
-                          customerId: widget.users.uid,
-                          sellerId: cart.first.keys.first.id!,
-                          itemsCategory: 'Barang',
-                          methodPayment: '',
-                          statusPayment: '',
-                          tokenPayment: '',
-                          totalPayment: totalPrice,
-                        );
-
-                        // await ref.read(orderControllerProvider.notifier).buy(items);
-                        // await ref.read(orderControllerProvider.notifier).add(order: order, usersId: widget.usersId);
-
-                        // await ref.read(cartControllerProvider.notifier).deleteListItem(widget.usersId, product);
-                        // await ref.read(cartControllerProvider.notifier).getData(widget.usersId);
-
-                        // if (!mounted) return;
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const BotNavBarScreen(),
-                        //     ));
-
-                        String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-                        String random = List.generate(15, (index) => chars[Random().nextInt(chars.length)]).join();
-
-                        List<Map<String, dynamic>> itemsList = [];
-                        for (final item in cart) {
-                          itemsList.add({
-                            'id': item.keys.first.id,
-                            'name': item.keys.first.name,
-                            'price': item.keys.first.price,
-                            'quantity': item.values.first,
-                          });
-                        }
-
-                        // final body = {
-                        //   "order_id": "order-id-$random",
-                        //   "customers": {"email": "${widget.users.email}", "username": "${widget.users.name}"},
-                        //   "url": "https://mazipan.space/cara-fetch-api-di-nodejs",
-                        //   "items": [
-                        //     {"quantity": 2, "id": "1", "price": 2000, "name": "Es Teh"},
-                        //     {"quantity": 3, "id": "2", "price": 8000, "name": "Nasi Goreng"}
-                        //   ]
-                        // };
-                        Map<String, dynamic> body = {
-                          "order_id": random,
-                          "customers": {
-                            "email": "${widget.users.email}",
-                            "username": "${widget.users.name}",
-                          },
-                          "url": "",
-                          "items": itemsList,
-                        };
-                        final token = await ref.read(cartControllerProvider.notifier).getToken(body);
-                        await _midtrans?.startPaymentUiFlow(
-                          token: token,
-                        );
-                        _midtrans!.setTransactionFinishedCallback((result) async {
-                          if (!result.isTransactionCanceled) {
-                            await addFirestore(
-                                orderId: result.orderId.toString(),
-                                items: items,
-                                order: order,
-                                usersId: widget.users.uid.toString(),
-                                product: product);
+                      if (_addressController.text != '') {
+                        try {
+                          _midtrans = await MidtransSDK.init(
+                            config: MidtransConfig(
+                              clientKey: "SB-Mid-client-Jf7_deynf20wZtJq",
+                              merchantBaseUrl: "https://marcha-api-production.up.railway.app/notification_handler/",
+                            ),
+                          );
+                          _midtrans?.setUIKitCustomSetting(
+                            skipCustomerDetailsPages: true,
+                            showPaymentStatus: true,
+                          );
+                          final product = cart.map((e) => e.keys.first).toList();
+                          final List<Map<String, int>> items = [];
+                          for (final item in cart) {
+                            items.add({
+                              item.keys.first.id!: item.values.first,
+                            });
                           }
-                        });
-                      } catch (e) {
+
+                          final order = Order(
+                            address: _addressController.text,
+                            createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
+                            items: items,
+                            customerId: widget.users.uid,
+                            sellerId: cart.first.keys.first.id!,
+                            itemsCategory: 'Barang',
+                            methodPayment: '',
+                            statusPayment: '',
+                            tokenPayment: '',
+                            totalPayment: totalPrice,
+                          );
+
+                          String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+                          String random = List.generate(15, (index) => chars[Random().nextInt(chars.length)]).join();
+
+                          List<Map<String, dynamic>> itemsList = [];
+                          for (final item in cart) {
+                            itemsList.add({
+                              'id': item.keys.first.id,
+                              'name': item.keys.first.name,
+                              'price': item.keys.first.price,
+                              'quantity': item.values.first,
+                            });
+                          }
+
+                          Map<String, dynamic> body = {
+                            "order_id": random,
+                            "customers": {
+                              "email": "${widget.users.email}",
+                              "username": "${widget.users.name}",
+                            },
+                            "url": "",
+                            "items": itemsList,
+                          };
+                          final token = await ref.read(cartControllerProvider.notifier).getToken(body);
+                          await _midtrans?.startPaymentUiFlow(
+                            token: token,
+                          );
+                          _midtrans!.setTransactionFinishedCallback((result) async {
+                            if (!result.isTransactionCanceled) {
+                              await addFirestore(
+                                  orderId: result.orderId.toString(),
+                                  items: items,
+                                  order: order,
+                                  usersId: widget.users.uid.toString(),
+                                  product: product);
+                            }
+                          });
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.toString()),
+                            ),
+                          );
+                        }
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(e.toString()),
+                          const SnackBar(
+                            content: Text('Alamat tidak boleh kosong'),
                           ),
                         );
                       }
@@ -389,7 +374,6 @@ class _CartDetailzScreenState extends ConsumerState<CartDetailzScreen> {
                   ),
                 ),
               ),
-            
             ],
           ),
         ),

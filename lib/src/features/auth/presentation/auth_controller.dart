@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 import 'package:petscape/src/features/auth/domain/users.dart';
+import 'package:petscape/src/features/home/presentation/botnavbar_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthController extends StateNotifier<Users> {
   AuthController() : super(Users());
 
-  Future<void> googleSignIn() async {
+  Future<void> googleSignIn(BuildContext context) async {
     try {
       GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: [
@@ -38,10 +41,6 @@ class AuthController extends StateNotifier<Users> {
             "users": userCredential.user!.uid,
             "items": [],
           });
-          // setUsers(
-          //   email: userCredential.user!.email.toString(),
-          //   name: userCredential.user!.displayName.toString(),
-          // );
 
           final users = Users(
             uid: userCredential.user!.uid,
@@ -52,14 +51,11 @@ class AuthController extends StateNotifier<Users> {
           );
           state = users;
         } else {
-          // setUsers(
-          //   name: checkUsers.data()!['name'],
-          //   email: checkUsers.data()!['email'],
-          // );
-
           final users = Users.fromJson(checkUsers.data()!);
           state = users;
         }
+        if (!mounted) return;
+        context.goNamed(BotNavBarScreen.routeName);
       }
     } catch (e) {
       Logger().e(e);
@@ -81,22 +77,10 @@ class AuthController extends StateNotifier<Users> {
 
   Future<void> getUsers({required String uid}) async {
     var checkUsers = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    // setUsers(
-    //   name: checkUsers.data()!['name'],
-    //   email: checkUsers.data()!['email'],
-    // );
+
     final users = Users.fromJson(checkUsers.data()!);
     state = users;
   }
-
-  // void setUsers({required String name, required String email}) {
-  //   final user = Users(
-  //     name: name,
-  //     email: email,
-  //   );
-
-  //   state = user;
-  // }
 
   Future<String> checkUsers() async {
     final result = FirebaseAuth.instance.currentUser;

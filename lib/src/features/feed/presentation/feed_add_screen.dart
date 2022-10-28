@@ -111,7 +111,6 @@ class _FeedAddScreenState extends ConsumerState<FeedAddScreen> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                //show dialog to choose pick from image or camera
                                 await showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
@@ -425,7 +424,6 @@ class _FeedAddScreenState extends ConsumerState<FeedAddScreen> {
                                       ),
                                       filled: true,
                                       fillColor: Colors.white,
-                                      // hintStyle: ,
                                     ),
                                     value: _category == '' ? null : _category,
                                     validator: (value) {
@@ -439,12 +437,6 @@ class _FeedAddScreenState extends ConsumerState<FeedAddScreen> {
                                       style: vetBookDropdownInput,
                                     ),
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                                    // decoration: InputDecoration(
-                                    //   border: OutlineInputBorder(
-                                    //     borderRadius: BorderRadius.circular(4.r),
-                                    //   ),
-                                    //   contentPadding: const EdgeInsets.all(12),
-                                    // ),
                                     onChanged: (value) {
                                       _category = value.toString();
                                     }),
@@ -556,7 +548,6 @@ class _FeedAddScreenState extends ConsumerState<FeedAddScreen> {
                                       ),
                                       filled: true,
                                       fillColor: Colors.white,
-                                      // hintStyle: ,
                                     ),
                                     value: _typeBank == '' ? null : _typeBank,
                                     validator: (value) {
@@ -570,12 +561,6 @@ class _FeedAddScreenState extends ConsumerState<FeedAddScreen> {
                                       style: vetBookDropdownInput,
                                     ),
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                                    // decoration: InputDecoration(
-                                    //   border: OutlineInputBorder(
-                                    //     borderRadius: BorderRadius.circular(4.r),
-                                    //   ),
-                                    //   contentPadding: const EdgeInsets.all(12),
-                                    // ),
                                     onChanged: (value) {
                                       _typeBank = value.toString();
                                     }),
@@ -650,7 +635,6 @@ class _FeedAddScreenState extends ConsumerState<FeedAddScreen> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                //show dialog to choose pick from image or camera
                                 await showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
@@ -920,7 +904,6 @@ class _FeedAddScreenState extends ConsumerState<FeedAddScreen> {
                                       ),
                                       filled: true,
                                       fillColor: Colors.white,
-                                      // hintStyle: ,
                                     ),
                                     value: _category == '' ? null : _category,
                                     validator: (value) {
@@ -934,12 +917,6 @@ class _FeedAddScreenState extends ConsumerState<FeedAddScreen> {
                                       style: vetBookDropdownInput,
                                     ),
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                                    // decoration: InputDecoration(
-                                    //   border: OutlineInputBorder(
-                                    //     borderRadius: BorderRadius.circular(4.r),
-                                    //   ),
-                                    //   contentPadding: const EdgeInsets.all(12),
-                                    // ),
                                     onChanged: (value) {
                                       _category = value.toString();
                                     }),

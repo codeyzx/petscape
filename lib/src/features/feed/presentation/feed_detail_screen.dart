@@ -71,7 +71,6 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(100.r),
                         child: Image.network(
-                          // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
                           widget.feed.userphoto.toString(),
                           width: 46.w,
                           height: 46.h,
@@ -85,13 +84,10 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            // "Jennifer Turner",
                             widget.feed.username.toString(),
                             style: feedPostName,
                           ),
                           Text(
-                            // "41m ago",
-
                             DateFormat('dd MMMM yyyy HH:mm')
                                 .format(DateTime.fromMillisecondsSinceEpoch(widget.feed.createdAt!)),
                             style: feedPostTime,
@@ -134,7 +130,6 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                 height: 8.h,
               ),
               Text(
-                // "Anjing terlantar di dekat pasar, kekurangan gizi",
                 widget.feed.title.toString(),
                 style: feedDetailTitle,
               ),
@@ -142,7 +137,6 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                 height: 10.h,
               ),
               Image.network(
-                // "https://img.indonesiatoday.co.id/photos/post/1660446477-anjing-golden-retriever-yang-kurus-dan-tinggal-tulang-menunggu-pemiliknya-yang-telah-meninggalkannya.jpg",
                 widget.feed.photo.toString(),
                 width: 328.w,
                 height: 200.h,
@@ -207,7 +201,6 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                 height: 8.h,
               ),
               Text(
-                // "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget enim sit etiam suspendisse quam pellentesque eu. Elit in hendrerit pharetra viverra id donec ullamcorper posuere feugiat.",
                 widget.feed.description.toString(),
                 style: feedDetailDesc,
               ),

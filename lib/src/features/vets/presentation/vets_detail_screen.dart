@@ -71,7 +71,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
               vets.image.toString(),
               width: 1.sw,
               height: 252.h,
@@ -90,7 +89,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        // "Dr. Naegha Blak",
                         vets.name.toString(),
                         style: vetDetailName,
                       ),
@@ -123,7 +121,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                     height: 2.h,
                   ),
                   Text(
-                    // "Cat Specialist",
                     vets.degree.toString(),
                     style: vetDetailJob,
                   ),
@@ -131,7 +128,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                     height: 6.h,
                   ),
                   Text(
-                    // "Margahayu Raya, Bandung, Jawa Barat",
                     vets.address.toString(),
                     style: vetDetailLocation,
                   ),
@@ -175,7 +171,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                                   width: 6.w,
                                 ),
                                 Text(
-                                  // "10.000+",
                                   vets.patient.toString(),
                                   style: vetDetailIDBig,
                                 ),
@@ -218,7 +213,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                                   width: 6.w,
                                 ),
                                 Text(
-                                  // "5 Tahun",
                                   '${vets.experience} Tahun',
                                   style: vetDetailIDBig,
                                 ),
@@ -261,7 +255,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                                   width: 6.w,
                                 ),
                                 Text(
-                                  // "4.5",
                                   vets.rate.toString(),
                                   style: vetDetailIDBig,
                                 ),
@@ -310,7 +303,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                         style: productDescSubTitleBlack,
                       ),
                       Text(
-                        // "Kucing",
                         vets.category.toString(),
                         style: productDescSubTitlePrimary,
                       ),
@@ -327,7 +319,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                         style: productDescSubTitleBlack,
                       ),
                       Text(
-                        // "10:00-20:00",
                         vets.workTime.toString(),
                         style: productDescSubTitlePrimary,
                       ),
@@ -344,7 +335,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                         style: productDescSubTitleBlack,
                       ),
                       Text(
-                        // "Bandung",
                         vets.location.toString(),
                         style: productDescSubTitlePrimary,
                       ),
@@ -361,7 +351,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                         style: productDescSubTitleBlack,
                       ),
                       Text(
-                        // "Rp80.000-Rp100.000",
                         NumberFormat.currency(
                           locale: 'id',
                           symbol: 'Rp',
@@ -382,7 +371,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                     height: 6.h,
                   ),
                   Text(
-                    // "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit faucibus amet nullam cras volutpat. Consectetur dignissim lorem condimentum arcu sit. Ridiculus malesuada dolor ultrices semper erat suscipit eget.",
                     vets.desc.toString(),
                     style: productDescText,
                   ),
@@ -408,7 +396,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                         width: 12.w,
                       ),
                       Text(
-                        // "tracyf12@gmail.com",
                         vets.email.toString(),
                         style: vetDetailContact,
                       ),
@@ -429,7 +416,6 @@ class _VetsDetailScreenState extends ConsumerState<VetsDetailScreen> {
                         width: 12.w,
                       ),
                       Text(
-                        // "+6282147955328",
                         '+62${vets.phone}',
                         style: vetDetailContact,
                       ),

@@ -213,13 +213,9 @@ class _VetsBookingTwoScreenState extends ConsumerState<VetsBookingTwoScreen> {
                         style: homeSearchText,
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            // icon prefix with text +62
                             prefixIcon: Container(
-                              // width: 10.w,
-                              // height: 10.h,
                               margin: EdgeInsets.only(bottom: 3.h),
                               padding: EdgeInsets.only(top: 3.h),
-
                               width: 50.w,
                               decoration: BoxDecoration(
                                 color: whitish,
@@ -281,7 +277,6 @@ class _VetsBookingTwoScreenState extends ConsumerState<VetsBookingTwoScreen> {
                           ),
                           filled: true,
                           fillColor: Colors.white,
-                          // hintStyle: ,
                         ),
                         value: null,
                         hint: Text(
@@ -289,44 +284,10 @@ class _VetsBookingTwoScreenState extends ConsumerState<VetsBookingTwoScreen> {
                           style: vetBookDropdownInput,
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        // decoration: InputDecoration(
-                        //   border: OutlineInputBorder(
-                        //     borderRadius: BorderRadius.circular(4.r),
-                        //   ),
-                        //   contentPadding: const EdgeInsets.all(12),
-                        // ),
                         onChanged: (value) {
                           _experiencePet = value.toString();
                         }),
                   ),
-
-                  // Container(
-                  //   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                  //   width: 324.w,
-                  //   height: 42.h,
-                  //   decoration: BoxDecoration(
-                  //     color: whitish,
-                  //     borderRadius: BorderRadius.circular(4.r),
-                  //     boxShadow: [
-                  //       buildPrimaryBoxShadow(),
-                  //     ],
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       Text(
-                  //         "Select Years",
-                  //         style: vetBookDropdownInput,
-                  //       ),
-                  //       Image.asset(
-                  //         "assets/icons/arrow-down-icon.png",
-                  //         width: 18.w,
-                  //         height: 18.h,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

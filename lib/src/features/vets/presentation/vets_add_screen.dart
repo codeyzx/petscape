@@ -160,7 +160,6 @@ class _VetsAddScreenState extends ConsumerState<VetsAddScreen> {
                     ),
                   ],
                 ),
-                // generate form field by all controller
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -461,7 +460,6 @@ class _VetsAddScreenState extends ConsumerState<VetsAddScreen> {
                     ),
                   ],
                 ),
-                // work time controller
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -496,7 +494,6 @@ class _VetsAddScreenState extends ConsumerState<VetsAddScreen> {
                     ),
                   ],
                 ),
-                // patient controller
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -531,7 +528,6 @@ class _VetsAddScreenState extends ConsumerState<VetsAddScreen> {
                     ),
                   ],
                 ),
-                // rate controller
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -566,7 +562,6 @@ class _VetsAddScreenState extends ConsumerState<VetsAddScreen> {
                     ),
                   ],
                 ),
-                // experience controller
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

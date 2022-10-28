@@ -1,32 +1,9 @@
-// import 'package:freezed_annotation/freezed_annotation.dart';
-
-// part 'order.freezed.dart';
-// part 'order.g.dart';
-
-// @freezed
-// abstract class Order with _$Order {
-//   const factory Order({
-//     @JsonKey(name: 'id') String? id,
-//     @JsonKey(name: 'customerId') String? customerId,
-//     @JsonKey(name: 'sellerId') String? sellerId,
-//     @JsonKey(name: 'createdAt') String? createdAt,
-//     @JsonKey(name: 'items') List<Map<String, dynamic>>? items,
-//     @JsonKey(name: 'itemsCategory') String? itemsCategory,
-//     @JsonKey(name: 'totalPayment') int? totalPayment,
-//     @JsonKey(name: 'methodPayment') String? methodPayment,
-//     @JsonKey(name: 'statusPayment') String? statusPayment,
-//     @JsonKey(name: 'tokenPayment') String? tokenPayment,
-//   }) = _Order;
-
-//   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
-// }
-
-// create class model order
 class Order {
   String? id;
   String? orderId;
   String? customerId;
   String? sellerId;
+  String? address;
   String? createdAt;
   List<dynamic>? items;
   String? itemsCategory;
@@ -40,6 +17,7 @@ class Order {
     this.orderId,
     this.customerId,
     this.sellerId,
+    this.address,
     this.createdAt,
     this.items,
     this.itemsCategory,
@@ -55,6 +33,7 @@ class Order {
       orderId: json['orderId'],
       customerId: json['customerId'],
       sellerId: json['sellerId'],
+      address: json['address'],
       createdAt: json['createdAt'],
       items: json['items'],
       itemsCategory: json['itemsCategory'],
@@ -71,6 +50,7 @@ class Order {
       'orderId': orderId,
       'customerId': customerId,
       'sellerId': sellerId,
+      'address': address,
       'createdAt': createdAt,
       'items': items,
       'itemsCategory': itemsCategory,
@@ -86,6 +66,7 @@ class Order {
     String? orderId,
     String? customerId,
     String? sellerId,
+    String? address,
     String? createdAt,
     List<Map<String, dynamic>>? items,
     String? itemsCategory,
@@ -99,6 +80,7 @@ class Order {
       orderId: orderId ?? this.orderId,
       customerId: customerId ?? this.customerId,
       sellerId: sellerId ?? this.sellerId,
+      address: address ?? this.address,
       createdAt: createdAt ?? this.createdAt,
       items: items ?? this.items,
       itemsCategory: itemsCategory ?? this.itemsCategory,

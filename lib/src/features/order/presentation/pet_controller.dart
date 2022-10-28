@@ -35,13 +35,6 @@ class PetController extends StateNotifier<List<Pet>> {
     return value.ref.getDownloadURL();
   }
 
-  // Future<void> addHistoryHealth({required String id, required Map<String, dynamic> history}) async {
-  //   final ref = db.doc(id);
-  //   final data = await ref.get();
-  //   final temp = data.data()!.copyWith(health: [...data.data()!.health ?? [], history], id: '');
-  //   await ref.set(temp);
-  // }
-
   Future<void> addHistoryHealth({required String id, required Map<String, dynamic> history}) async {
     final ref = db.doc(id);
     final data = await ref.get();

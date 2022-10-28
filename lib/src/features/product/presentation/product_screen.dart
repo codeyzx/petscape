@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
-import 'package:petscape/src/features/product/presentation/product_add_screen.dart';
+import 'package:petscape/src/features/cart/presentation/cart_screen.dart';
 import 'package:petscape/src/features/product/presentation/product_controller.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
 import 'package:petscape/src/features/product/domain/product.dart';
@@ -115,13 +115,12 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductAddScreen()));
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => CartScreen(
-                            //               usersId: widget.usersId,
-                            //             )));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CartScreen(
+                                          users: widget.users,
+                                        )));
                           },
                           icon: Image.asset(
                             "assets/icons/bag-icon.png",
@@ -351,67 +350,6 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                                 ],
                               );
                       }).toList(),
-                      // ...isSelected.map((e) => null).toList(),
-                      // isSelected[0].entries.map((e) {
-                      //   Logger().e(e);
-                      //   return e.value
-                      //       ? Column(
-                      //           children: [
-                      //             ClipRRect(
-                      //               borderRadius: BorderRadius.circular(4.r),
-                      //               child: SizedBox(
-                      //                 width: 68.w,
-                      //                 height: 36.h,
-                      //                 child: ElevatedButton(
-                      //                   onPressed: () {},
-                      //                   style: ElevatedButton.styleFrom(
-                      //                     backgroundColor: primary,
-                      //                   ),
-                      //                   child: Text(
-                      //                     "All",
-                      //                     style: productCategoryWhite,
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             SizedBox(
-                      //               width: 16.w,
-                      //             ),
-                      //           ],
-                      //         )
-                      //       : Column(
-                      //           children: [
-                      //             SizedBox(
-                      //               width: 81.w,
-                      //               height: 36.h,
-                      //               child: ElevatedButton(
-                      //                 onPressed: () {},
-                      //                 style: ElevatedButton.styleFrom(
-                      //                     padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
-                      //                 child: Container(
-                      //                   width: 81.w,
-                      //                   height: 36.h,
-                      //                   decoration: BoxDecoration(
-                      //                       color: whitish,
-                      //                       borderRadius: BorderRadius.circular(4.r),
-                      //                       boxShadow: [
-                      //                         buildPrimaryBoxShadow(),
-                      //                       ]),
-                      //                   child: Center(
-                      //                     child: Text(
-                      //                       "Dog",
-                      //                       style: productCategoryBlack,
-                      //                     ),
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             SizedBox(
-                      //               width: 16.w,
-                      //             ),
-                      //           ],
-                      //         );
-                      // }).toList(),
                     ),
                   ),
                 ),
@@ -426,9 +364,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                   height: 12.h,
                 ),
                 isLoading
-                    ?
-                    // gridview with shimmer
-                    GridView.builder(
+                    ? GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: 2,
@@ -494,7 +430,6 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                                       topRight: Radius.circular(4.r),
                                     ),
                                     child: Image.network(
-                                      // "https://i.pinimg.com/1200x/da/66/47/da6647f1615e67791fa6644d1a7663fa.jpg",
                                       products[index].image.toString(),
                                       width: 154.w,
                                       height: 146.h,
@@ -512,16 +447,12 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                                         SizedBox(
                                           width: 140.w,
                                           child: Text(
-                                            // "Pharma Hemp Chicken Treats",
                                             products[index].name.toString(),
                                             style: producOntItemTitle,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                         Text(
-                                          // "Rp 56.000",
-                                          // "Rp ${products[index].price}",
-                                          // format price to idr
                                           NumberFormat.currency(
                                             locale: 'id',
                                             symbol: 'Rp ',
@@ -573,7 +504,6 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                                             SizedBox(
                                               width: 120.w,
                                               child: Text(
-                                                // "Bandung",
                                                 products[index].location.toString(),
                                                 overflow: TextOverflow.ellipsis,
                                                 style: producOntItemLocation,

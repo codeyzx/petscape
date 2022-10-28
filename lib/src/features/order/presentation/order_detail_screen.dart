@@ -28,7 +28,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
   }
 
   Future<void> getListProduct() async {
-    // Logger().e(widget.order.toJson());
     if (widget.order.itemsCategory == 'Barang') {
       List<String> docId = [];
       for (var i = 0; i < widget.order.items!.length; i++) {
@@ -93,9 +92,8 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
       ),
       body: widget.order.itemsCategory != 'Appointment'
           ? SingleChildScrollView(
-              // physics: const NeverScrollableScrollPhysics(),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18.w),
+                padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -172,7 +170,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                         buildPrimaryBoxShadow(),
                       ]),
                       child: Row(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
@@ -184,9 +181,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                 .format(DateTime.fromMillisecondsSinceEpoch(int.tryParse(widget.order.createdAt!)!)),
                             style: orderBankAccount,
                           ),
-                          // Text(
-                          //   style: orderPaymentDeadline,
-                          // ),
                         ],
                       ),
                     ),
@@ -219,10 +213,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                   "${widget.order.methodPayment?.toUpperCase()} - ${widget.order.tokenPayment}",
                                   style: orderBankAccount,
                                 ),
-                                // Text(
-                                //   "Waktu Pembelian: ${DateFormat("dd MMMM yyyy, HH:mm").format(DateTime.fromMillisecondsSinceEpoch(int.tryParse(widget.order.createdAt!)!))}",
-                                //   style: orderPaymentDeadline,
-                                // ),
                               ],
                             ),
                           ),
@@ -267,10 +257,9 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                           ClipRRect(
                                             borderRadius: BorderRadius.circular(6.r),
                                             child: Image.network(
-                                              // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
                                               products[index].image.toString(),
                                               width: 64.w,
-                                              height: 64.h,
+                                              height: 56.h,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -281,7 +270,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                // "Dog Care - Showering",
                                                 products[index].name.toString(),
                                                 style: orderStatusLabel,
                                               ),
@@ -296,7 +284,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                 height: 4.h,
                                               ),
                                               Text(
-                                                // "Rp56.000",
                                                 "Rp${products[index].price}",
                                                 style: orderPriceSmall,
                                               ),
@@ -321,11 +308,9 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                               ClipRRect(
                                                 borderRadius: BorderRadius.circular(6.r),
                                                 child: Image.network(
-                                                  // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
                                                   products[index].image.toString(),
-                                                  // orderItem
                                                   width: 64.w,
-                                                  height: 64.h,
+                                                  height: 56.h,
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
@@ -336,7 +321,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    // "Dog Care - Showering",
                                                     products[index].name.toString(),
                                                     style: orderStatusLabel,
                                                   ),
@@ -344,7 +328,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                     height: 4.h,
                                                   ),
                                                   Text(
-                                                    // "Rp56.000",
                                                     "Rp${products[index].price}",
                                                     style: orderPriceSmall,
                                                   ),
@@ -370,8 +353,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    // "Dog Care - Showering",
-                                                    // products[index].name.toString(),
                                                     orderItem['name'],
                                                     style: orderStatusLabel,
                                                   ),
@@ -379,8 +360,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                                     height: 4.h,
                                                   ),
                                                   Text(
-                                                    // "Rp56.000",
-                                                    // "Rp${products[index].price}",
                                                     NumberFormat.currency(
                                                       locale: 'id',
                                                       symbol: 'Rp',
@@ -414,7 +393,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                 style: orderTotalTxt,
                               ),
                               Text(
-                                // "Rp56.000",
                                 NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0)
                                     .format(widget.order.totalPayment),
                                 style: orderStatusLabel,
@@ -449,7 +427,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                   height: 4.h,
                                 ),
                                 Text(
-                                  "Jalan Kliningan No.6 Buah Batu, Bandung, Indonesia",
+                                  widget.order.address.toString(),
                                   style: orderLocation,
                                 ),
                               ],
@@ -476,8 +454,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                       height: 4.h,
                                     ),
                                     Text(
-                                      "Jalan Kliningan No.6 Buah Batu, Bandung, Indonesia",
-                                      // widget.order.storeAddress.toString(),
+                                      widget.order.address.toString(),
                                       style: orderLocation,
                                     ),
                                   ],
@@ -512,9 +489,7 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                   height: 4.h,
                                 ),
                                 Text(
-                                  // "Jalan Kliningan No.6 Buah Batu, Bandung, Indonesia",
                                   '${DateFormat('dd MMMM').format(DateTime.parse(widget.order.items!.first['date']))} - ${widget.order.items!.first['time']}',
-                                  // widget.order.storeAddress.toString(),
                                   style: orderLocation,
                                 ),
                               ],
@@ -625,7 +600,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(100.r),
                               child: Image.network(
-                                // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
                                 vets.image.toString(),
                                 width: 54.w,
                                 height: 54.h,
@@ -639,7 +613,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  // "Dr. Tracy Frost",
                                   vets.name.toString(),
                                   style: orderStatusLabel,
                                 ),
@@ -647,7 +620,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                                   height: 4.h,
                                 ),
                                 Text(
-                                  // "Cat Specialist",
                                   vets.degree.toString(),
                                   style: orderLocation,
                                 ),
@@ -674,7 +646,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                               style: orderTotalTxt,
                             ),
                             Text(
-                              // "Rp56.000",
                               'In-Person',
                               style: orderPriceSmall,
                             ),
@@ -691,7 +662,6 @@ class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
                               style: orderTotalTxt,
                             ),
                             Text(
-                              // "20 Agustus",
                               vets.address.toString(),
                               style: orderPriceSmall,
                             ),

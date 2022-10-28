@@ -57,8 +57,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               children: [
                 IconButton(
                   onPressed: () {
-                    // Logger().e(cartsLength);
-
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -102,7 +100,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              // "https://i.pinimg.com/1200x/da/66/47/da6647f1615e67791fa6644d1a7663fa.jpg",
               products.image.toString(),
               width: 1.sw,
               height: 290.h,
@@ -120,7 +117,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        // "Rp 56.000",
                         NumberFormat.currency(
                           locale: 'id',
                           symbol: 'Rp ',
@@ -177,7 +173,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     height: 4.h,
                   ),
                   Text(
-                    // "Pharma Hemp Chicken Treats",
                     products.name.toString(),
                     style: productItemTitle,
                   ),
@@ -215,7 +210,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         width: 6.w,
                       ),
                       Text(
-                        // "210",
                         products.sold.toString(),
                         style: productItemRatingBlack,
                       ),
@@ -263,7 +257,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           width: 70.w,
                         ),
                         Text(
-                          // "Kucing",
                           '${products.stock} ',
                           style: productDescSubTitlePrimary,
                         ),
@@ -283,7 +276,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         width: 40.w,
                       ),
                       Text(
-                        // "Kucing",
                         products.category.toString(),
                         style: productDescSubTitlePrimary,
                       ),
@@ -302,7 +294,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         width: 66.w,
                       ),
                       Text(
-                        // "Petcuttie",
                         products.seller.toString(),
                         style: productDescSubTitlePrimary,
                       ),
@@ -323,9 +314,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       SizedBox(
                         width: 200.w,
                         child: Text(
-                          // "Bandung",
                           products.location.toString(),
-                          // overflow: TextOverflow.ellipsis,
                           style: productDescSubTitlePrimary,
                         ),
                       ),
@@ -335,7 +324,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     height: 12.h,
                   ),
                   Text(
-                    // "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit faucibus amet nullam cras volutpat. Consectetur dignissim lorem condimentum arcu sit. Ridiculus malesuada dolor ultrices semper erat suscipit eget.",
                     products.desc.toString(),
                     style: productDescText,
                   ),
@@ -392,28 +380,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             await db.update({
                               "items": temp,
                             });
-                            // if (item != null) {
-                            //   print('item not null $item');
-                            //   final qty = item["qty"] + itemCount;
-                            //   await db.update({
-                            //     "items": [
-                            //       {
-                            //         'id': products.id,
-                            //         'qty': qty,
-                            //       }
-                            //     ],
-                            //   });
-                            // } else {
-                            //   print('item null $item');
-                            //   await db.update({
-                            //     "items": FieldValue.arrayUnion([
-                            //       {
-                            //         'id': products.id,
-                            //         'qty': itemCount,
-                            //       }
-                            //     ])
-                            //   });
-                            // }
                           } else {
                             await db.update({
                               'usersId': widget.users.uid.toString(),
@@ -432,7 +398,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             itemCount = 1;
                           });
 
-                          // dialog
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

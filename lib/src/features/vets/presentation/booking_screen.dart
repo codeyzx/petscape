@@ -53,52 +53,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     {'Online Meet': false},
   ];
 
-  // List<Map<DateTime, bool>> generateTime() {
-  //   // final date = DateTime.now();
-  //   // final hour = date.hour;
-  //   // final minute = date.minute;
-  //   // final second = date.second;
-  //   // final startTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} $hour:$minute:$second';
-  //   // final endTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 12:00:00';
-
-  //   // final List<String> timeSlots = [];
-  //   // final start = DateFormat('yyyy-MM-dd HH:mm:ss').parse(startTime);
-  //   // final end = DateFormat('yyyy-MM-dd HH:mm:ss').parse(endTime);
-  //   // final difference = end.difference(start).inHours;
-
-  //   // for (var i = 0; i <= difference; i++) {
-  //   //   timeSlots.add(DateFormat('HH:mm').format(start.add(Duration(hours: i))));
-  //   // }
-  //   // return timeSlots;
-  //   final startTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 10:00:00';
-  //   final endTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 15:00:00';
-
-  //   final List<String> timeSlots = [];
-  //   final start = DateFormat('yyyy-MM-dd HH:mm:ss').parse(startTime);
-  //   final end = DateFormat('yyyy-MM-dd HH:mm:ss').parse(endTime);
-  //   final difference = end.difference(start).inHours;
-
-  //   for (var i = 0; i <= difference; i++) {
-  //     timeSlots.add(DateFormat('HH:mm').format(start.add(Duration(hours: i))));
-  //   }
-  //   // return timeSlots;
-  //   final List<Map<DateTime, bool>> timeSlotsMap = [];
-  //   for (var i = 0; i < timeSlots.length; i++) {
-  //     if (i == 0) {
-  //       timeSlotsMap.add({
-  //         DateFormat('yyyy-MM-dd HH:mm:ss').parse('${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${timeSlots[i]}:00'):
-  //             true
-  //       });
-  //     } else {
-  //       timeSlotsMap.add({
-  //         DateFormat('yyyy-MM-dd HH:mm:ss').parse('${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${timeSlots[i]}:00'):
-  //             false
-  //       });
-  //     }
-  //   }
-  //   return timeSlotsMap;
-  // }
-
   List<Map<String, bool>> resetTime() {
     final startTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 10:00:00';
     final endTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 15:00:00';
@@ -111,7 +65,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     for (var i = 0; i <= difference; i++) {
       timeSlots.add(DateFormat('HH:mm').format(start.add(Duration(hours: i))));
     }
-    // return timeSlots;
+
     final List<Map<String, bool>> timeSlotsMap = [];
     for (var i = 0; i < timeSlots.length; i++) {
       if (i == 0) {
@@ -125,11 +79,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
   }
 
   List<Map<String, bool>> generateTime() {
-    //* DEBUG
-    // final startTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 00:00:00';
-    // final endTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 23:00:00';
-
-    //* PRODUCTION
     final startTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 10:00:00';
     final endTime = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 15:00:00';
 
@@ -144,25 +93,9 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     final List<Map<String, bool>> timeSlotsMap = [];
     for (var i = 0; i < timeSlots.length; i++) {
       final date = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${timeSlots[i]}:00';
-      // final dateTimeNow = DateFormat('yyyy-MM-dd HH:mm:ss').parse('2022-10-26 12:23:43.677538');
       final dateTimeNow = DateFormat('yyyy-MM-dd HH:mm:ss').parse(DateTime.now().toString());
       final minute = dateTimeNow.minute < 59 ? '00' : dateTimeNow.minute;
-
       var dateTimeNowRounded = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${dateTimeNow.hour + 1}:$minute:00';
-
-      // if (dateTimeNow.compareTo(start) > 0) {
-      //   Logger().e('masuk');
-      //   if (dateTimeNow.hour < 10) {
-      //     final temp = DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTimeNowRounded);
-      //     temp.add(const Duration(hours: 1));
-      //     dateTimeNowRounded = DateFormat('yyyy-MM-dd HH:mm:ss').format(temp);
-      //   } else {
-      //     dateTimeNowRounded = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${dateTimeNow.hour}:$minute:00';
-      //   }
-      // } else {
-      //   Logger().e('ga masuk');
-      //   dateTimeNowRounded = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${dateTimeNow.hour}:$minute:00';
-      // }
 
       if (dateTimeNow.compareTo(start) > 0) {
         if (dateTimeNow.hour < 10) {
@@ -219,42 +152,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
   List timeOptions = [];
   Product? product;
   String dateFilter = DateTime.now().toString();
-
-  // List<String> generateDate() {
-  //   final startDate = '${DateFormat('yyyy-MM-dd').format(DateTime.now())} 00:00:00';
-  //   final endDate = '${DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 7)))} 23:59:59';
-
-  //   final List<String> dateSlots = [];
-  //   final start = DateFormat('yyyy-MM-dd HH:mm:ss').parse(startDate);
-  //   final end = DateFormat('yyyy-MM-dd HH:mm:ss').parse(endDate);
-  //   final difference = end.difference(start).inDays;
-
-  //   for (var i = 0; i < difference; i++) {
-  //     dateSlots.add(DateFormat('yyyy-MM-dd').format(start.add(Duration(days: i))));
-  //   }
-  //   return dateSlots;
-  // }
-
-  // List<Map<DateTime, bool>> generateDate() = [];
-
-  // List<Map<DateTime, bool>> generateDate() = [];
-
-  // List<Map<DateTime, bool>> timeOptions = [
-  //   {DateTime.now(): true},
-  //   {DateTime.now().add(const Duration(hours: 1)): false},
-  //   {DateTime.now().add(const Duration(hours: 2)): false},
-  //   {DateTime.now().add(const Duration(hours: 3)): false},
-  //   {DateTime.now().add(const Duration(hours: 4)): false},
-  //   {DateTime.now().add(const Duration(hours: 5)): false},
-  //   {DateTime.now().add(const Duration(hours: 6)): false},
-  //   {DateTime.now().add(const Duration(hours: 7)): false},
-  //   {DateTime.now().add(const Duration(hours: 8)): false},
-  //   {DateTime.now().add(const Duration(hours: 9)): false},
-  //   {DateTime.now().add(const Duration(hours: 10)): false},
-  //   {DateTime.now().add(const Duration(hours: 11)): false},
-  //   {DateTime.now().add(const Duration(hours: 12)): false},
-  // ];
-
   String place = 'In Person';
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String time = '';
@@ -297,7 +194,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                 icon: Image.asset("assets/icons/arrow-left-icon.png"),
               ),
               Text(
-                // "Booking Appointment",
                 widget.product != null ? "Buat Pesanan" : "Booking Appointment",
                 style: appBarTitle,
               ),
@@ -344,49 +240,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                         height: 6.h,
                       ),
                       Row(
-                        // children: [
-                        //   ClipRRect(
-                        //     borderRadius: BorderRadius.circular(4.r),
-                        //     child: SizedBox(
-                        //       width: 123.w,
-                        //       height: 40.h,
-                        //       child: ElevatedButton(
-                        //         onPressed: () {},
-                        //         style: ElevatedButton.styleFrom(
-                        //           backgroundColor: primary,
-                        //         ),
-                        //         child: Text(
-                        //           "In Person",
-                        //           style: vetBookWhiteOnButton,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        //   SizedBox(
-                        //     width: 12.w,
-                        //   ),
-                        //   SizedBox(
-                        //     width: 144.w,
-                        //     height: 40.h,
-                        //     child: ElevatedButton(
-                        //       onPressed: () {},
-                        //       style: ElevatedButton.styleFrom(padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
-                        //       child: Container(
-                        //         width: 144.w,
-                        //         height: 40.h,
-                        //         decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
-                        //           buildPrimaryBoxShadow(),
-                        //         ]),
-                        //         child: Center(
-                        //           child: Text(
-                        //             "Online Meet",
-                        //             style: productCategoryBlack,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ],
                         children: placeOptions.map((e) {
                           return e.values.first
                               ? Row(
@@ -500,7 +353,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(6.r),
                               child: Image.network(
-                                // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
                                 product!.image.toString(),
                                 width: 72.w,
                                 height: 72.h,
@@ -514,7 +366,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  // "Dog Care - Suntik Mati",
                                   product!.name.toString(),
                                   style: treatBookPetName,
                                 ),
@@ -525,7 +376,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      // "Petcuttie",
                                       product!.seller.toString(),
                                       style: treatBookPetLoc,
                                     ),
@@ -541,14 +391,12 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                       width: 4.w,
                                     ),
                                     Text(
-                                      // "Bandung",
                                       product!.location.toString(),
                                       style: treatBookPetLoc,
                                     ),
                                   ],
                                 ),
                                 Text(
-                                  // "Rp56.000",
                                   NumberFormat.currency(
                                     locale: 'id',
                                     symbol: 'Rp',
@@ -577,7 +425,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                           buildPrimaryBoxShadow(),
                         ]),
                         child: Text(
-                          // "Jl. Kliningan No.6 RT 02 RW 05, Bandung, Jawa Barat, Indonesia",
                           product!.location.toString(),
                           style: treatBookLoc,
                         ),
@@ -600,101 +447,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 5.0.w),
               child: Row(
-                // children: [
-                //   SizedBox(
-                //     width: 18.w,
-                //   ),
-                //   SizedBox(
-                //     width: 60.w,
-                //     height: 80.h,
-                //     child: ElevatedButton(
-                //       onPressed: () {},
-                //       style: ElevatedButton.styleFrom(padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
-                //       child: Container(
-                //         width: 60.w,
-                //         height: 80.h,
-                //         decoration: BoxDecoration(
-                //           color: primary,
-                //           borderRadius: BorderRadius.circular(6.r),
-                //           boxShadow: [buildPrimaryBoxShadow()],
-                //         ),
-                //         child: Column(
-                //           crossAxisAlignment: CrossAxisAlignment.center,
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: [
-                //             Text(
-                //               "Sel",
-                //               style: vetBookDayOnPrimary,
-                //             ),
-                //             SizedBox(
-                //               height: 6.h,
-                //             ),
-                //             Text(
-                //               "20",
-                //               style: vetBookDateOnPrimary,
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                //   SizedBox(
-                //     height: 100.h,
-                //     child: ListView.builder(
-                //         itemCount: 5,
-                //         physics: const ScrollPhysics(),
-                //         scrollDirection: Axis.horizontal,
-                //         shrinkWrap: true,
-                //         itemBuilder: (BuildContext context, int index) {
-                //           return Row(
-                //             children: [
-                //               SizedBox(
-                //                 width: 6.w,
-                //               ),
-                //               SizedBox(
-                //                 width: 60.w,
-                //                 height: 80.h,
-                //                 child: ElevatedButton(
-                //                   onPressed: () {},
-                //                   style:
-                //                       ElevatedButton.styleFrom(padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
-                //                   child: Container(
-                //                     width: 60.w,
-                //                     height: 80.h,
-                //                     decoration: BoxDecoration(
-                //                       color: whitish,
-                //                       borderRadius: BorderRadius.circular(6.r),
-                //                       boxShadow: [buildPrimaryBoxShadow()],
-                //                     ),
-                //                     child: Column(
-                //                       crossAxisAlignment: CrossAxisAlignment.center,
-                //                       mainAxisAlignment: MainAxisAlignment.center,
-                //                       children: [
-                //                         Text(
-                //                           "Rab",
-                //                           style: vetBookDayOnWhite,
-                //                         ),
-                //                         SizedBox(
-                //                           height: 6.h,
-                //                         ),
-                //                         Text(
-                //                           "21",
-                //                           style: vetBookDateOnWhite,
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //             ],
-                //           );
-                //         }),
-                //   ),
-                //   SizedBox(
-                //     width: 18.w,
-                //   ),
-
-                // ],
                 children: dateOptions.map((e) {
                   return e.values.first
                       ? Padding(
@@ -703,18 +455,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                             width: 60.w,
                             height: 80.h,
                             child: ElevatedButton(
-                              onPressed: () {
-                                // setState(() {
-                                //   for (var element in dateOptions) {
-                                //     if (element.keys.first == e.keys.first) {
-                                //       element.update(element.keys.first, (value) => true);
-                                //       date = e.keys.first;
-                                //     } else {
-                                //       element.update(element.keys.first, (value) => false);
-                                //     }
-                                //   }
-                                // });
-                              },
+                              onPressed: () {},
                               style: ElevatedButton.styleFrom(padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
                               child: Container(
                                 width: 60.w,
@@ -729,8 +470,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      // "Sel",
-                                      // format date time to day
                                       DateFormat('EEE').format(DateTime.parse(e.keys.first)),
                                       style: vetBookDayOnPrimary,
                                     ),
@@ -738,8 +477,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                       height: 6.h,
                                     ),
                                     Text(
-                                      // "20",
-                                      // format date time to date
                                       DateFormat('d').format(DateTime.parse(e.keys.first)),
                                       style: vetBookDateOnPrimary,
                                     ),
@@ -786,8 +523,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      // "Rab",
-                                      // format date time to day
                                       DateFormat('EEE').format(DateTime.parse(e.keys.first)),
                                       style: vetBookDayOnWhite,
                                     ),
@@ -795,8 +530,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                       height: 6.h,
                                     ),
                                     Text(
-                                      // "21",
-                                      // format date time to date
                                       DateFormat('d').format(DateTime.parse(e.keys.first)),
                                       style: vetBookDateOnWhite,
                                     ),
@@ -818,108 +551,8 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 5.0.w),
               child: Row(
-                // children: [
-                //   SizedBox(
-                //     width: 18.w,
-                //   ),
-                //   // disabled
-                //   SizedBox(
-                //     width: 89.w,
-                //     height: 40.h,
-                //     child: ElevatedButton(
-                //       onPressed: () {},
-                //       style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                //       child: Container(
-                //         width: 89.w,
-                //         height: 40.h,
-                //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.r), color: gray, boxShadow: [
-                //           buildPrimaryBoxShadow(),
-                //         ]),
-                //         child: Center(
-                //           child: Text(
-                //             "10:00",
-                //             style: vetBookClockOnGray,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                //   SizedBox(
-                //     width: 8.w,
-                //   ),
-                //   // enabled
-                //   SizedBox(
-                //     width: 89.w,
-                //     height: 40.h,
-                //     child: ElevatedButton(
-                //       onPressed: () {},
-                //       style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                //       child: Container(
-                //         width: 89.w,
-                //         height: 40.h,
-                //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.r), color: primary, boxShadow: [
-                //           buildPrimaryBoxShadow(),
-                //         ]),
-                //         child: Center(
-                //           child: Text(
-                //             "11:00",
-                //             style: vetBookClockOnPrimary,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                //   SizedBox(
-                //     height: 60.h,
-                //     child: ListView.builder(
-                //         itemCount: 5,
-                //         physics: const ScrollPhysics(),
-                //         scrollDirection: Axis.horizontal,
-                //         shrinkWrap: true,
-                //         itemBuilder: (BuildContext context, int index) {
-                //           return Row(
-                //             children: [
-                //               SizedBox(
-                //                 width: 8.w,
-                //               ),
-                //               //default
-                //               SizedBox(
-                //                 width: 89.w,
-                //                 height: 40.h,
-                //                 child: ElevatedButton(
-                //                   onPressed: () {},
-                //                   style:
-                //                       ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                //                   child: Container(
-                //                     width: 89.w,
-                //                     height: 40.h,
-                //                     decoration:
-                //                         BoxDecoration(borderRadius: BorderRadius.circular(4.r), color: whitish, boxShadow: [
-                //                       buildPrimaryBoxShadow(),
-                //                     ]),
-                //                     child: Center(
-                //                       child: Text(
-                //                         "12:00",
-                //                         style: vetBookClockOnWhite,
-                //                       ),
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ),
-                //             ],
-                //           );
-                //         }),
-                //   ),
-                //   SizedBox(
-                //     width: 18.w,
-                //   )
-                // ],
                 children: timeOptions.map((e) {
-                  // final dateTimeNow = DateFormat('yyyy-MM-dd HH:mm:ss').parse('2022-10-25 20:23:43.677538');
-                  // final dateTimeNow = DateFormat('yyyy-MM-dd HH:mm:ss').parse(DateTime.now().toString());
-                  // final dateTimeNow = DateFormat('yyyy-MM-dd HH:mm:ss').parse(DateTime.now().toString());
                   final dateTimeNow = DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateFilter);
-                  // Logger().e(dateTimeNow);
                   final compare = DateTime.parse(e.keys.first).compareTo(dateTimeNow);
                   return e.values.first
                       ? Padding(
@@ -950,8 +583,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                 ]),
                                 child: Center(
                                   child: Text(
-                                    // "11:00",
-                                    // format date time to time
                                     DateFormat('HH:mm').format(DateTime.parse(DateTime.parse(e.keys.first).toString())),
                                     style: vetBookClockOnPrimary,
                                   ),
@@ -979,8 +610,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                     ]),
                                     child: Center(
                                       child: Text(
-                                        // "10:00",
-                                        // format date time to time
                                         DateFormat('HH:mm').format(DateTime.parse(DateTime.parse(e.keys.first).toString())),
                                         style: vetBookClockOnGray,
                                       ),
@@ -1018,8 +647,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                                     ]),
                                     child: Center(
                                       child: Text(
-                                        // "12:00",
-                                        // format date time to time
                                         DateFormat('HH:mm').format(DateTime.parse(DateTime.parse(e.keys.first).toString())),
                                         style: vetBookClockOnWhite,
                                       ),
@@ -1141,15 +768,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                         }
                       ];
 
-                      // final body = {
-                      //   "order_id": "order-id-$random",
-                      //   "customers": {"email": "${widget.users.email}", "username": "${widget.users.name}"},
-                      //   "url": "https://mazipan.space/cara-fetch-api-di-nodejs",
-                      //   "items": [
-                      //     {"quantity": 2, "id": "1", "price": 2000, "name": "Es Teh"},
-                      //     {"quantity": 3, "id": "2", "price": 8000, "name": "Nasi Goreng"}
-                      //   ]
-                      // };
                       Map<String, dynamic> body = {
                         "order_id": random,
                         "customers": {
@@ -1174,38 +792,11 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                           );
                         }
                       });
-
-                      // await ref.read(orderControllerProvider.notifier).buy(buyItem);
-                      // await ref.read(orderControllerProvider.notifier).add(
-                      //   order: order, usersId: widget.usersId.toString());
-
-                      // await ref.read(orderControllerProvider.notifier).buy(buyItem);
-                      // await ref.read(orderControllerProvider.notifier).add(
-                      //   order: order, usersId: widget.usersId.toString());
-
-                      // await ref.read(orderControllerProvider.notifier).getData(widget.usersId.toString());
-
-                      // showDialog(
-                      //     context: context,
-                      //     builder: (context) => AlertDialog(
-                      //           title: const Text('Success'),
-                      //           content: const Text('Your order has been successfully created'),
-                      //           actions: [
-                      //             TextButton(
-                      //               onPressed: () {
-                      //                 Navigator.pushReplacement(
-                      //                     context, MaterialPageRoute(builder: (context) => const BotNavBarScreen()));
-                      //               },
-                      //               child: const Text('OK'),
-                      //             ),
-                      //           ],
-                      //         ));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primary,
                     ),
                     child: Text(
-                      // "Proses Pembayaran - Rp56.000",
                       "Proses Pembayaran - Rp${NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0).format(product!.price)}",
                       style: vetBookOnBtnWhite,
                     ),

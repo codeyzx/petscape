@@ -128,11 +128,8 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                             items: pet
                                 .map((e) => DropdownMenuItem(
                                       value: e,
-                                      // child: Text(e.name.toString()),
-                                      // text with image
                                       child: Row(
                                         children: [
-                                          // image network circular
                                           Container(
                                             width: 40.w,
                                             height: 40.h,
@@ -168,7 +165,6 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                               ),
                               filled: true,
                               fillColor: Colors.white,
-                              // hintStyle: ,
                             ),
                             value: null,
                             hint: Text(
@@ -176,12 +172,6 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                               style: vetBookDropdownInput,
                             ),
                             autovalidateMode: AutovalidateMode.onUserInteraction,
-                            // decoration: InputDecoration(
-                            //   border: OutlineInputBorder(
-                            //     borderRadius: BorderRadius.circular(4.r),
-                            //   ),
-                            //   contentPadding: const EdgeInsets.all(12),
-                            // ),
                             onChanged: (value) {
                               setState(() {
                                 _id = value!.id.toString();
@@ -283,7 +273,6 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                // hintStyle: ,
                               ),
                               value: _category == '' ? null : _category,
                               validator: (value) {
@@ -297,46 +286,11 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                                 style: vetBookDropdownInput,
                               ),
                               autovalidateMode: AutovalidateMode.onUserInteraction,
-                              // decoration: InputDecoration(
-                              //   border: OutlineInputBorder(
-                              //     borderRadius: BorderRadius.circular(4.r),
-                              //   ),
-                              //   contentPadding: const EdgeInsets.all(12),
-                              // ),
                               onChanged: (value) {
                                 _category = value.toString();
                               }),
                         ],
                       ),
-
-                      // Container(
-                      //   padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-                      //   width: 324.w,
-                      //   height: 42.h,
-                      //   decoration: BoxDecoration(
-                      //     color: whitish,
-                      //     borderRadius: BorderRadius.circular(4.r),
-                      //     boxShadow: [
-                      //       buildPrimaryBoxShadow(),
-                      //     ],
-                      //   ),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     crossAxisAlignment: CrossAxisAlignment.center,
-                      //     children: [
-                      //       Text(
-                      //         "Select Category",
-                      //         style: vetBookDropdownInput,
-                      //       ),
-                      //       Image.asset(
-                      //         "assets/icons/arrow-down-icon.png",
-                      //         width: 18.w,
-                      //         height: 18.h,
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-
                       SizedBox(
                         height: 24.h,
                       ),
@@ -379,7 +333,6 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                               ),
                               filled: true,
                               fillColor: Colors.white,
-                              // hintStyle: ,
                             ),
                             value: null,
                             hint: Text(
@@ -387,17 +340,10 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                               style: vetBookDropdownInput,
                             ),
                             autovalidateMode: AutovalidateMode.onUserInteraction,
-                            // decoration: InputDecoration(
-                            //   border: OutlineInputBorder(
-                            //     borderRadius: BorderRadius.circular(4.r),
-                            //   ),
-                            //   contentPadding: const EdgeInsets.all(12),
-                            // ),
                             onChanged: (value) {
                               _years = value.toString();
                             }),
                       ),
-
                       SizedBox(
                         height: 24.h,
                       ),
@@ -453,7 +399,6 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                                         ),
                                       )),
                                   child: Text(
-                                    // "Flu",
                                     e.keys.first,
                                     style: vetBookOnPrimaryChip,
                                   ),
@@ -490,7 +435,6 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                                     buildPrimaryBoxShadow(),
                                   ]),
                                   child: Text(
-                                    // "Itchy",
                                     e.keys.first,
                                     style: vetBookOnWhiteChip,
                                   ),
@@ -498,160 +442,6 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                               ),
                             );
                     }).toList(),
-                    // children: [
-
-                    //   SizedBox(
-                    //     width: 18.w,
-                    //   ),
-                    //   SizedBox(
-                    //     width: 69.w,
-                    //     height: 33.h,
-                    //     child: TextButton(
-                    //       onPressed: () {},
-                    //       style: ButtonStyle(
-                    //           backgroundColor: MaterialStateProperty.all(primary),
-                    //           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    //             RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(24.r),
-                    //             ),
-                    //           )),
-                    //       child: Text(
-                    //         "Flu",
-                    //         style: vetBookOnPrimaryChip,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   SizedBox(
-                    //     width: 12.w,
-                    //   ),
-                    //   SizedBox(
-                    //     width: 111.w,
-                    //     height: 33.h,
-                    //     child: TextButton(
-                    //       onPressed: () {},
-                    //       style: ButtonStyle(
-                    //           backgroundColor: MaterialStateProperty.all(primary),
-                    //           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    //             RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(24.r),
-                    //             ),
-                    //           )),
-                    //       child: Text(
-                    //         "Infection",
-                    //         style: vetBookOnPrimaryChip,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   SizedBox(
-                    //     width: 12.w,
-                    //   ),
-                    //   TextButton(
-                    //     onPressed: () {},
-                    //     style: ButtonStyle(
-                    //         padding: MaterialStateProperty.all(EdgeInsets.zero),
-                    //         backgroundColor: MaterialStateProperty.all(whitish),
-                    //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    //           RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(24.r),
-                    //           ),
-                    //         )),
-                    //     child: Container(
-                    //       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
-                    //       width: 84.w,
-                    //       height: 33.h,
-                    //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(24.r), color: whitish, boxShadow: [
-                    //         buildPrimaryBoxShadow(),
-                    //       ]),
-                    //       child: Text(
-                    //         "Itchy",
-                    //         style: vetBookOnWhiteChip,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   SizedBox(
-                    //     width: 12.w,
-                    //   ),
-                    //   TextButton(
-                    //     onPressed: () {},
-                    //     style: ButtonStyle(
-                    //         padding: MaterialStateProperty.all(EdgeInsets.zero),
-                    //         backgroundColor: MaterialStateProperty.all(whitish),
-                    //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    //           RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(24.r),
-                    //           ),
-                    //         )),
-                    //     child: Container(
-                    //       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
-                    //       width: 110.w,
-                    //       height: 33.h,
-                    //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(24.r), color: whitish, boxShadow: [
-                    //         buildPrimaryBoxShadow(),
-                    //       ]),
-                    //       child: Center(
-                    //         child: Text(
-                    //           "Allergies",
-                    //           style: vetBookOnWhiteChip,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   SizedBox(
-                    //     width: 12.w,
-                    //   ),
-                    //   TextButton(
-                    //     onPressed: () {},
-                    //     style: ButtonStyle(
-                    //         padding: MaterialStateProperty.all(EdgeInsets.zero),
-                    //         backgroundColor: MaterialStateProperty.all(whitish),
-                    //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    //           RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(24.r),
-                    //           ),
-                    //         )),
-                    //     child: Container(
-                    //       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 6.h),
-                    //       width: 101.w,
-                    //       height: 33.h,
-                    //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(24.r), color: whitish, boxShadow: [
-                    //         buildPrimaryBoxShadow(),
-                    //       ]),
-                    //       child: Text(
-                    //         "Urinary",
-                    //         style: vetBookOnWhiteChip,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   SizedBox(
-                    //     width: 12.w,
-                    //   ),
-                    //   TextButton(
-                    //     onPressed: () {},
-                    //     style: ButtonStyle(
-                    //         padding: MaterialStateProperty.all(EdgeInsets.zero),
-                    //         backgroundColor: MaterialStateProperty.all(whitish),
-                    //         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    //           RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(24.r),
-                    //           ),
-                    //         )),
-                    //     child: Container(
-                    //       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 6.h),
-                    //       width: 88.w,
-                    //       height: 33.h,
-                    //       decoration: BoxDecoration(borderRadius: BorderRadius.circular(24.r), color: whitish, boxShadow: [
-                    //         buildPrimaryBoxShadow(),
-                    //       ]),
-                    //       child: Text(
-                    //         "Other",
-                    //         style: vetBookOnWhiteChip,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   SizedBox(
-                    //     width: 18.w,
-                    //   ),
-                    // ],
                   ),
                 ),
               ),
@@ -771,7 +561,6 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
             ),
           ),
         ),
-      
       ),
     );
   }

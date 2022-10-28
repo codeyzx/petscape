@@ -84,7 +84,6 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      // "Rp300.000",
                                       NumberFormat.currency(
                                         locale: 'id',
                                         symbol: 'Rp',
@@ -118,7 +117,6 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                                         ),
                                         child: Center(
                                           child: Text(
-                                            // "Success",
                                             '${order[index].statusPayment == 'settlement' ? 'Success' : order[index].statusPayment}',
                                             style: orderItemStatusSuccess,
                                           ),
@@ -133,7 +131,6 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                                             ),
                                             child: Center(
                                               child: Text(
-                                                // "Pending",
                                                 '${order[index].statusPayment}',
                                                 style: orderItemStatusPending,
                                               ),
@@ -147,7 +144,6 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                                             ),
                                             child: Center(
                                               child: Text(
-                                                // "Pending",
                                                 '${order[index].statusPayment}',
                                                 style: orderItemStatusFailed,
                                               ),
@@ -159,7 +155,6 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                               height: 4.h,
                             ),
                             Text(
-                              // "jnCnbwou8BU7bn4JUBWn03",
                               '${order[index].orderId}',
                               style: orderItemID,
                             ),
@@ -167,7 +162,6 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                               height: 4.h,
                             ),
                             Text(
-                              // "12 Okt",
                               DateFormat('dd MMM').format(
                                   DateTime.fromMillisecondsSinceEpoch(int.tryParse(order[index].createdAt.toString())!)),
                               style: orderItemDate,

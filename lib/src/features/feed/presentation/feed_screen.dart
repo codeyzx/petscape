@@ -54,7 +54,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
     });
   }
 
-  // await ref.read(feedControllerProvider.notifier).getData();
   @override
   Widget build(BuildContext context) {
     final users = ref.watch(authControllerProvider);
@@ -99,29 +98,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                         width: 81.w,
                                         height: 36.h,
                                         child: ElevatedButton(
-                                          onPressed: () {
-                                            // setState(() {
-                                            //   for (var element in isSelected) {
-                                            //     if (element.keys.first == e.keys.first) {
-                                            //       element.update(element.keys.first, (value) => true);
-                                            //     } else {
-                                            //       element.update(element.keys.first, (value) => false);
-                                            //     }
-                                            //   }
-
-                                            //   // if (e.keys.first == 'All' ) {
-                                            //   //   final filter = productsFilter;
-                                            //   //   products.clear();
-                                            //   //   products.addAll(filter);
-                                            //   // } else {
-                                            //   //   final filter = productsFilter
-                                            //   //       .where((element) => element.category == e.keys.first.toLowerCase())
-                                            //   //       .toList();
-                                            //   //   products.clear();
-                                            //   //   products.addAll(filter);
-                                            //   // }
-                                            // });
-                                          },
+                                          onPressed: () {},
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: primary,
                                           ),
@@ -205,67 +182,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                   ],
                                 );
                         }).toList(),
-                        // ...isSelected.map((e) => null).toList(),
-                        // isSelected[0].entries.map((e) {
-                        //   Logger().e(e);
-                        //   return e.value
-                        //       ? Column(
-                        //           children: [
-                        //             ClipRRect(
-                        //               borderRadius: BorderRadius.circular(4.r),
-                        //               child: SizedBox(
-                        //                 width: 68.w,
-                        //                 height: 36.h,
-                        //                 child: ElevatedButton(
-                        //                   onPressed: () {},
-                        //                   style: ElevatedButton.styleFrom(
-                        //                     backgroundColor: primary,
-                        //                   ),
-                        //                   child: Text(
-                        //                     "All",
-                        //                     style: productCategoryWhite,
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             SizedBox(
-                        //               width: 16.w,
-                        //             ),
-                        //           ],
-                        //         )
-                        //       : Column(
-                        //           children: [
-                        //             SizedBox(
-                        //               width: 81.w,
-                        //               height: 36.h,
-                        //               child: ElevatedButton(
-                        //                 onPressed: () {},
-                        //                 style: ElevatedButton.styleFrom(
-                        //                     padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
-                        //                 child: Container(
-                        //                   width: 81.w,
-                        //                   height: 36.h,
-                        //                   decoration: BoxDecoration(
-                        //                       color: whitish,
-                        //                       borderRadius: BorderRadius.circular(4.r),
-                        //                       boxShadow: [
-                        //                         buildPrimaryBoxShadow(),
-                        //                       ]),
-                        //                   child: Center(
-                        //                     child: Text(
-                        //                       "Dog",
-                        //                       style: productCategoryBlack,
-                        //                     ),
-                        //                   ),
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             SizedBox(
-                        //               width: 16.w,
-                        //             ),
-                        //           ],
-                        //         );
-                        // }).toList(),
                       ),
                     ),
                   ),
@@ -277,7 +193,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // donation
                   ListView.builder(
                     itemCount: feed.length,
                     physics: const NeverScrollableScrollPhysics(),
@@ -297,7 +212,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => FeedDetailScreen(
-                                              users: users,
+                                                  users: users,
                                                   feed: item,
                                                 )));
                                   },
@@ -321,7 +236,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                                 ClipRRect(
                                                   borderRadius: BorderRadius.circular(100.r),
                                                   child: Image.network(
-                                                    // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
                                                     item.userphoto.toString(),
                                                     width: 46.w,
                                                     height: 46.h,
@@ -335,7 +249,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      // "Jennifer Turner",
                                                       item.username.toString(),
                                                       style: feedPostName,
                                                     ),
@@ -384,7 +297,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                             SizedBox(width: 8.w),
                                             Flexible(
                                                 child: Text(
-                                              // "Anjing kurus banget",
                                               item.title.toString(),
                                               style: feedCaption,
                                             )),
@@ -395,7 +307,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                         ),
                                         if (item.photo != "null" || item.photo != null || item.photo != '')
                                           Image.network(
-                                            // "https://img.indonesiatoday.co.id/photos/post/1660446477-anjing-golden-retriever-yang-kurus-dan-tinggal-tulang-menunggu-pemiliknya-yang-telah-meninggalkannya.jpg",
                                             item.photo.toString(),
                                             width: 309.w,
                                             height: 200.h,
@@ -463,7 +374,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                               ClipRRect(
                                                 borderRadius: BorderRadius.circular(100.r),
                                                 child: Image.network(
-                                                  // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
                                                   item.userphoto.toString(),
                                                   width: 46.w,
                                                   height: 46.h,
@@ -477,12 +387,10 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    // "Jennifer Turner",
                                                     item.username.toString(),
                                                     style: feedPostName,
                                                   ),
                                                   Text(
-                                                    // "41m ago",
                                                     DateFormat('dd MMMM yyyy HH:mm')
                                                         .format(DateTime.fromMillisecondsSinceEpoch(item.createdAt!)),
                                                     style: feedPostTime,
@@ -504,18 +412,13 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                       SizedBox(
                                         height: 8.h,
                                       ),
-                                      Text(
-                                          // "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dolor, aliquam venenatis loooossss morenos",
-                                          item.content.toString(),
-                                          style: feedCaption,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis),
+                                      Text(item.content.toString(),
+                                          style: feedCaption, maxLines: 2, overflow: TextOverflow.ellipsis),
                                       SizedBox(
                                         height: 8.h,
                                       ),
                                       if (item.photo != '')
                                         Image.network(
-                                          // "https://cdns.diadona.co.id/diadona.id/resized/640x320/news/2021/11/12/52877/265-nama-kucing-lucu-bikin-gemas-selalu-diingat-dan-ngangenin-211112b.jpg",
                                           item.photo.toString(),
                                           width: 309.w,
                                           height: 200.h,
@@ -563,112 +466,6 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                             );
                     },
                   ),
-                  // // post without image
-                  // // post with image
-                  // Container(
-                  //   padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 10.h),
-                  //   width: 329.w,
-                  //   decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
-                  //     buildPrimaryBoxShadow(),
-                  //   ]),
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       Row(
-                  //         crossAxisAlignment: CrossAxisAlignment.center,
-                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         children: [
-                  //           Row(
-                  //             crossAxisAlignment: CrossAxisAlignment.center,
-                  //             children: [
-                  //               ClipRRect(
-                  //                 borderRadius: BorderRadius.circular(100.r),
-                  //                 child: Image.network(
-                  //                   "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
-                  //                   width: 46.w,
-                  //                   height: 46.h,
-                  //                   fit: BoxFit.cover,
-                  //                 ),
-                  //               ),
-                  //               SizedBox(
-                  //                 width: 12.w,
-                  //               ),
-                  //               Column(
-                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                 children: [
-                  //                   Text(
-                  //                     "Jeremiah K.",
-                  //                     style: feedPostName,
-                  //                   ),
-                  //                   Text(
-                  //                     "1h ago",
-                  //                     style: feedPostTime,
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ],
-                  //           ),
-                  //           IconButton(
-                  //             onPressed: () {},
-                  //             icon: Image.asset(
-                  //               'assets/icons/option-dot-icon.png',
-                  //               width: 20.w,
-                  //               height: 20.h,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //       SizedBox(
-                  //         height: 8.h,
-                  //       ),
-                  //       Text("Tabby the cat", style: feedCaption, maxLines: 2, overflow: TextOverflow.ellipsis),
-                  //       SizedBox(
-                  //         height: 8.h,
-                  //       ),
-                  //       Image.network(
-                  //         "https://cdns.diadona.co.id/diadona.id/resized/640x320/news/2021/11/12/52877/265-nama-kucing-lucu-bikin-gemas-selalu-diingat-dan-ngangenin-211112b.jpg",
-                  //         width: 309.w,
-                  //         height: 200.h,
-                  //         fit: BoxFit.cover,
-                  //       ),
-                  //       Row(
-                  //         crossAxisAlignment: CrossAxisAlignment.end,
-                  //         children: [
-                  //           IconButton(
-                  //             onPressed: () {},
-                  //             icon: Image.asset(
-                  //               "assets/icons/love-unselected-icon.png",
-                  //               width: 25.w,
-                  //               height: 25.h,
-                  //             ),
-                  //           ),
-                  //           Text(
-                  //             "22k",
-                  //             style: feedCounter,
-                  //           ),
-                  //           SizedBox(
-                  //             width: 32.w,
-                  //           ),
-                  //           IconButton(
-                  //             onPressed: () {},
-                  //             icon: Image.asset(
-                  //               "assets/icons/comment-icon.png",
-                  //               width: 25.w,
-                  //               height: 25.h,
-                  //             ),
-                  //           ),
-                  //           Text(
-                  //             "1k",
-                  //             style: feedCounter,
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 20.h,
-                  // ),
                 ],
               ),
             ),

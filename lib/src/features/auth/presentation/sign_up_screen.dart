@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/logger.dart';
+import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
 import 'package:petscape/src/features/auth/presentation/sign_in_screen.dart';
 import 'package:petscape/src/shared/theme.dart';
 
@@ -53,6 +55,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         height: 16.h,
                       ),
                       TextFormField(
+                        enabled: false,
                         controller: _emailController,
                         style: logInput,
                         decoration: InputDecoration(
@@ -69,6 +72,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         height: 20.h,
                       ),
                       TextFormField(
+                        enabled: false,
                         controller: _passwordController,
                         style: logInput,
                         obscureText: true,
@@ -94,6 +98,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       TextFormField(
                         style: logInput,
                         obscureText: true,
+                        enabled: false,
                         enableSuggestions: false,
                         autocorrect: false,
                         decoration: InputDecoration(
@@ -155,7 +160,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       ),
                       Center(
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            try {
+                              await ref.read(authControllerProvider.notifier).googleSignIn(context);
+                            } catch (e) {
+                              Logger().e(e);
+                            }
+                          },
                           style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 20.w),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.r))),

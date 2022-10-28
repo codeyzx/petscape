@@ -211,14 +211,7 @@ class _VetsAllScreenState extends ConsumerState<VetsAllScreen> {
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: primary,
                                       ),
-                                      child:
-                                          // e.keys.first == 'Others'
-                                          //     ? Text(
-                                          //         e.keys.first,
-                                          //         style: productCategoryBlack,
-                                          //       )
-                                          // :
-                                          Text(
+                                      child: Text(
                                         e.keys.first,
                                         style: productCategoryWhite,
                                       ),
@@ -286,67 +279,6 @@ class _VetsAllScreenState extends ConsumerState<VetsAllScreen> {
                               ],
                             );
                     }).toList(),
-                    // ...isSelected.map((e) => null).toList(),
-                    // isSelected[0].entries.map((e) {
-                    //   Logger().e(e);
-                    //   return e.value
-                    //       ? Column(
-                    //           children: [
-                    //             ClipRRect(
-                    //               borderRadius: BorderRadius.circular(4.r),
-                    //               child: SizedBox(
-                    //                 width: 68.w,
-                    //                 height: 36.h,
-                    //                 child: ElevatedButton(
-                    //                   onPressed: () {},
-                    //                   style: ElevatedButton.styleFrom(
-                    //                     backgroundColor: primary,
-                    //                   ),
-                    //                   child: Text(
-                    //                     "All",
-                    //                     style: productCategoryWhite,
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             SizedBox(
-                    //               width: 16.w,
-                    //             ),
-                    //           ],
-                    //         )
-                    //       : Column(
-                    //           children: [
-                    //             SizedBox(
-                    //               width: 81.w,
-                    //               height: 36.h,
-                    //               child: ElevatedButton(
-                    //                 onPressed: () {},
-                    //                 style: ElevatedButton.styleFrom(
-                    //                     padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
-                    //                 child: Container(
-                    //                   width: 81.w,
-                    //                   height: 36.h,
-                    //                   decoration: BoxDecoration(
-                    //                       color: whitish,
-                    //                       borderRadius: BorderRadius.circular(4.r),
-                    //                       boxShadow: [
-                    //                         buildPrimaryBoxShadow(),
-                    //                       ]),
-                    //                   child: Center(
-                    //                     child: Text(
-                    //                       "Dog",
-                    //                       style: productCategoryBlack,
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             SizedBox(
-                    //               width: 16.w,
-                    //             ),
-                    //           ],
-                    //         );
-                    // }).toList(),
                   ),
                 ),
               ),
@@ -401,7 +333,6 @@ class _VetsAllScreenState extends ConsumerState<VetsAllScreen> {
                               topRight: Radius.circular(4.r),
                             ),
                             child: Image.network(
-                              // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
                               vets[index].image.toString(),
                               width: 154.w,
                               height: 120.h,
@@ -419,14 +350,12 @@ class _VetsAllScreenState extends ConsumerState<VetsAllScreen> {
                                 SizedBox(
                                   width: 140.w,
                                   child: Text(
-                                    // "Dr. Naegha Blak",
                                     vets[index].name.toString(),
                                     style: vetAllTitle,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 Text(
-                                  // "Cat Specialist",
                                   vets[index].degree.toString(),
                                   style: vetAllDesc,
                                 ),
@@ -445,7 +374,6 @@ class _VetsAllScreenState extends ConsumerState<VetsAllScreen> {
                                       width: 3.w,
                                     ),
                                     Text(
-                                      // "4.5",
                                       vets[index].rate.toString(),
                                       style: vetAllRating,
                                     ),
@@ -461,7 +389,6 @@ class _VetsAllScreenState extends ConsumerState<VetsAllScreen> {
                                       width: 6.w,
                                     ),
                                     Text(
-                                      // "Bandung",
                                       vets[index].location.toString(),
                                       style: vetAllRating,
                                     ),

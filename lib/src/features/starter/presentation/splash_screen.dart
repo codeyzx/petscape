@@ -34,7 +34,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             top: 200.h,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 127.w),
-              child: Image.asset("assets/images/petscape/petscape-logo-img.png", width: 104.55.w, height: 150.h,),
+              child: Image.asset(
+                "assets/images/petscape/petscape-logo-img.png",
+                width: 104.55.w,
+                height: 150.h,
+              ),
             ),
           ),
           Positioned(
@@ -44,8 +48,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("By", style: splashBy,),
-                  Text("ORBIT", style: splashOrbit,)
+                  Text(
+                    "By",
+                    style: splashBy,
+                  ),
+                  Text(
+                    "ORBIT",
+                    style: splashOrbit,
+                  )
                 ],
               ),
             ),

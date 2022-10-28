@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
 import 'package:petscape/src/features/auth/presentation/sign_up_screen.dart';
-import 'package:petscape/src/features/home/presentation/botnavbar_screen.dart';
 import 'package:petscape/src/shared/theme.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
@@ -57,6 +56,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       ),
                       TextFormField(
                         controller: _emailController,
+                        enabled: false,
                         keyboardType: TextInputType.emailAddress,
                         style: logInput,
                         decoration: InputDecoration(
@@ -74,6 +74,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       ),
                       TextFormField(
                         controller: _passwordController,
+                        enabled: false,
                         style: logInput,
                         obscureText: true,
                         enableSuggestions: false,
@@ -152,10 +153,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         child: OutlinedButton(
                           onPressed: () async {
                             try {
-                              await ref.read(authControllerProvider.notifier).googleSignIn();
-                              if (mounted) {
-                                context.goNamed(BotNavBarScreen.routeName);
-                              }
+                              await ref.read(authControllerProvider.notifier).googleSignIn(context);
                             } catch (e) {
                               Logger().e(e);
                             }

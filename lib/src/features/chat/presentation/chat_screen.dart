@@ -60,9 +60,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     shadowColor: Colors.black.withOpacity(0.5),
                     child: TextField(
                       decoration: InputDecoration(
-                        // filled: true,
-                        // fillColor: HexColor('FFFDF9'),
-
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 14.sp,
                           height: 3.2.h,
@@ -118,8 +115,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                           child: Container(
                             margin: EdgeInsets.only(bottom: 16.h),
                             width: 64.w,
-                            height: 64.h,
-                            // padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 8.w, right: 12.w),
+                            height: 56.h,
                             decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r)),
                           ),
                         ),
@@ -153,10 +149,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                               builder: (context, snapshot2) {
                                 if (snapshot2.hasError) return const Text("Error");
                                 if (snapshot2.data == null) return Container();
-                                // if (snapshot2.data!.docs.isEmpty) {
-                                //   inspect(snapshot2);
-                                //   return const Text("No Data 2");
-                                // }
 
                                 final readDocs = snapshot2.data!.docs.map((e) {
                                   final temp = e.data() as Map<String, dynamic>;
@@ -314,7 +306,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                                                     const SizedBox(
                                                       width: 5.0,
                                                     ),
-                                                    // icon from assets
                                                     Image.asset(
                                                       'assets/icons/doctor-icon.png',
                                                       height: 16.h,
@@ -391,57 +382,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               },
             ),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     ElevatedButton(
-          //         style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-          //         onPressed: () async {
-          //           // Navigator.push(
-          //           //     context,
-          //           //     MaterialPageRoute(
-          //           //         builder: (context) => ChatDetailScreen(
-          //           //               userId: users.uid,
-          //           //             )));
-          //           const userzId = 'VBHgE9diwnVGz1xEWu6MQGYm73x2';
-          //           final db = FirebaseFirestore.instance.collection('messages').doc();
-          //           await FirebaseFirestore.instance
-          //               .collection("users")
-          //               .doc(users.uid)
-          //               .collection('chats')
-          //               .doc(userzId)
-          //               .set({
-          //             "contacts": userzId,
-          //             "messagesId": db.id,
-          //             "lastMessage": "",
-          //             "timeSent": "",
-          //           });
-          //           await FirebaseFirestore.instance
-          //               .collection("users")
-          //               .doc(userzId)
-          //               .collection('chats')
-          //               .doc(users.uid)
-          //               .set({
-          //             "contacts": users.uid,
-          //             "messagesId": db.id,
-          //             "lastMessage": "",
-          //             "timeSent": "",
-          //           });
-          //         },
-          //         child: const Text('Add')),
-          //     ElevatedButton(
-          //         style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-          //         onPressed: () async {
-          //           Navigator.push(
-          //               context,
-          //               MaterialPageRoute(
-          //                 builder: (context) => const ChatDetailScreen(
-          //                     usersId: 'E7Fut7AbcLUcNzsGlDRyi6CcVqp2', messagesId: 'o9QtKWJ3P5GuZxxMtBBx'),
-          //               ));
-          //         },
-          //         child: const Text('Navigate')),
-          //   ],
-          // ),
         ],
       ),
     );

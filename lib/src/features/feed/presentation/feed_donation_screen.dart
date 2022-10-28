@@ -29,7 +29,6 @@ class _FeedDonationScreenState extends ConsumerState<FeedDonationScreen> {
   MidtransSDK? _midtrans;
 
   Future<void> addFirestore({
-    // required List<Map<String, int>> items,
     required Order order,
     required String usersId,
     required String orderId,
@@ -121,10 +120,9 @@ class _FeedDonationScreenState extends ConsumerState<FeedDonationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.network(
-                      // "https://img.indonesiatoday.co.id/photos/post/1660446477-anjing-golden-retriever-yang-kurus-dan-tinggal-tulang-menunggu-pemiliknya-yang-telah-meninggalkannya.jpg",
                       widget.feed.photo.toString(),
                       width: 80.w,
-                      height: 64.h,
+                      height: 56.h,
                       fit: BoxFit.cover,
                     ),
                     SizedBox(
@@ -132,7 +130,6 @@ class _FeedDonationScreenState extends ConsumerState<FeedDonationScreen> {
                     ),
                     Flexible(
                         child: Text(
-                      // "Anjing terlantar di dekat pasar, kekurangan gizi",
                       widget.feed.title.toString(),
                       style: feedCaption,
                       maxLines: 2,
@@ -215,7 +212,6 @@ class _FeedDonationScreenState extends ConsumerState<FeedDonationScreen> {
                           ]),
                           child: Center(
                               child: Text(
-                            // "Rp 10.000",
                             NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0)
                                 .format(isSelected[index].keys.first),
                             style: feedDonationMoneyItem,

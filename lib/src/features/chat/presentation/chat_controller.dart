@@ -33,18 +33,6 @@ class ChatController extends StateNotifier<List<Vets>> {
     final data = await db.collection('users').doc(usersId).collection('chats').doc(contactId).get();
     return data['messagesId'];
   }
-
-  // Future<void> add(Vets vets) async {
-  //   final ref = db.doc();
-  //   final temp = vets.copyWith(id: ref.id);
-  //   await db.add(temp);
-  //   await getData();
-  // }
-
-  // Future<void> getData() async {
-  //   final data = await db.get();
-  //   state = data.docs.map((e) => e.data()).toList();
-  // }
 }
 
 final chatControllerProvider = StateNotifierProvider<ChatController, List<Vets>>(

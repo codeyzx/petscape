@@ -17,19 +17,6 @@ class OrderController extends StateNotifier<List<Order>> {
     await getData(usersId);
   }
 
-  // Future<List<Product>> getListData(List<String> docId) async {
-  //   // final firestore = FirebaseFirestore.instance.co;
-  //   final data = await db.where(FieldPath.documentId, whereIn: docId).get();
-  //   final carts = data.docs;
-  //   final List<Product> products = [];
-  //   for (var i = 0; i < carts.length; i++) {
-  //     final item = carts[i].data();
-  //     final product = item.product;
-  //     products.add(product);
-  //   }
-  //   return products;
-  // }
-
   Future<void> patientIncrement(String docId) async {
     final doc = await FirebaseFirestore.instance.collection('vets').doc(docId).get();
     final data = doc.data()!;
@@ -47,13 +34,6 @@ class OrderController extends StateNotifier<List<Order>> {
         await FirebaseFirestore.instance.collection('products').doc(e.keys.first).update({'stock': qty, 'sold': sold});
       }).toList(),
     );
-    // final snapshot = await FirebaseFirestore.instance.collection("products").doc(id).get();
-    // final data = snapshot.data()!;
-    // final stock = data['stock'];
-    // final sold = data['sold'];
-    // final newStock = stock - qty;
-    // final newSold = sold + 1;
-    // await FirebaseFirestore.instance.collection("products").doc(id).update({'stock': newStock, 'sold': newSold});
   }
 
   Future<void> getData(String usersId) async {

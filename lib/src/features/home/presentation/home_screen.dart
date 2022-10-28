@@ -204,7 +204,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   padding: EdgeInsets.only(right: 16.w),
                                   child: InkWell(
                                     onTap: () {
-                                      //change page to pet profile
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -217,10 +216,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         ClipRRect(
                                           borderRadius: BorderRadius.circular(100.r),
                                           child: Image.network(
-                                            // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
                                             pet[index].image.toString(),
                                             width: 64.w,
-                                            height: 64.h,
+                                            height: 56.h,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -253,7 +251,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             borderRadius: BorderRadius.circular(100.r),
                                             child: Container(
                                               width: 64.w,
-                                              height: 64.h,
+                                              height: 56.h,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius: BorderRadius.circular(8.r),
@@ -280,7 +278,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       padding: EdgeInsets.only(bottom: 40.h),
                       child: InkWell(
                         onTap: () async {
-                          //change page to add pet
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -289,7 +286,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         },
                         child: Container(
                           width: 64.w,
-                          height: 64.h,
+                          height: 56.h,
                           decoration: BoxDecoration(color: whitish, shape: BoxShape.circle, boxShadow: [
                             buildPrimaryBoxShadow(),
                           ]),
@@ -350,8 +347,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            //change page to food
-
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -392,8 +387,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            //change page to toys
-
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -434,8 +427,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            //change page to vets medicine
-
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -476,8 +467,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            //change page
-
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -582,7 +571,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                             ClipRRect(
                                               borderRadius: BorderRadius.circular(4.r),
                                               child: Image.network(
-                                                // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
                                                 vets[index].image.toString(),
                                                 width: 54.w,
                                                 height: 60.h,
@@ -596,12 +584,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  // "Dr. Naegha Blak",
                                                   vets[index].name.toString(),
                                                   style: homeDoctorName,
                                                 ),
                                                 Text(
-                                                  // "Afrika Serikat",
                                                   vets[index].location.toString(),
                                                   style: homeDoctorAddress,
                                                 ),

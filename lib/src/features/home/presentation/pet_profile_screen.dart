@@ -75,7 +75,6 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100.r),
                     child: Image.network(
-                      // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
                       widget.pet.image.toString(),
                       width: 80.w,
                       height: 80.h,
@@ -87,12 +86,10 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                   height: 10.h,
                 ),
                 Text(
-                  // "Anying",
                   widget.pet.name.toString(),
                   style: petNameBig,
                 ),
                 Text(
-                  // "Anying teranying",
                   'Your Happy ${widget.pet.category}!',
                   style: petNameDesc,
                 ),
@@ -122,7 +119,6 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                     height: 6.h,
                   ),
                   Text(
-                    // "Anying",
                     widget.pet.name.toString(),
                     style: petValue,
                   ),
@@ -137,7 +133,6 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                     height: 6.h,
                   ),
                   Text(
-                    // "Anying Galak",
                     widget.pet.breed ?? "",
                     style: petValue,
                   ),
@@ -152,7 +147,6 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                     height: 6.h,
                   ),
                   Text(
-                    // "Gay",
                     widget.pet.sex ?? '',
                     style: petValue,
                   ),
@@ -167,7 +161,6 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                     height: 6.h,
                   ),
                   Text(
-                    // "Sekarat - 1 ton",
                     widget.pet.condition == null || widget.pet.weight == null
                         ? ''
                         : '${widget.pet.condition} - ${widget.pet.weight} kg',
@@ -228,9 +221,6 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          // "12 July 2022",
-                                          // DateFormat('dd MMMM yyyy')
-                                          //     .format(DateTime.parse(history![index]['time'].toString())),
                                           DateFormat('dd MMMM yyyy').format(
                                               DateTime.fromMillisecondsSinceEpoch(int.tryParse(history![index]['time'])!)),
                                           style: petDatePrimary,
@@ -239,14 +229,12 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                                           height: 6.h,
                                         ),
                                         Text(
-                                          // "Daily Check July 2022",
                                           'Daily Check ${DateFormat('MMMM yyyy').format(DateTime.fromMillisecondsSinceEpoch(int.tryParse(history[index]['time'])!))}',
                                           style: petDateBlack,
                                         ),
                                         SizedBox(
                                           width: 250.w,
                                           child: Text(
-                                            // "Lorem ipsum dolor sit amet, consectetur lorem lorem lorem",
                                             history[index]['desc'].toString(),
                                             style: petDateDesc,
                                             overflow: TextOverflow.ellipsis,

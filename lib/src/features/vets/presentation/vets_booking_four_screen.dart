@@ -56,11 +56,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
     await ref.read(petControllerProvider.notifier).addHistoryHealth(id: petId, history: history);
     await ref.read(petControllerProvider.notifier).getData(widget.users.uid.toString());
 
-    // await ref.read(orderControllerProvider.notifier).patientIncrement(widget.vets.id.toString());
-    // await ref.read(orderControllerProvider.notifier).add(order: order, usersId: widget.usersId);
-    // await ref.read(petControllerProvider.notifier).addHistoryHealth(id: petId, history: items);
-    // await ref.read(petControllerProvider.notifier).getData(widget.usersId);
-
     if (!mounted) return;
     Navigator.pushReplacement(
         context,
@@ -155,7 +150,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                     ClipRRect(
                         borderRadius: BorderRadius.circular(100.r),
                         child: Image.network(
-                          // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
                           widget.vets.image.toString(),
                           width: 54.w,
                           height: 54.h,
@@ -168,12 +162,10 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          // "Dr. Naegha Blak",
                           widget.vets.name.toString(),
                           style: vetBookVetName,
                         ),
                         Text(
-                          // "Cat Specialist",
                           widget.vets.degree.toString(),
                           style: vetBookVetJob,
                         ),
@@ -233,8 +225,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                         SizedBox(
                           width: 230,
                           child: Text(
-                            // "Margahayu Raya",
-                            // widget.timePlace["place"].toString(),
                             widget.vets.address.toString(),
                             overflow: TextOverflow.ellipsis,
                             style: vetBookPlace,
@@ -245,7 +235,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                     Row(
                       children: [
                         Text(
-                          // "Selasa, 20 Agustus | (12:00-13:00)",
                           formatTime,
                           style: vetBookLabelPrimary,
                         ),
@@ -266,12 +255,7 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                     style: vetBookInputLabel,
                   ),
                   TextButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const VetsBookingThreeScreen()),
-                      // );
-                    },
+                    onPressed: () {},
                     child: Text(
                       "Edit",
                       style: vetBookEdit,
@@ -297,7 +281,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                       style: vetBookDetLabel,
                     ),
                     Text(
-                      // "Muhammad Favian Jiwani",
                       widget.address["name"].toString(),
                       style: vetBookDetValue,
                     ),
@@ -309,7 +292,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                       style: vetBookDetLabel,
                     ),
                     Text(
-                      // "mfavianj@gmail.com",
                       widget.address["email"].toString(),
                       style: vetBookDetValue,
                     ),
@@ -321,7 +303,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                       style: vetBookDetLabel,
                     ),
                     Text(
-                      // "+6282154785548",
                       '+62${widget.address["phone"]}',
                       style: vetBookDetValue,
                     ),
@@ -338,7 +319,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                             style: vetBookDetLabel,
                           ),
                           Text(
-                            // "+3 years",
                             widget.address["experience"] == '1' ? '<1 Years' : '>1 Years',
                             style: vetBookDetValue,
                           ),
@@ -360,12 +340,7 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                     style: vetBookInputLabel,
                   ),
                   TextButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => const VetsBookingThreeScreen()),
-                      // );
-                    },
+                    onPressed: () {},
                     child: Text(
                       "Edit",
                       style: vetBookEdit,
@@ -391,7 +366,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                       style: vetBookDetLabel,
                     ),
                     Text(
-                      // "Mochi",
                       widget.pet.name.toString(),
                       style: vetBookDetValue,
                     ),
@@ -403,7 +377,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                       style: vetBookDetLabel,
                     ),
                     Text(
-                      // "Cat",
                       widget.pet.category.toString(),
                       style: vetBookDetValue,
                     ),
@@ -420,7 +393,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                             style: vetBookDetLabel,
                           ),
                           Text(
-                            // "+3 years",
                             widget.appointment['yearsTogether'] == '1' ? '<1 Years' : '>1 Years',
                             style: vetBookDetValue,
                           ),
@@ -435,7 +407,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                       style: vetBookDetLabel,
                     ),
                     Text(
-                      // "Already Dead, Sorry",
                       widget.appointment["possibleProblem"].toString().replaceAll('[', '').replaceAll(']', ''),
                       style: vetBookDetValue,
                     ),
@@ -447,7 +418,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                       style: vetBookDetLabel,
                     ),
                     Text(
-                      // "My cat got flu, maybe because some infectionnnnnnnnnnnnnnnnnnnnnnnnnn",
                       widget.appointment["detail"].toString(),
                       style: vetBookDetValue,
                     ),
@@ -528,15 +498,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                   }
                 ];
 
-                // final body = {
-                //   "order_id": "order-id-$random",
-                //   "customers": {"email": "${widget.users.email}", "username": "${widget.users.name}"},
-                //   "url": "https://mazipan.space/cara-fetch-api-di-nodejs",
-                //   "items": [
-                //     {"quantity": 2, "id": "1", "price": 2000, "name": "Es Teh"},
-                //     {"quantity": 3, "id": "2", "price": 8000, "name": "Nasi Goreng"}
-                //   ]
-                // };
                 Map<String, dynamic> body = {
                   "order_id": random,
                   "customers": {
@@ -562,26 +523,6 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                     );
                   }
                 });
-
-                // await ref.read(orderControllerProvider.notifier).patientIncrement(widget.vets.id.toString());
-                // await ref.read(orderControllerProvider.notifier).add(order: order, usersId: widget.usersId);
-                // await ref.read(petControllerProvider.notifier).addHistoryHealth(id: petId, history: items);
-                // await ref.read(petControllerProvider.notifier).getData(widget.usersId);
-                // showDialog(
-                //     context: context,
-                //     builder: (context) => AlertDialog(
-                //           title: const Text('Success'),
-                //           content: const Text('Your appointment has been booked'),
-                //           actions: [
-                //             TextButton(
-                //               onPressed: () {
-                //                 Navigator.pushReplacement(
-                //                     context, MaterialPageRoute(builder: (context) => const BotNavBarScreen()));
-                //               },
-                //               child: const Text('OK'),
-                //             ),
-                //           ],
-                //         ));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: primary,

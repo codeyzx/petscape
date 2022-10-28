@@ -111,7 +111,6 @@ class EditPetScreenState extends ConsumerState<EditPetScreen> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        //show dialog to choose pick from image or camera
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
@@ -276,78 +275,6 @@ class EditPetScreenState extends ConsumerState<EditPetScreen> {
                                   ),
                                 ),
                     ),
-                    // FutureBuilder(
-
-                    //   future: _imageController.text == ''
-                    //       ? Future.value('https://picsum.photos/500/300?random=1')
-                    //       : Future.value(_imageController.text),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.hasData) {
-                    //       return GestureDetector(
-                    //         onTap: () async {
-                    //           final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-                    //           if (pickedFile != null) {
-                    //             final image = File(pickedFile.path);
-                    //             final fileName = basename(image.path);
-                    //             final destination = 'images/$fileName';
-                    //             final storage = FirebaseStorage.instance;
-                    //             final task = storage.ref(destination).putFile(image);
-                    //             final snapshot = await task.whenComplete(() {});
-                    //             final url = await snapshot.ref.getDownloadURL();
-                    //             setState(() {
-                    //               _imageController.text = url;
-                    //             });
-                    //           }
-                    //         },
-                    //         child: Container(
-                    //           height: 200.h,
-                    //           width: double.infinity,
-                    //           decoration: BoxDecoration(
-                    //             borderRadius: BorderRadius.circular(6.r),
-                    //             image: DecorationImage(
-                    //               image: NetworkImage(snapshot.data.toString()),
-                    //               fit: BoxFit.cover,
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       );
-                    //     } else {
-                    //       return const Center(
-                    //         child: CircularProgressIndicator(),
-                    //       );
-                    //     }
-                    //   },
-                    // ),
-
-                    // TextFormField(
-                    //   autovalidateMode: AutovalidateMode.onUserInteraction,
-                    //   controller: _imageController,
-                    //   decoration: InputDecoration(
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(6.r),
-                    //       borderSide: BorderSide(width: 1, color: graySecond),
-                    //     ),
-                    //     contentPadding: const EdgeInsets.all(12),
-                    //     hintText: 'https://',
-                    //     hintStyle: tagHint,
-                    //     suffixIcon: IconButton(
-                    //       onPressed: () async {
-                    //         // upload image to firebase storage
-                    //         // final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-                    //         // if (pickedFile != null) {
-                    //         //   final file = File(pickedFile.path);
-                    //         //   final fileName = basename(file.path);
-                    //         //   final destination = 'images/$fileName';
-                    //         //   final ref = FirebaseStorage.instance.ref(destination);
-                    //         //   await ref.putFile(file);
-                    //         //   final url = await ref.getDownloadURL();
-                    //         //   _imageController.text = url;
-                    //         // }
-                    //       },
-                    //       icon: const Icon(Icons.image),
-                    //     ),
-                    //   ),
-                    // ),
                     SizedBox(
                       height: 18.h,
                     ),
@@ -450,14 +377,7 @@ class EditPetScreenState extends ConsumerState<EditPetScreen> {
                             style: vetBookDropdownInput,
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // decoration: InputDecoration(
-                          //   border: OutlineInputBorder(
-                          //     borderRadius: BorderRadius.circular(4.r),
-                          //   ),
-                          //   contentPadding: const EdgeInsets.all(12),
-                          // ),
                           onChanged: (value) {
-                            // _experiencePet = value.toString();
                             _categoryController.text = value.toString();
                           }),
                     ),
@@ -551,14 +471,7 @@ class EditPetScreenState extends ConsumerState<EditPetScreen> {
                             style: vetBookDropdownInput,
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // decoration: InputDecoration(
-                          //   border: OutlineInputBorder(
-                          //     borderRadius: BorderRadius.circular(4.r),
-                          //   ),
-                          //   contentPadding: const EdgeInsets.all(12),
-                          // ),
                           onChanged: (value) {
-                            // _experiencePet = value.toString();
                             _sexController.text = value.toString();
                           }),
                     ),
@@ -617,12 +530,6 @@ class EditPetScreenState extends ConsumerState<EditPetScreen> {
                             style: vetBookDropdownInput,
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // decoration: InputDecoration(
-                          //   border: OutlineInputBorder(
-                          //     borderRadius: BorderRadius.circular(4.r),
-                          //   ),
-                          //   contentPadding: const EdgeInsets.all(12),
-                          // ),
                           onChanged: (value) {
                             _conditionController.text = value.toString();
                           }),
@@ -712,7 +619,7 @@ class EditPetScreenState extends ConsumerState<EditPetScreen> {
                     );
                     await ref.read(petControllerProvider.notifier).update(pet: pet);
                     await ref.read(petControllerProvider.notifier).getData(widget.usersId);
-                    // show dialog
+
                     await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -748,7 +655,7 @@ class EditPetScreenState extends ConsumerState<EditPetScreen> {
                     );
                     await ref.read(petControllerProvider.notifier).add(pet: pet, usersId: widget.usersId.toString());
                     await ref.read(petControllerProvider.notifier).getData(widget.usersId);
-                    // show dialog
+
                     await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(

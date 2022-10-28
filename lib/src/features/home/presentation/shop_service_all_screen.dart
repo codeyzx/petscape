@@ -57,9 +57,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size.zero, // Set this
-                  padding: EdgeInsets.zero, // and this
-                  backgroundColor: Colors.transparent),
+                  minimumSize: Size.zero, padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
               child: Container(
                 width: 324.w,
                 height: 72.h,
@@ -119,9 +117,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                             )));
               },
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size.zero, // Set this
-                  padding: EdgeInsets.zero, // and this
-                  backgroundColor: Colors.transparent),
+                  minimumSize: Size.zero, padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
               child: Container(
                 width: 324.w,
                 height: 72.h,
@@ -181,9 +177,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                             )));
               },
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size.zero, // Set this
-                  padding: EdgeInsets.zero, // and this
-                  backgroundColor: Colors.transparent),
+                  minimumSize: Size.zero, padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
               child: Container(
                 width: 324.w,
                 height: 72.h,
@@ -243,9 +237,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                             )));
               },
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size.zero, // Set this
-                  padding: EdgeInsets.zero, // and this
-                  backgroundColor: Colors.transparent),
+                  minimumSize: Size.zero, padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
               child: Container(
                 width: 324.w,
                 height: 72.h,
@@ -305,9 +297,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                             )));
               },
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size.zero, // Set this
-                  padding: EdgeInsets.zero, // and this
-                  backgroundColor: Colors.transparent),
+                  minimumSize: Size.zero, padding: EdgeInsets.zero, backgroundColor: Colors.transparent),
               child: Container(
                 width: 324.w,
                 height: 72.h,
