@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
 import 'package:petscape/src/features/order/domain/order/order.dart';
 import 'package:petscape/src/shared/theme.dart';
@@ -17,474 +18,260 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: neutral,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(72.h),
+        child: Container(
+          decoration: BoxDecoration(color: whitish, boxShadow: [
+            buildPrimaryBoxShadow(),
+          ]),
+          padding: EdgeInsets.only(top: 20.h, right: 18.w, bottom: 10.h, left: 18.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 52.h,
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Image.asset("assets/icons/arrow-left-icon.png"),
               ),
               Text(
-                "Your Order",
-                style: orderTitle,
+                "Detail Order",
+                style: appBarTitle,
               ),
-              SizedBox(
-                height: 16.h,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
-                  width: 324.w,
-                  height: 103.h,
-                  decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
-                    buildPrimaryBoxShadow(),
-                  ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Rp300.000",
-                                style: orderItemPrice,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Container(
-                                width: 1.w,
-                                height: 15.h,
-                                color: black.withOpacity(0.60),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                "6 barang",
-                                style: orderItemTotal,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: pending,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Pending",
-                                style: orderItemStatusPending,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "jnCnbwou8BU7bn4JUBWn03",
-                        style: orderItemID,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "12 Okt",
-                        style: orderItemDate,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
-                  width: 324.w,
-                  height: 103.h,
-                  decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
-                    buildPrimaryBoxShadow(),
-                  ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "240.000",
-                                style: orderItemPrice,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Container(
-                                width: 1.w,
-                                height: 15.h,
-                                color: black.withOpacity(0.60),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                "3 barang",
-                                style: orderItemTotal,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: success,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Success",
-                                style: orderItemStatusSuccess,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "sjba9VBjbdjvb0o98uvbdhb1",
-                        style: orderItemID,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "11 Okt",
-                        style: orderItemDate,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
-                  width: 324.w,
-                  height: 103.h,
-                  decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
-                    buildPrimaryBoxShadow(),
-                  ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "240.000",
-                                style: orderItemPrice,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Container(
-                                width: 1.w,
-                                height: 15.h,
-                                color: black.withOpacity(0.60),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                "1 Appointment",
-                                style: orderItemTotal,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: pending,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Pending",
-                                style: orderItemStatusPending,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "sjba9VBjbdjvb0o98uvbdhb1",
-                        style: orderItemID,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "10 Okt",
-                        style: orderItemDate,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
-                  width: 324.w,
-                  height: 103.h,
-                  decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
-                    buildPrimaryBoxShadow(),
-                  ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "240.000",
-                                style: orderItemPrice,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Container(
-                                width: 1.w,
-                                height: 15.h,
-                                color: black.withOpacity(0.60),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                "1 Appointment",
-                                style: orderItemTotal,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: success,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Success",
-                                style: orderItemStatusSuccess,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "sjba9VBjbdjvb0o98uvbdhb1",
-                        style: orderItemID,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "10 Okt",
-                        style: orderItemDate,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
-                  width: 324.w,
-                  height: 103.h,
-                  decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
-                    buildPrimaryBoxShadow(),
-                  ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "240.000",
-                                style: orderItemPrice,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Container(
-                                width: 1.w,
-                                height: 15.h,
-                                color: black.withOpacity(0.60),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                "1 Service",
-                                style: orderItemTotal,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: pending,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Pending",
-                                style: orderItemStatusPending,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "sjba9VBjbdjvb0o98uvbdhb1",
-                        style: orderItemID,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "10 Okt",
-                        style: orderItemDate,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, padding: EdgeInsets.zero),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
-                  width: 324.w,
-                  height: 103.h,
-                  decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
-                    buildPrimaryBoxShadow(),
-                  ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "240.000",
-                                style: orderItemPrice,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Container(
-                                width: 1.w,
-                                height: 15.h,
-                                color: black.withOpacity(0.60),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Text(
-                                "1 Service",
-                                style: orderItemTotal,
-                              ),
-                            ],
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: pending,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Success",
-                                style: orderItemStatusSuccess,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "sjba9VBjbdjvb0o98uvbdhb1",
-                        style: orderItemID,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        "10 Okt",
-                        style: orderItemDate,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 12.h,
+              Container(
+                width: 29.w,
+                height: 29.h,
+                color: Colors.transparent,
               ),
             ],
           ),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 18.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 16.h,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+              width: 324.w,
+              height: 46.h,
+              decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
+                buildPrimaryBoxShadow(),
+              ]),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Status Transaksi",
+                    style: orderStatusLabel,
+                  ),
+                  widget.order.statusPayment == 'settlement' || widget.order.statusPayment == 'success'
+                      ? Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: success,
+                            borderRadius: BorderRadius.circular(6.r),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Success",
+                              style: orderItemStatusSuccess,
+                            ),
+                          ),
+                        )
+                      : widget.order.statusPayment == 'pending'
+                          ? Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: pending,
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Pending",
+                                  style: orderItemStatusPending,
+                                ),
+                              ),
+                            )
+                          : Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: failed,
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Failed",
+                                  style: orderItemStatusFailed,
+                                ),
+                              ),
+                            ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 12.h,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
+              width: 324.w,
+              height: 96.h,
+              decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
+                buildPrimaryBoxShadow(),
+              ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Transfer Ke",
+                    style: orderStatusLabel,
+                  ),
+                  Text(
+                    "${widget.order.methodPayment?.toUpperCase()} - ${widget.order.tokenPayment}",
+                    style: orderBankAccount,
+                  ),
+                  Text(
+                    "Waktu Pembelian: ${DateFormat("dd MMMM yyyy, HH:mm").format(DateTime.fromMillisecondsSinceEpoch(int.tryParse(widget.order.createdAt!)!))}",
+                    style: orderPaymentDeadline,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 12.h,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
+              width: 323.w,
+              decoration: BoxDecoration(
+                color: whitish,
+                borderRadius: BorderRadius.circular(6.r),
+                boxShadow: [
+                  buildPrimaryBoxShadow(),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Detail ${widget.order.itemsCategory}",
+                    style: orderStatusLabel,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  ListView.builder(
+                    itemCount: widget.order.items!.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      var item = widget.order.items![index];
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6.r),
+                            child: Image.network(
+                              "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
+                              width: 64.w,
+                              height: 64.h,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 12.w,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Dog Care - Showering",
+                                style: orderStatusLabel,
+                              ),
+                              SizedBox(
+                                height: 4.h,
+                              ),
+                              Text(
+                                "1 barang",
+                                style: orderLocation,
+                              ),
+                              SizedBox(
+                                height: 4.h,
+                              ),
+                              Text(
+                                "Rp56.000",
+                                style: orderPriceSmall,
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  Container(
+                    width: 301.w,
+                    height: 1.h,
+                    color: gray,
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total Harga",
+                        style: orderTotalTxt,
+                      ),
+                      Text(
+                        "Rp56.000",
+                        style: orderStatusLabel,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 12.h,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
+              width: 323.w,
+              decoration: BoxDecoration(
+                color: whitish,
+                borderRadius: BorderRadius.circular(6.r),
+                boxShadow: [
+                  buildPrimaryBoxShadow(),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Info pengiriman",
+                    style: orderStatusLabel,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    "Jalan Kliningan No.6 Buah Batu, Bandung, Indonesia",
+                    style: orderLocation,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

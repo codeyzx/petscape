@@ -309,7 +309,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:mime/mime.dart';
+// import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
@@ -420,7 +420,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
             ),
             messages: messages ?? [],
             onAttachmentPressed: _handleAttachmentPressed,
-            onMessageTap: _handleMessageTap,
+            // onMessageTap: _handleMessageTap,
             onPreviewDataFetched: _handlePreviewDataFetched,
             customBottomWidget: Container(
               margin: const EdgeInsets.only(
@@ -658,7 +658,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         author: user,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: const Uuid().v4(),
-        mimeType: lookupMimeType(result.files.single.path!),
+        // mimeType: lookupMimeType(result.files.single.path!),
         name: result.files.single.name,
         size: result.files.single.size,
         uri: result.files.single.path!,
@@ -703,7 +703,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         try {
           final index = _messages.indexWhere((element) => element.id == message.id);
           final updatedMessage = (_messages[index] as types.FileMessage).copyWith(
-            isLoading: true,
+            // isLoading: true,
           );
 
           setState(() {
@@ -723,7 +723,7 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
         } finally {
           final index = _messages.indexWhere((element) => element.id == message.id);
           final updatedMessage = (_messages[index] as types.FileMessage).copyWith(
-            isLoading: null,
+            // isLoading: null,
           );
 
           setState(() {

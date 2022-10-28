@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petscape/src/features/chat/presentation/chat_screen.dart';
+import 'package:petscape/src/features/feed/presentation/feed_screen.dart';
 import 'package:petscape/src/features/home/presentation/home_screen.dart';
-import 'package:petscape/src/features/order/presentation/orders_screen.dart';
+import 'package:petscape/src/features/order/presentation/order_screen.dart';
 import 'package:petscape/src/features/profile/presentation/profile_screen.dart';
 
 final currentScreenProvider = StateProvider<Widget>((ref) => const HomeScreen());
@@ -56,15 +56,12 @@ class _BotNavBarScreenState extends ConsumerState<BotNavBarScreen> {
                   ref.read(currentScreenProvider.state).state = const HomeScreen();
                   break;
                 case 1:
-                  ref.read(currentScreenProvider.state).state = const ChatScreen();
-                  break;
-                case 2:
                   ref.read(currentScreenProvider.state).state = const OrderScreen();
                   break;
-                case 3:
-                  ref.read(currentScreenProvider.state).state = const ProfileScreen();
+                case 2:
+                  ref.read(currentScreenProvider.state).state = const FeedScreen();
                   break;
-                case 4:
+                case 3:
                   ref.read(currentScreenProvider.state).state = const ProfileScreen();
                   break;
               }
@@ -78,12 +75,6 @@ class _BotNavBarScreenState extends ConsumerState<BotNavBarScreen> {
               ),
               label: 'Home',
             ),
-            BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8.0.h),
-                  child: const Icon(Icons.chat_bubble),
-                ),
-                label: 'Chat'),
             BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.only(top: 8.0.h),

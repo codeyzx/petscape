@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
 import 'package:petscape/src/features/cart/presentation/cart_screen.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
@@ -11,9 +12,9 @@ import 'package:petscape/src/features/vets/presentation/booking_screen.dart';
 import 'package:petscape/src/shared/theme.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
-  final String usersId;
+  final Users users;
   final Product product;
-  const ProductDetailScreen({Key? key, required this.product, required this.usersId}) : super(key: key);
+  const ProductDetailScreen({Key? key, required this.product, required this.users}) : super(key: key);
 
   @override
   ConsumerState<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -62,7 +63,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => CartScreen(
-                                  usersId: widget.usersId,
+                                  users: widget.users,
                                 )));
                   },
                   icon: Image.asset(
@@ -319,10 +320,14 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       SizedBox(
                         width: 56.w,
                       ),
-                      Text(
-                        // "Bandung",
-                        products.location.toString(),
-                        style: productDescSubTitlePrimary,
+                      SizedBox(
+                        width: 200.w,
+                        child: Text(
+                          // "Bandung",
+                          products.location.toString(),
+                          // overflow: TextOverflow.ellipsis,
+                          style: productDescSubTitlePrimary,
+                        ),
                       ),
                     ],
                   ),
@@ -361,7 +366,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                       height: 42.h,
                       child: OutlinedButton(
                         onPressed: () async {
-                          final db = FirebaseFirestore.instance.collection("carts").doc(widget.usersId);
+                          final db = FirebaseFirestore.instance.collection("carts").doc(widget.users.uid.toString());
                           final snapshot = await db.get();
                           final data = snapshot.data() as Map<String, dynamic>;
                           final items = data["items"];
@@ -411,7 +416,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             // }
                           } else {
                             await db.update({
-                              'usersId': widget.usersId,
+                              'usersId': widget.users.uid.toString(),
                               "items": FieldValue.arrayUnion([
                                 {
                                   'id': products.id,
@@ -421,7 +426,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             });
                           }
 
-                          await ref.read(cartControllerProvider.notifier).getData(widget.usersId);
+                          await ref.read(cartControllerProvider.notifier).getData(widget.users.uid.toString());
 
                           setState(() {
                             itemCount = 1;
@@ -511,7 +516,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         MaterialPageRoute(
                             builder: (context) => BookingScreen(
                                   product: products,
-                                  usersId: widget.usersId,
+                                  users: widget.users,
                                 )),
                       );
                     },

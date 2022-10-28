@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
 import 'package:petscape/src/features/cart/presentation/cart_detail_screen.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
@@ -11,8 +12,8 @@ import 'package:petscape/src/shared/theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
-  final String usersId;
-  const CartScreen({Key? key, required this.usersId}) : super(key: key);
+  final Users users;
+  const CartScreen({Key? key, required this.users}) : super(key: key);
 
   @override
   ConsumerState<CartScreen> createState() => _CartScreenState();
@@ -36,7 +37,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     setState(() {
       isLoading = true;
     });
-    await ref.read(cartControllerProvider.notifier).getData(widget.usersId);
+    await ref.read(cartControllerProvider.notifier).getData(widget.users.uid.toString());
     final cartTemp = ref.read(cartControllerProvider);
 
     List<Map<Product, int>> temp = [];
@@ -229,10 +230,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                     });
                                                     await ref
                                                         .read(cartControllerProvider.notifier)
-                                                        .deleteItem(widget.usersId, product);
+                                                        .deleteItem(widget.users.uid.toString(), product);
                                                     await ref
                                                         .read(cartControllerProvider.notifier)
-                                                        .getCartsLength(widget.usersId);
+                                                        .getCartsLength(widget.users.uid.toString());
 
                                                     if (!mounted) return;
                                                     Navigator.pop(context);
@@ -289,7 +290,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                 });
                                                 ref
                                                     .read(cartControllerProvider.notifier)
-                                                    .decrementItem(widget.usersId, product);
+                                                    .decrementItem(widget.users.uid.toString(), product);
                                               }
                                               // decrement itemCount from firestore
                                               // setState(() {
@@ -332,7 +333,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                 });
                                                 ref
                                                     .read(cartControllerProvider.notifier)
-                                                    .incrementItem(widget.usersId, product);
+                                                    .incrementItem(widget.users.uid.toString(), product);
 
                                                 // updatePrice(index);
                                               },
@@ -436,7 +437,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       //                             });
       //                           }
       //                           // decrement itemCount from firestore
-      //                           // await ref.read(cartControllerProvider.notifier).decrementItem(widget.usersId, product);
+      //                           // await ref.read(cartControllerProvider.notifier).decrementItem(widget.users.uid.toString(), product);
       //                           // setState(() {
       //                           // qty++;
       //                           // // items.clear();
@@ -473,7 +474,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       //                             setState(() {
       //                               cart[index].update(product, (value) => ++value);
       //                             });
-      //                             // await ref.read(cartControllerProvider.notifier).incrementItem(widget.usersId, product);
+      //                             // await ref.read(cartControllerProvider.notifier).incrementItem(widget.users.uid.toString(), product);
 
       //                             // updatePrice(index);
       //                           },
@@ -545,7 +546,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CartDetailScreen(usersId: widget.usersId, cart: cartFilterz),
+                          builder: (context) => CartDetailzScreen(users: widget.users, cart: cartFilterz),
                         ));
                   },
                   style: ElevatedButton.styleFrom(
@@ -576,8 +577,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 // import 'package:petscape/src/shared/theme.dart';
 
 // class CartScreen extends ConsumerStatefulWidget {
-//   final String usersId;
-//   const CartScreen({Key? key, required this.usersId}) : super(key: key);
+//   final String users.uid.toString();
+//   const CartScreen({Key? key, required this.users.uid.toString()}) : super(key: key);
 
 //   @override
 //   ConsumerState<CartScreen> createState() => _CartScreenState();
@@ -596,7 +597,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
 //   Future<void> initCart() async {
 //     Logger().i("init cart");
-//     await ref.read(cartControllerProvider.notifier).getData(widget.usersId);
+//     await ref.read(cartControllerProvider.notifier).getData(widget.users.uid.toString());
 
 //     final cartTemp = ref.read(cartControllerProvider);
 //     List<Map<Product, int>> temp = [];
@@ -621,7 +622,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 //   }
 
 //   Future<void> updateCart() async {
-//     await ref.read(cartControllerProvider.notifier).getData(widget.usersId);
+//     await ref.read(cartControllerProvider.notifier).getData(widget.users.uid.toString());
 
 //     final cartTemp = ref.read(cartControllerProvider);
 //     List<Map<Product, int>> temp = [];
@@ -739,7 +740,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 //                             InkWell(
 //                               onTap: () async {
 //                                 // decrement itemCount from firestore
-//                                 await ref.read(cartControllerProvider.notifier).decrementItem(widget.usersId, product);
+//                                 await ref.read(cartControllerProvider.notifier).decrementItem(widget.users.uid.toString(), product);
 //                                 await updateCart();
 //                                 // updatePrice(index);
 //                               },
@@ -765,7 +766,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 //                             ),
 //                             InkWell(
 //                                 onTap: () async {
-//                                   await ref.read(cartControllerProvider.notifier).incrementItem(widget.usersId, product);
+//                                   await ref.read(cartControllerProvider.notifier).incrementItem(widget.users.uid.toString(), product);
 //                                   await updateCart();
 //                                   // updatePrice(index);
 //                                 },

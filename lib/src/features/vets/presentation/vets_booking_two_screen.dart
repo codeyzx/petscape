@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
 import 'package:petscape/src/features/vets/domain/vets.dart';
 import 'package:petscape/src/features/vets/presentation//vets_booking_three_screen.dart';
@@ -19,7 +20,7 @@ class VetsBookingTwoScreen extends ConsumerStatefulWidget {
 
 class _VetsBookingTwoScreenState extends ConsumerState<VetsBookingTwoScreen> {
   String _experiencePet = "";
-  String usersId = "";
+  Users? users;
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -41,10 +42,10 @@ class _VetsBookingTwoScreenState extends ConsumerState<VetsBookingTwoScreen> {
   }
 
   void fillForm() {
-    final users = ref.read(authControllerProvider);
-    _nameController.text = users.name.toString();
-    _emailController.text = users.email.toString();
-    usersId = users.uid.toString();
+    final userz = ref.read(authControllerProvider);
+    _nameController.text = userz.name.toString();
+    _emailController.text = userz.email.toString();
+    users = userz;
   }
 
   @override
@@ -358,7 +359,7 @@ class _VetsBookingTwoScreenState extends ConsumerState<VetsBookingTwoScreen> {
                       MaterialPageRoute(
                           builder: (context) => VetsBookingThreeScreen(
                                 vets: widget.vets,
-                                usersId: usersId,
+                                users: users!,
                                 address: address,
                                 timePlace: widget.timePlace,
                               )),

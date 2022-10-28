@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petscape/src/features/order/domain/pet/pet.dart';
 
@@ -17,9 +20,19 @@ class PetController extends StateNotifier<List<Pet>> {
 
   Future<String> add({required String usersId, required Pet pet}) async {
     final ref = db.doc();
-    final temp = pet.copyWith(id: ref.id);
+    final temp = pet.copyWith(id: ref.id, usersId: usersId);
     await ref.set(temp);
     return ref.id;
+  }
+
+  Future<void> update({required Pet pet}) async {
+    final ref = db.doc(pet.id);
+    await ref.update(pet.toJson());
+  }
+
+  Future<String> uploadImages(String imagesPath) async {
+    final value = await FirebaseStorage.instance.ref().child('pet/${DateTime.now()}.png').putFile(File(imagesPath));
+    return value.ref.getDownloadURL();
   }
 
   // Future<void> addHistoryHealth({required String id, required Map<String, dynamic> history}) async {

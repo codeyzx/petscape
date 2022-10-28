@@ -1,7 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:midtrans_sdk/midtrans_sdk.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
+import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
 import 'package:petscape/src/features/home/presentation/botnavbar_screen.dart';
 import 'package:petscape/src/features/order/domain/order/order.dart';
 import 'package:petscape/src/features/order/presentation/order_controler.dart';
@@ -14,14 +19,35 @@ import 'package:petscape/src/features/home/widgets/box_shadow.dart';
 class BookingScreen extends ConsumerStatefulWidget {
   final Vets? vets;
   final Product? product;
-  final String? usersId;
-  const BookingScreen({Key? key, this.vets, this.product, this.usersId}) : super(key: key);
+  final Users? users;
+  const BookingScreen({Key? key, this.vets, this.product, this.users}) : super(key: key);
 
   @override
   ConsumerState<BookingScreen> createState() => _BookingScreenState();
 }
 
 class _BookingScreenState extends ConsumerState<BookingScreen> {
+  MidtransSDK? _midtrans;
+
+  Future<void> addFirestore({
+    required List<Map<String, int>> items,
+    required Order order,
+    required String usersId,
+    required String orderId,
+  }) async {
+    final orders = order.copyWith(orderId: orderId);
+    await ref.read(orderControllerProvider.notifier).buy(items);
+    await ref.read(orderControllerProvider.notifier).add(order: orders, usersId: usersId);
+    await ref.read(orderControllerProvider.notifier).getData(usersId.toString());
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const BotNavBarScreen(),
+        ));
+  }
+
   List<Map<String, bool>> placeOptions = [
     {'In Person': true},
     {'Online Meet': false},
@@ -232,6 +258,12 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
   String place = 'In Person';
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String time = '';
+
+  @override
+  void dispose() {
+    _midtrans?.removeTransactionFinishedCallback();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -1065,6 +1097,17 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                   height: 42.h,
                   child: ElevatedButton(
                     onPressed: () async {
+                      _midtrans = await MidtransSDK.init(
+                        config: MidtransConfig(
+                          clientKey: "SB-Mid-client-Jf7_deynf20wZtJq",
+                          merchantBaseUrl: "https://marcha-api-production.up.railway.app/notification_handler/",
+                        ),
+                      );
+
+                      _midtrans?.setUIKitCustomSetting(
+                        skipCustomerDetailsPages: true,
+                        showPaymentStatus: true,
+                      );
                       final items = {
                         'place': place,
                         'date': date,
@@ -1074,7 +1117,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                       final order = Order(
                         createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
                         items: [items],
-                        customerId: widget.usersId,
+                        customerId: widget.users?.uid.toString(),
                         sellerId: product!.id,
                         itemsCategory: 'Treatment',
                         methodPayment: '',
@@ -1086,26 +1129,77 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                         {widget.product!.id!: 1}
                       ];
 
-                      await ref.read(orderControllerProvider.notifier).buy(buyItem);
-                      await ref.read(orderControllerProvider.notifier).add(order: order, usersId: widget.usersId.toString());
+                      String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+                      String random = List.generate(15, (index) => chars[Random().nextInt(chars.length)]).join();
 
-                      await ref.read(orderControllerProvider.notifier).getData(widget.usersId.toString());
+                      List<Map<String, dynamic>> itemsList = [
+                        {
+                          'id': widget.product!.id,
+                          'name': widget.product!.name,
+                          'price': widget.product!.price,
+                          'quantity': 1,
+                        }
+                      ];
 
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: const Text('Success'),
-                                content: const Text('Your order has been successfully created'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushReplacement(
-                                          context, MaterialPageRoute(builder: (context) => const BotNavBarScreen()));
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ));
+                      // final body = {
+                      //   "order_id": "order-id-$random",
+                      //   "customers": {"email": "${widget.users.email}", "username": "${widget.users.name}"},
+                      //   "url": "https://mazipan.space/cara-fetch-api-di-nodejs",
+                      //   "items": [
+                      //     {"quantity": 2, "id": "1", "price": 2000, "name": "Es Teh"},
+                      //     {"quantity": 3, "id": "2", "price": 8000, "name": "Nasi Goreng"}
+                      //   ]
+                      // };
+                      Map<String, dynamic> body = {
+                        "order_id": random,
+                        "customers": {
+                          "email": "${widget.users?.email}",
+                          "username": "${widget.users?.name}",
+                        },
+                        "url": "",
+                        "items": itemsList,
+                      };
+
+                      final token = await ref.read(cartControllerProvider.notifier).getToken(body);
+                      await _midtrans?.startPaymentUiFlow(
+                        token: token,
+                      );
+                      _midtrans!.setTransactionFinishedCallback((result) async {
+                        if (!result.isTransactionCanceled) {
+                          await addFirestore(
+                            orderId: result.orderId.toString(),
+                            items: buyItem,
+                            order: order,
+                            usersId: widget.users!.uid.toString(),
+                          );
+                        }
+                      });
+
+                      // await ref.read(orderControllerProvider.notifier).buy(buyItem);
+                      // await ref.read(orderControllerProvider.notifier).add(
+                      //   order: order, usersId: widget.usersId.toString());
+
+                      // await ref.read(orderControllerProvider.notifier).buy(buyItem);
+                      // await ref.read(orderControllerProvider.notifier).add(
+                      //   order: order, usersId: widget.usersId.toString());
+
+                      // await ref.read(orderControllerProvider.notifier).getData(widget.usersId.toString());
+
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (context) => AlertDialog(
+                      //           title: const Text('Success'),
+                      //           content: const Text('Your order has been successfully created'),
+                      //           actions: [
+                      //             TextButton(
+                      //               onPressed: () {
+                      //                 Navigator.pushReplacement(
+                      //                     context, MaterialPageRoute(builder: (context) => const BotNavBarScreen()));
+                      //               },
+                      //               child: const Text('OK'),
+                      //             ),
+                      //           ],
+                      //         ));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primary,

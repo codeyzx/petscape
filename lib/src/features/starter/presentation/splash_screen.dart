@@ -9,7 +9,7 @@ import 'package:petscape/src/features/starter/presentation/onboarding_screen.dar
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
-  static const routeName = '/splash';
+  static const routeName = 'splash';
   const SplashScreen({Key? key}) : super(key: key);
 
   @override

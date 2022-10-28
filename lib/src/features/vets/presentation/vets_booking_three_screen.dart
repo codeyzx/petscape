@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/order/domain/pet/pet.dart';
 import 'package:petscape/src/features/order/presentation/pet_controller.dart';
 import 'package:petscape/src/features/vets/domain/vets.dart';
@@ -13,11 +14,11 @@ import 'package:petscape/src/features/home/widgets/box_shadow.dart';
 class VetsBookingThreeScreen extends ConsumerStatefulWidget {
   final Map<String, String> address;
   final Map<String, String> timePlace;
-  final String usersId;
+  final Users users;
   final Vets vets;
 
   const VetsBookingThreeScreen(
-      {Key? key, required this.address, required this.timePlace, required this.usersId, required this.vets})
+      {Key? key, required this.address, required this.timePlace, required this.users, required this.vets})
       : super(key: key);
 
   @override
@@ -732,15 +733,13 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                       image: _image,
                       name: _nameController.text,
                       category: _category,
-                      usersId: widget.usersId,
+                      usersId: widget.users.uid,
                     );
                     final appointment = {
                       "yearsTogether": _years,
                       "possibleProblem": problems,
                       "detail": _detailController.text,
                     };
-
-                    Logger().e(petz);
 
                     Navigator.push(
                       context,
@@ -750,7 +749,7 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
                                 pet: petz,
                                 address: widget.address,
                                 timePlace: widget.timePlace,
-                                usersId: widget.usersId,
+                                users: widget.users,
                                 vets: widget.vets,
                               )),
                     );
@@ -773,6 +772,7 @@ class _VetsBookingThreeScreenState extends ConsumerState<VetsBookingThreeScreen>
             ),
           ),
         ),
+      
       ),
     );
   }

@@ -1,12 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
+import 'package:petscape/src/features/chat/presentation/chat_screen.dart';
+import 'package:petscape/src/features/home/presentation/edit_pet_screen.dart';
 import 'package:petscape/src/features/home/presentation/pet_profile_screen.dart';
-import 'package:petscape/src/features/order/domain/history_health/history_health.dart';
-import 'package:petscape/src/features/order/domain/pet/pet.dart';
 import 'package:petscape/src/features/order/presentation/pet_controller.dart';
 import 'package:petscape/src/features/product/presentation/product_controller.dart';
 import 'package:petscape/src/features/home/presentation/shop_service_all_screen.dart';
@@ -18,6 +16,7 @@ import 'package:petscape/src/features/vets/presentation/vets_all_screen.dart';
 import 'package:petscape/src/features/vets/presentation/vets_controller.dart';
 import 'package:petscape/src/features/vets/presentation/vets_detail_screen.dart';
 import 'package:petscape/src/shared/theme.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = 'home';
@@ -28,6 +27,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool isLoading = false;
+
   List<Product> products = [];
   List<Product> productsFilter = [];
   List<Vets> vets = [];
@@ -39,6 +40,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future<void> initProducts() async {
+    setState(() {
+      isLoading = true;
+    });
+
     final usersId = ref.read(authControllerProvider).uid;
     await ref.read(productControllerProvider.notifier).getData();
     await ref.read(vetsControllerProvider.notifier).getData();
@@ -50,6 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       products.addAll(returnProducts);
       productsFilter.addAll(returnProducts);
       vets.addAll(returnVets);
+      isLoading = false;
     });
   }
 
@@ -102,7 +108,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                         ),
                         InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatScreen()));
+                            },
                             child: Image.asset(
                               "assets/icons/bell-icon.png",
                               width: 24.w,
@@ -185,69 +193,99 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     SizedBox(
                       height: 100.h,
-                      child: ListView.builder(
-                          itemCount: pet.length,
-                          physics: const ScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: EdgeInsets.only(right: 16.w),
-                              child: InkWell(
-                                onTap: () {
-                                  //change page to pet profile
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => PetProfileScreen(pet: pet[index]),
-                                      ));
-                                },
-                                child: Column(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(100.r),
-                                      child: Image.network(
-                                        // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
-                                        pet[index].image.toString(),
-                                        width: 64.w,
-                                        height: 64.h,
-                                        fit: BoxFit.cover,
-                                      ),
+                      child: !isLoading
+                          ? ListView.builder(
+                              itemCount: pet.length,
+                              physics: const ScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 16.w),
+                                  child: InkWell(
+                                    onTap: () {
+                                      //change page to pet profile
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PetProfileScreen(pet: pet[index], usersId: users.uid.toString()),
+                                          ));
+                                    },
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(100.r),
+                                          child: Image.network(
+                                            // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
+                                            pet[index].image.toString(),
+                                            width: 64.w,
+                                            height: 64.h,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 4.h,
+                                        ),
+                                        Text(
+                                          pet[index].name.toString(),
+                                          style: petTitle,
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      height: 4.h,
-                                    ),
-                                    Text(
-                                      pet[index].name.toString(),
-                                      style: petTitle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
+                                  ),
+                                );
+                              })
+                          : ListView.builder(
+                              itemCount: 2,
+                              physics: const ScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 16.w),
+                                  child: Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Column(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(100.r),
+                                            child: Container(
+                                              width: 64.w,
+                                              height: 64.h,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8.r),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 4.h,
+                                          ),
+                                          Container(
+                                            width: 64.w,
+                                            height: 16.h,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(8.r),
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                );
+                              }),
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 40.h),
                       child: InkWell(
                         onTap: () async {
-                          // Logger().e(pet);
-                          final db = FirebaseFirestore.instance.collection('pets').withConverter(
-                                fromFirestore: (snapshot, _) => Pet.fromJson(snapshot.data()!),
-                                toFirestore: (Pet pet, _) => pet.toJson(),
-                              );
-                          final refz = db.doc('kFwVlWBKr4mAEiS0DxnL');
-                          final data = await refz.get();
-                          var temp = [];
-                          temp.addAll(data.data()!.health!);
-                          // temp.add(data.data()!.health);
-                          // temp.add()
-                          // temp.add(HistoryHealth.fromJson(items));
-                          const history = HistoryHealth(
-                            id: 'asdas',
-                          );
-                          temp.add(history);
-                          Logger().e(temp);
+                          //change page to add pet
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditPetScreen(isEdit: false, usersId: users.uid.toString()),
+                              ));
                         },
                         child: Container(
                           width: 64.w,
@@ -293,7 +331,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ShopServiceAll(
-                                        usersId: users.uid.toString(),
+                                        users: users,
                                       )),
                             );
                           },
@@ -319,7 +357,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => ProductScreen(
                                           type: 'food',
-                                          usersId: users.uid.toString(),
+                                          users: users,
                                         )));
                           },
                           child: SizedBox(
@@ -361,7 +399,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => ProductScreen(
                                           type: 'toys',
-                                          usersId: users.uid.toString(),
+                                          users: users,
                                         )));
                           },
                           child: SizedBox(
@@ -403,7 +441,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => ProductScreen(
                                           type: 'medicine',
-                                          usersId: users.uid.toString(),
+                                          users: users,
                                         )));
                           },
                           child: SizedBox(
@@ -445,7 +483,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => ProductScreen(
                                           type: 'treatment',
-                                          usersId: users.uid.toString(),
+                                          users: users,
                                         )));
                           },
                           child: SizedBox(
@@ -506,97 +544,112 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ],
                     ),
                     ListView.builder(
-                      itemCount: vets.length,
+                      itemCount: !isLoading ? vets.length : 3,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        return Visibility(
-                          visible: index < 4,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => VetsDetailScreen(
-                                          vets: vets[index],
-                                          usersId: users.uid.toString(),
-                                        )),
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 16.h),
-                              width: 324.w,
-                              height: 85.h,
-                              padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 8.w, right: 12.w),
-                              decoration:
-                                  BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
-                                buildPrimaryBoxShadow(),
-                              ]),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(4.r),
-                                        child: Image.network(
-                                          // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
-                                          vets[index].image.toString(),
-                                          width: 54.w,
-                                          height: 60.h,
-                                          fit: BoxFit.cover,
+                        return !isLoading
+                            ? Visibility(
+                                visible: index < 4,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => VetsDetailScreen(
+                                                vets: vets[index],
+                                                usersId: users.uid.toString(),
+                                              )),
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(bottom: 16.h),
+                                    width: 324.w,
+                                    height: 85.h,
+                                    padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 8.w, right: 12.w),
+                                    decoration:
+                                        BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
+                                      buildPrimaryBoxShadow(),
+                                    ]),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(4.r),
+                                              child: Image.network(
+                                                // "https://www.pinnaclecare.com/wp-content/uploads/2017/12/bigstock-African-young-doctor-portrait-28825394.jpg",
+                                                vets[index].image.toString(),
+                                                width: 54.w,
+                                                height: 60.h,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 13.w,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  // "Dr. Naegha Blak",
+                                                  vets[index].name.toString(),
+                                                  style: homeDoctorName,
+                                                ),
+                                                Text(
+                                                  // "Afrika Serikat",
+                                                  vets[index].location.toString(),
+                                                  style: homeDoctorAddress,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Image.asset(
+                                                      "assets/icons/rating-icon.png",
+                                                      width: 18.w,
+                                                      height: 18.h,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 4.w,
+                                                    ),
+                                                    Text(
+                                                      vets[index].rate.toString(),
+                                                      style: homeRatingNum,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 13.w,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            // "Dr. Naegha Blak",
-                                            vets[index].name.toString(),
-                                            style: homeDoctorName,
-                                          ),
-                                          Text(
-                                            // "Afrika Serikat",
-                                            vets[index].location.toString(),
-                                            style: homeDoctorAddress,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Image.asset(
-                                                "assets/icons/rating-icon.png",
-                                                width: 18.w,
-                                                height: 18.h,
-                                              ),
-                                              SizedBox(
-                                                width: 4.w,
-                                              ),
-                                              Text(
-                                                vets[index].rate.toString(),
-                                                style: homeRatingNum,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                        Image.asset(
+                                          'assets/icons/right-arrow-icon.png',
+                                          width: 15.w,
+                                          height: 15.h,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  Image.asset(
-                                    'assets/icons/right-arrow-icon.png',
-                                    width: 15.w,
-                                    height: 15.h,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
+                                ),
+                              )
+                            : Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: 16.h),
+                                  width: 324.w,
+                                  height: 85.h,
+                                  padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 8.w, right: 12.w),
+                                  decoration:
+                                      BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(4.r), boxShadow: [
+                                    buildPrimaryBoxShadow(),
+                                  ]),
+                                ),
+                              );
                       },
                     ),
                   ],

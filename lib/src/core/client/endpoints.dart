@@ -1,7 +1,7 @@
 class Endpoints {
   Endpoints._();
 
-  static String baseURL = 'https://';
+  static String baseURL = 'https://petscape-be.herokuapp.com/';
   static String baseURLJst = 'https://';
   static const int receiveTimeout = 5000;
   static const int connectionTimeout = 30000;

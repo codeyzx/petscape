@@ -1,8 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:petscape/src/shared/theme.dart';
+
+import 'package:image/image.dart' as image_reduce;
 
 class ProductAddScreen extends ConsumerStatefulWidget {
   const ProductAddScreen({Key? key}) : super(key: key);
@@ -12,6 +20,7 @@ class ProductAddScreen extends ConsumerStatefulWidget {
 }
 
 class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
+  bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _categoryController = TextEditingController();
@@ -99,13 +108,16 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                     'desc': _descController.text,
                     'location': _locationController.text,
                   });
-                  _typeController.clear();
                   _nameController.clear();
-                  _imageController.clear();
                   _categoryController.clear();
-                  _priceController.clear();
-                  _stockController.clear();
+                  _typeController.clear();
+                  _sellerController.clear();
+                  _imageController.clear();
                   _soldController.clear();
+                  _priceController.clear();
+                  _descController.clear();
+                  _locationController.clear();
+                  _stockController.clear();
                 }
               },
               child: Text(
@@ -123,6 +135,264 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
             key: _formKey,
             child: Column(
               children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Photo',
+                      style: textTitleBookmark,
+                    ),
+                    SizedBox(
+                      height: 6.h,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        //show dialog to choose pick from image or camera
+                        await showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text(
+                              'Choose Image',
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      setState(() {
+                                        _isLoading = true;
+                                      });
+                                      Navigator.pop(context);
+                                      final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                                      if (pickedFile != null) {
+                                        final tempDir = await getTemporaryDirectory();
+                                        final path = tempDir.path;
+                                        image_reduce.Image image =
+                                            image_reduce.decodeImage(File(pickedFile.path).readAsBytesSync())!;
+                                        image_reduce.copyResize(image, width: 500);
+                                        final compressedImage = File('$path/img_$image.jpg')
+                                          ..writeAsBytesSync(image_reduce.encodeJpg(image, quality: 85));
+
+                                        final temp = await FirebaseStorage.instance
+                                            .ref()
+                                            .child('products/${DateTime.now()}.png')
+                                            .putFile(File(compressedImage.path));
+                                        final value = await temp.ref.getDownloadURL();
+
+                                        setState(() {
+                                          _imageController.text = value;
+                                          _isLoading = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                      }
+                                    },
+                                    child: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          const WidgetSpan(
+                                            child: Icon(
+                                              Icons.image,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                              text: '  From Gallery',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      setState(() {
+                                        _isLoading = true;
+                                      });
+                                      Navigator.pop(context);
+                                      final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+                                      if (pickedFile != null) {
+                                        final tempDir = await getTemporaryDirectory();
+                                        final path = tempDir.path;
+                                        image_reduce.Image image =
+                                            image_reduce.decodeImage(File(pickedFile.path).readAsBytesSync())!;
+                                        image_reduce.copyResize(image, width: 500);
+                                        final compressedImage = File('$path/img_$image.jpg')
+                                          ..writeAsBytesSync(image_reduce.encodeJpg(image, quality: 85));
+
+                                        final temp = await FirebaseStorage.instance
+                                            .ref()
+                                            .child('products/${DateTime.now()}.png')
+                                            .putFile(File(compressedImage.path));
+                                        final value = await temp.ref.getDownloadURL();
+                                        setState(() {
+                                          _imageController.text = value;
+                                          _isLoading = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                      }
+                                    },
+                                    child: RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          const WidgetSpan(
+                                            child: Icon(
+                                              Icons.camera_alt,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                              text: '  From Camera',
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      child: _isLoading
+                          ? Container(
+                              height: 200.h,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6.r),
+                                border: Border.all(color: gray),
+                              ),
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : _imageController.text == ''
+                              ? Container(
+                                  height: 200.h,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6.r),
+                                    border: Border.all(color: gray),
+                                  ),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  height: 200.h,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        _imageController.text,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                    ),
+                    // FutureBuilder(
+
+                    //   future: _imageController.text == ''
+                    //       ? Future.value('https://picsum.photos/500/300?random=1')
+                    //       : Future.value(_imageController.text),
+                    //   builder: (context, snapshot) {
+                    //     if (snapshot.hasData) {
+                    //       return GestureDetector(
+                    //         onTap: () async {
+                    //           final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                    //           if (pickedFile != null) {
+                    //             final image = File(pickedFile.path);
+                    //             final fileName = basename(image.path);
+                    //             final destination = 'images/$fileName';
+                    //             final storage = FirebaseStorage.instance;
+                    //             final task = storage.ref(destination).putFile(image);
+                    //             final snapshot = await task.whenComplete(() {});
+                    //             final url = await snapshot.ref.getDownloadURL();
+                    //             setState(() {
+                    //               _imageController.text = url;
+                    //             });
+                    //           }
+                    //         },
+                    //         child: Container(
+                    //           height: 200.h,
+                    //           width: double.infinity,
+                    //           decoration: BoxDecoration(
+                    //             borderRadius: BorderRadius.circular(6.r),
+                    //             image: DecorationImage(
+                    //               image: NetworkImage(snapshot.data.toString()),
+                    //               fit: BoxFit.cover,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       );
+                    //     } else {
+                    //       return const Center(
+                    //         child: CircularProgressIndicator(),
+                    //       );
+                    //     }
+                    //   },
+                    // ),
+
+                    // TextFormField(
+                    //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //   controller: _imageController,
+                    //   decoration: InputDecoration(
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(6.r),
+                    //       borderSide: BorderSide(width: 1, color: graySecond),
+                    //     ),
+                    //     contentPadding: const EdgeInsets.all(12),
+                    //     hintText: 'https://',
+                    //     hintStyle: tagHint,
+                    //     suffixIcon: IconButton(
+                    //       onPressed: () async {
+                    //         // upload image to firebase storage
+                    //         // final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                    //         // if (pickedFile != null) {
+                    //         //   final file = File(pickedFile.path);
+                    //         //   final fileName = basename(file.path);
+                    //         //   final destination = 'images/$fileName';
+                    //         //   final ref = FirebaseStorage.instance.ref(destination);
+                    //         //   await ref.putFile(file);
+                    //         //   final url = await ref.getDownloadURL();
+                    //         //   _imageController.text = url;
+                    //         // }
+                    //       },
+                    //       icon: const Icon(Icons.image),
+                    //     ),
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: 18.h,
+                    ),
+                  ],
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -183,34 +453,6 @@ class _ProductAddScreenState extends ConsumerState<ProductAddScreen> {
                         ),
                         contentPadding: const EdgeInsets.all(12),
                         hintText: 'Chicken Nugget',
-                        hintStyle: tagHint,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 18.h,
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'image',
-                      style: textTitleBookmark,
-                    ),
-                    SizedBox(
-                      height: 6.h,
-                    ),
-                    TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      controller: _imageController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.r),
-                          borderSide: BorderSide(width: 1, color: gray),
-                        ),
-                        contentPadding: const EdgeInsets.all(12),
-                        hintText: 'https://',
                         hintStyle: tagHint,
                       ),
                     ),

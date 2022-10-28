@@ -1,7 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:midtrans_sdk/midtrans_sdk.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
+import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
 import 'package:petscape/src/features/home/presentation/botnavbar_screen.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
 import 'package:petscape/src/features/order/domain/history_health/history_health.dart';
@@ -17,7 +22,7 @@ class VetsBookingFourScreen extends ConsumerStatefulWidget {
   final Map<String, dynamic> appointment;
   final Map<String, String> address;
   final Map<String, String> timePlace;
-  final String usersId;
+  final Users users;
   final Vets vets;
   final Pet pet;
 
@@ -26,7 +31,7 @@ class VetsBookingFourScreen extends ConsumerStatefulWidget {
       required this.appointment,
       required this.address,
       required this.timePlace,
-      required this.usersId,
+      required this.users,
       required this.vets,
       required this.pet})
       : super(key: key);
@@ -36,6 +41,40 @@ class VetsBookingFourScreen extends ConsumerStatefulWidget {
 }
 
 class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
+  MidtransSDK? _midtrans;
+
+  Future<void> addFirestore({
+    required Order order,
+    required String usersId,
+    required String orderId,
+    required String petId,
+    required Map<String, dynamic> history,
+  }) async {
+    final orders = order.copyWith(orderId: orderId);
+    await ref.read(orderControllerProvider.notifier).patientIncrement(widget.vets.id.toString());
+    await ref.read(orderControllerProvider.notifier).add(order: orders, usersId: usersId);
+    await ref.read(petControllerProvider.notifier).addHistoryHealth(id: petId, history: history);
+    await ref.read(petControllerProvider.notifier).getData(widget.users.uid.toString());
+
+    // await ref.read(orderControllerProvider.notifier).patientIncrement(widget.vets.id.toString());
+    // await ref.read(orderControllerProvider.notifier).add(order: order, usersId: widget.usersId);
+    // await ref.read(petControllerProvider.notifier).addHistoryHealth(id: petId, history: items);
+    // await ref.read(petControllerProvider.notifier).getData(widget.usersId);
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const BotNavBarScreen(),
+        ));
+  }
+
+  @override
+  void dispose() {
+    _midtrans?.removeTransactionFinishedCallback();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final formatTime = '${DateFormat(
@@ -436,10 +475,24 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
             height: 54.h,
             child: ElevatedButton(
               onPressed: () async {
-                int totalPayment = 80000;
+                _midtrans = await MidtransSDK.init(
+                  config: MidtransConfig(
+                    clientKey: "SB-Mid-client-Jf7_deynf20wZtJq",
+                    merchantBaseUrl: "https://marcha-api-production.up.railway.app/notification_handler/",
+                  ),
+                );
+
+                _midtrans?.setUIKitCustomSetting(
+                  skipCustomerDetailsPages: true,
+                  showPaymentStatus: true,
+                );
+
+                int totalPayment = widget.vets.price!;
                 String? sellerId = widget.vets.id;
                 String petId = widget.pet.id == ''
-                    ? await ref.read(petControllerProvider.notifier).add(usersId: widget.usersId, pet: widget.pet)
+                    ? await ref
+                        .read(petControllerProvider.notifier)
+                        .add(usersId: widget.users.uid.toString(), pet: widget.pet)
                     : widget.pet.id.toString();
 
                 final items = HistoryHealth(
@@ -448,12 +501,13 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                   problem: widget.appointment["possibleProblem"],
                   desc: widget.appointment["detail"],
                   time: DateTime.now().millisecondsSinceEpoch.toString(),
+                  vets: widget.vets.toJson(),
                 ).toJson();
 
                 final order = Order(
                   createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
                   items: [items],
-                  customerId: widget.usersId,
+                  customerId: widget.users.uid,
                   sellerId: sellerId,
                   itemsCategory: 'Appointment',
                   methodPayment: '',
@@ -462,25 +516,72 @@ class _VetsBookingFourScreenState extends ConsumerState<VetsBookingFourScreen> {
                   totalPayment: totalPayment,
                 );
 
-                await ref.read(orderControllerProvider.notifier).patientIncrement(widget.vets.id.toString());
-                await ref.read(orderControllerProvider.notifier).add(order: order, usersId: widget.usersId);
-                await ref.read(petControllerProvider.notifier).addHistoryHealth(id: petId, history: items);
-                await ref.read(petControllerProvider.notifier).getData(widget.usersId);
-                showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          title: const Text('Success'),
-                          content: const Text('Your appointment has been booked'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                    context, MaterialPageRoute(builder: (context) => const BotNavBarScreen()));
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ));
+                String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+                String random = List.generate(15, (index) => chars[Random().nextInt(chars.length)]).join();
+
+                List<Map<String, dynamic>> itemsList = [
+                  {
+                    'id': widget.vets.id,
+                    'name': widget.vets.name,
+                    'price': widget.vets.price,
+                    'quantity': 1,
+                  }
+                ];
+
+                // final body = {
+                //   "order_id": "order-id-$random",
+                //   "customers": {"email": "${widget.users.email}", "username": "${widget.users.name}"},
+                //   "url": "https://mazipan.space/cara-fetch-api-di-nodejs",
+                //   "items": [
+                //     {"quantity": 2, "id": "1", "price": 2000, "name": "Es Teh"},
+                //     {"quantity": 3, "id": "2", "price": 8000, "name": "Nasi Goreng"}
+                //   ]
+                // };
+                Map<String, dynamic> body = {
+                  "order_id": random,
+                  "customers": {
+                    "email": "${widget.users.email}",
+                    "username": "${widget.users.name}",
+                  },
+                  "url": "",
+                  "items": itemsList,
+                };
+
+                final token = await ref.read(cartControllerProvider.notifier).getToken(body);
+                await _midtrans?.startPaymentUiFlow(
+                  token: token,
+                );
+                _midtrans!.setTransactionFinishedCallback((result) async {
+                  if (!result.isTransactionCanceled) {
+                    await addFirestore(
+                      orderId: result.orderId.toString(),
+                      order: order,
+                      usersId: widget.users.uid.toString(),
+                      petId: petId,
+                      history: items,
+                    );
+                  }
+                });
+
+                // await ref.read(orderControllerProvider.notifier).patientIncrement(widget.vets.id.toString());
+                // await ref.read(orderControllerProvider.notifier).add(order: order, usersId: widget.usersId);
+                // await ref.read(petControllerProvider.notifier).addHistoryHealth(id: petId, history: items);
+                // await ref.read(petControllerProvider.notifier).getData(widget.usersId);
+                // showDialog(
+                //     context: context,
+                //     builder: (context) => AlertDialog(
+                //           title: const Text('Success'),
+                //           content: const Text('Your appointment has been booked'),
+                //           actions: [
+                //             TextButton(
+                //               onPressed: () {
+                //                 Navigator.pushReplacement(
+                //                     context, MaterialPageRoute(builder: (context) => const BotNavBarScreen()));
+                //               },
+                //               child: const Text('OK'),
+                //             ),
+                //           ],
+                //         ));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: primary,

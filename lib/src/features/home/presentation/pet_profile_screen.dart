@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:petscape/src/features/home/presentation/edit_pet_screen.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
 import 'package:petscape/src/features/order/domain/pet/pet.dart';
 import 'package:petscape/src/shared/theme.dart';
 
 class PetProfileScreen extends StatefulWidget {
+  final String usersId;
   final Pet pet;
-  const PetProfileScreen({Key? key, required this.pet}) : super(key: key);
+  const PetProfileScreen({Key? key, required this.pet, required this.usersId}) : super(key: key);
 
   @override
   State<PetProfileScreen> createState() => _PetProfileScreenState();
@@ -44,7 +46,11 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
               ),
               IconButton(
                 onPressed: () {
-                  print("print");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditPetScreen(isEdit: true, pet: widget.pet, usersId: widget.usersId),
+                      ));
                 },
                 icon: Image.asset(
                   "assets/icons/pencil-icon.png",
@@ -162,7 +168,9 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                   ),
                   Text(
                     // "Sekarat - 1 ton",
-                    widget.pet.condition == null ? '' : '${widget.pet.condition} - ${widget.pet.weight} kg',
+                    widget.pet.condition == null || widget.pet.weight == null
+                        ? ''
+                        : '${widget.pet.condition} - ${widget.pet.weight} kg',
                     style: petValue,
                   ),
                   SizedBox(
@@ -192,7 +200,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
                     height: 16.h,
                   ),
                   ListView.builder(
-                      itemCount: history?.length,
+                      itemCount: history?.length ?? 0,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {

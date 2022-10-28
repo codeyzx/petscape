@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/cart/presentation/cart_controller.dart';
 import 'package:petscape/src/features/product/presentation/product_add_screen.dart';
 import 'package:petscape/src/features/product/presentation/product_controller.dart';
@@ -12,11 +13,11 @@ import 'package:petscape/src/shared/theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductScreen extends ConsumerStatefulWidget {
-  static const routeName = '/product';
+  static const routeName = 'product';
 
   final String type;
-  final String usersId;
-  const ProductScreen({Key? key, required this.usersId, required this.type}) : super(key: key);
+  final Users users;
+  const ProductScreen({Key? key, required this.users, required this.type}) : super(key: key);
 
   @override
   ConsumerState<ProductScreen> createState() => _ProductScreenState();
@@ -45,7 +46,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
     });
 
     await ref.read(productControllerProvider.notifier).getData();
-    await ref.read(cartControllerProvider.notifier).getData(widget.usersId);
+    await ref.read(cartControllerProvider.notifier).getData(widget.users.uid.toString());
     final returnProducts = ref.read(productControllerProvider);
     final tempProducts = returnProducts.where((element) => element.type == widget.type).toList();
 
@@ -465,7 +466,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ProductDetailScreen(
-                                            usersId: widget.usersId,
+                                            users: widget.users,
                                             product: products[index],
                                           )));
                             },
@@ -569,10 +570,14 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              // "Bandung",
-                                              products[index].location.toString(),
-                                              style: producOntItemLocation,
+                                            SizedBox(
+                                              width: 120.w,
+                                              child: Text(
+                                                // "Bandung",
+                                                products[index].location.toString(),
+                                                overflow: TextOverflow.ellipsis,
+                                                style: producOntItemLocation,
+                                              ),
                                             ),
                                             products[index].category!.toLowerCase() == "dog"
                                                 ? Image.asset(

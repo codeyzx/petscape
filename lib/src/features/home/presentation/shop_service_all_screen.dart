@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
 import 'package:petscape/src/features/product/presentation/product_screen.dart';
 import 'package:petscape/src/shared/theme.dart';
 
 class ShopServiceAll extends StatefulWidget {
-  final String usersId;
-  const ShopServiceAll({Key? key, required this.usersId}) : super(key: key);
+  final Users users;
+  const ShopServiceAll({Key? key, required this.users}) : super(key: key);
 
   @override
   State<ShopServiceAll> createState() => _ShopServiceAllState();
@@ -51,7 +52,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                   MaterialPageRoute(
                       builder: (context) => ProductScreen(
                             type: 'food',
-                            usersId: widget.usersId,
+                            users: widget.users,
                           )),
                 );
               },
@@ -114,7 +115,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                     MaterialPageRoute(
                         builder: (context) => ProductScreen(
                               type: 'toys',
-                              usersId: widget.usersId,
+                              users: widget.users,
                             )));
               },
               style: ElevatedButton.styleFrom(
@@ -176,7 +177,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                     MaterialPageRoute(
                         builder: (context) => ProductScreen(
                               type: 'medicine',
-                              usersId: widget.usersId,
+                              users: widget.users,
                             )));
               },
               style: ElevatedButton.styleFrom(
@@ -238,7 +239,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                     MaterialPageRoute(
                         builder: (context) => ProductScreen(
                               type: 'treatment',
-                              usersId: widget.usersId,
+                              users: widget.users,
                             )));
               },
               style: ElevatedButton.styleFrom(
@@ -300,7 +301,7 @@ class _ShopServiceAllState extends State<ShopServiceAll> {
                     MaterialPageRoute(
                         builder: (context) => ProductScreen(
                               type: 'accessories',
-                              usersId: widget.usersId,
+                              users: widget.users,
                             )));
               },
               style: ElevatedButton.styleFrom(

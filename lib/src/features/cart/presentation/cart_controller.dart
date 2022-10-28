@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:petscape/src/core/client/dio_client.dart';
 import 'package:petscape/src/features/product/domain/product.dart';
 
 class CartController extends StateNotifier<List<Map<Product, int>>> {
@@ -7,6 +8,26 @@ class CartController extends StateNotifier<List<Map<Product, int>>> {
 
   int cartsLength = 0;
   final db = FirebaseFirestore.instance.collection('carts');
+
+  Future<String> getToken(Map<String, dynamic> body) async {
+    var resp = await DioClient().apiCall(
+      url: 'charge', requestType: RequestType.post,
+      body: body,
+      // body: body,
+      // body: {
+      //   "order_id": "ocad3",
+      //   "customers": {"email": "muhammademir48@gmail.com", "username": "emirsyah"},
+      //   "url": "https://mazipan.space/cara-fetch-api-di-nodejs",
+      //   "items": [
+      //     {"quantity": 2, "id": "1", "price": 2000, "name": "Es Teh"},
+      //     {"quantity": 3, "id": "2", "price": 8000, "name": "Nasi Goreng"}
+      //   ]
+      // }
+    );
+
+    String token = resp.data['token'];
+    return token;
+  }
 
   Future<void> deleteItem(String docId, Product product) async {
     final snapshot = await db.doc(docId).get();

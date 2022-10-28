@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:petscape/src/features/auth/domain/users.dart';
 
 class AuthController extends StateNotifier<Users> {
-  AuthController() : super(const Users());
+  AuthController() : super(Users());
 
   Future<void> googleSignIn() async {
     try {
@@ -76,7 +76,7 @@ class AuthController extends StateNotifier<Users> {
     await googleSignIn.signOut();
     await FirebaseAuth.instance.signOut();
 
-    state = const Users();
+    state = Users();
   }
 
   Future<void> getUsers({required String uid}) async {

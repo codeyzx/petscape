@@ -7,7 +7,7 @@ import 'package:petscape/src/shared/theme.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  static const String routeName = '/onboarding';
+  static const String routeName = 'onboarding';
   const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override

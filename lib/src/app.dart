@@ -30,7 +30,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
 
     final isScreen = state == AppLifecycleState.resumed;
 
-    if (users != const Users()) {
+    if (users !=  Users()) {
       if (isScreen) {
         FirebaseFirestore.instance.collection('users').doc(users.uid).update({'status': "Online"});
       } else {
