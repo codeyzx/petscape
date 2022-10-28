@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petscape/src/features/order/domain/order/order.dart';
-import 'package:petscape/src/features/product/domain/product.dart';
 
 class OrderController extends StateNotifier<List<Order>> {
   OrderController() : super(const []);

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:petscape/src/features/feed/domain/feed.dart';
 import 'package:petscape/src/features/feed/presentation/feed_screen.dart';
 import 'package:petscape/src/features/home/presentation/home_screen.dart';
 import 'package:petscape/src/features/order/presentation/order_screen.dart';
