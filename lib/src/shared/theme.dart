@@ -818,18 +818,6 @@ TextStyle logoutTxt = GoogleFonts.poppins(
   color: HexColor('#DA1919'),
 );
 
-TextStyle onBoardTitle = GoogleFonts.poppins(
-  fontSize: 24.sp,
-  fontWeight: FontWeight.w600,
-  color: Colors.black,
-);
-
-TextStyle onBoardSubTitle = GoogleFonts.poppins(
-  fontSize: 16.sp,
-  fontWeight: FontWeight.w400,
-  color: Colors.black.withOpacity(0.80),
-);
-
 TextStyle txtBtnWhite = GoogleFonts.poppins(
   fontSize: 16.sp,
   fontWeight: FontWeight.w500,
@@ -916,6 +904,48 @@ TextStyle treatBookLabel = GoogleFonts.poppins(
 
 TextStyle treatBookLoc = GoogleFonts.poppins(
   fontSize: 13.sp,
+  fontWeight: FontWeight.w400,
+  color: black.withOpacity(0.80),
+);
+
+TextStyle splashBy = GoogleFonts.poppins(
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w500,
+  color: HexColor('#606060'),
+);
+
+TextStyle splashOrbit = GoogleFonts.poppins(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w600,
+  color: primary,
+);
+
+TextStyle onBoardWhiteOnBtn = GoogleFonts.poppins(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w600,
+  color: whitish,
+);
+
+TextStyle onBoardSkipBtn= GoogleFonts.poppins(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w500,
+  color: primary,
+);
+
+TextStyle onBoardWhiteOnBtnSmall = GoogleFonts.poppins(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w500,
+  color: whitish,
+);
+
+TextStyle onBoardTitle = GoogleFonts.poppins(
+  fontSize: 24.sp,
+  fontWeight: FontWeight.w600,
+  color: black,
+);
+
+TextStyle onBoardSubTitle = GoogleFonts.poppins(
+  fontSize: 16.sp,
   fontWeight: FontWeight.w400,
   color: black.withOpacity(0.80),
 );

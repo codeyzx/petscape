@@ -28,8 +28,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whitish,
       body: Container(
-        padding: EdgeInsets.only(bottom: 154.h),
+        padding: EdgeInsets.only(bottom: 150.h),
         child: PageView(
           controller: controller,
           onPageChanged: (index) {
@@ -41,25 +42,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 75.h,
-                ),
-                Image.asset(
-                  'assets/images/phone-img.png',
-                  width: 246.03.w,
-                  height: 241.5.h,
-                ),
-                SizedBox(
-                  height: 53.24.h,
-                ),
+                SizedBox(height: 91.67.h,),
+                Image.asset("assets/images/petscape/onboard-1-img.png", width: 289.09.w, height: 202.65.h,),
+                SizedBox(height: 55.67.h,),
                 Text(
                   'Save articles with ease',
-                  style: onBoardSubTitle,
+                  style: onBoardTitle,
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(
                     width: 256.w,
                     child: Text(
-                      'You can add all your read later article here fast and easy',
+                      'Semua keperluan hewanmu ada disini',
                       style: onBoardSubTitle,
                       textAlign: TextAlign.center,
                     )),
@@ -68,25 +62,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 75.h,
-                ),
-                Image.asset(
-                  'assets/images/person-1-img.png',
-                  width: 155.92.w,
-                  height: 253.23.h,
-                ),
-                SizedBox(
-                  height: 50.64.h,
-                ),
+                SizedBox(height: 64.25.h,),
+                Image.asset("assets/images/petscape/onboard-2-img.png", width: 289.09.w, height: 202.65.h,),
+                SizedBox(height: 55.67.h,),
                 Text(
-                  'Actually Read Later',
+                  'Temukan Dokter Hewanmu',
                   style: onBoardTitle,
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(
                     width: 256.w,
                     child: Text(
-                      'Get a reminder also set your daily goals to make habit',
+                      'Janjian maupun chat dengan dokter hewan sekarang',
                       style: onBoardSubTitle,
                       textAlign: TextAlign.center,
                     )),
@@ -95,25 +82,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 75.h,
-                ),
-                Image.asset(
-                  'assets/images/person-2-img.png',
-                  width: 263.61.w,
-                  height: 259.26.h,
-                ),
-                SizedBox(
-                  height: 50.64.h,
-                ),
+                SizedBox(height: 64.25.h,),
+                Image.asset("assets/images/petscape/onboard-3-img.png", width: 289.09.w, height: 202.65.h,),
+                SizedBox(height: 55.67.h,),
                 Text(
-                  'Get Statistics',
+                  'Beli Kebutuhan Cepat',
                   style: onBoardTitle,
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(
                     width: 256.w,
                     child: Text(
-                      'Know your read statistic easily, built habit from now on',
+                      'Dari makanan hingga mainan hewanmu ada disini',
                       style: onBoardSubTitle,
                       textAlign: TextAlign.center,
                     )),
@@ -124,97 +104,108 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
       bottomSheet: isLastPage
           ? Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              height: 153.h,
-              width: 1.sw,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SmoothPageIndicator(
-                    controller: controller,
-                    count: 3,
-                    effect: WormEffect(
-                      spacing: 10.w,
-                      dotHeight: 12.h,
-                      dotWidth: 12.w,
-                      type: WormType.normal,
-                      dotColor: gray,
-                      activeDotColor: primary,
-                    ),
-                  ),
-                  SizedBox(height: 54.h),
-                  SizedBox(
-                    width: 329.w,
-                    height: 48.h,
-                    child: TextButton(
-                      onPressed: () {
-                        context.goNamed(SignInScreen.routeName);
-                      },
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primary)),
-                      child: Text(
-                        'Get Started',
-                        style: txtBtnWhite,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              height: 153.h,
-              width: 1.sw,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SmoothPageIndicator(
-                    controller: controller,
-                    count: 3,
-                    effect: WormEffect(
-                      spacing: 10.w,
-                      dotHeight: 12.h,
-                      dotWidth: 12.w,
-                      type: WormType.normal,
-                      dotColor: gray,
-                      activeDotColor: primary,
-                    ),
-                  ),
-                  SizedBox(height: 54.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 108.w,
-                        height: 40.h,
-                        child: TextButton(
-                          onPressed: () {
-                            controller.jumpToPage(2);
-                          },
-                          child: Text(
-                            'Skip',
-                            style: txtBtnBlue,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 108.w,
-                        height: 40.h,
-                        child: TextButton(
-                          onPressed: () {
-                            controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
-                          },
-                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primary)),
-                          child: Text(
-                            'Next',
-                            style: txtBtnWhite,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        height: 150.h,
+        width: 1.sw,
+        color: whitish,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SmoothPageIndicator(
+              controller: controller,
+              count: 3,
+              effect: WormEffect(
+                spacing: 10.w,
+                dotHeight: 12.h,
+                dotWidth: 12.w,
+                type: WormType.normal,
+                dotColor: gray,
+                activeDotColor: primary,
               ),
             ),
+            SizedBox(height: 54.h),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4.r),
+              child: SizedBox(
+                width: 329.w,
+                height: 48.h,
+                child: TextButton(
+                  onPressed: () {
+                    context.goNamed(SignInScreen.routeName);
+                  },
+                  child: Text(
+                    'Mulai',
+                    style: onBoardWhiteOnBtn,
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all(primary)),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+          : Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        height: 150.h,
+        width: 1.sw,
+        color: whitish,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SmoothPageIndicator(
+              controller: controller,
+              count: 3,
+              effect: WormEffect(
+                spacing: 10.w,
+                dotHeight: 12.h,
+                dotWidth: 12.w,
+                type: WormType.normal,
+                dotColor: gray,
+                activeDotColor: primary,
+              ),
+            ),
+            SizedBox(height: 51.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 121.w,
+                  height: 40.h,
+                  child: TextButton(
+                    onPressed: () {
+                      controller.jumpToPage(2);
+                    },
+                    child: Text(
+                      'Lewati',
+                      style: onBoardSkipBtn,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 121.w,
+                  height: 40.h,
+                  child: TextButton(
+                    onPressed: () {
+                      controller.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut);
+                    },
+                    child: Text(
+                      'Lanjut',
+                      style: onBoardWhiteOnBtnSmall,
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(primary)),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

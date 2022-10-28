@@ -6,6 +6,7 @@ import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
 import 'package:petscape/src/features/auth/presentation/sign_in_screen.dart';
 import 'package:petscape/src/features/home/presentation/botnavbar_screen.dart';
 import 'package:petscape/src/features/starter/presentation/onboarding_screen.dart';
+import 'package:petscape/src/shared/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -26,28 +27,30 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Align(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-              'assets/icons/ic_logo_app.png',
-              width: 200.w,
-              height: 200.h,
+      backgroundColor: whitish,
+      body: Stack(
+        children: [
+          Positioned(
+            top: 200.h,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 127.w),
+              child: Image.asset("assets/images/petscape/petscape-logo-img.png", width: 104.55.w, height: 150.h,),
             ),
-            SizedBox(
-              height: 30.h,
-            ),
-            const CircularProgressIndicator.adaptive(
-              backgroundColor: Colors.black,
-              strokeWidth: 6.0,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                Colors.redAccent,
+          ),
+          Positioned(
+            bottom: 34.h,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 155.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("By", style: splashBy,),
+                  Text("ORBIT", style: splashOrbit,)
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
