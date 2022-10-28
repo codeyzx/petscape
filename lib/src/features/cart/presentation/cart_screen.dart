@@ -157,6 +157,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         ],
                       ),
                       child: CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.r)),
                         controlAffinity: ListTileControlAffinity.leading,
                         value: cartFilterz.contains(cart[index]),
                         onChanged: (value) {
@@ -174,181 +176,177 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                           });
                         },
                         title: Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 62.w,
-                                height: 62.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  image: DecorationImage(
-                                    image: NetworkImage(product.image.toString()),
-                                    fit: BoxFit.cover,
+                          padding: EdgeInsets.symmetric(vertical: 9.h, horizontal: 8.w),
+                          child: SizedBox(
+                            width: 273.w,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 62.w,
+                                  height: 62.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4.r),
+                                    image: DecorationImage(
+                                      image: NetworkImage(product.image.toString()),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: 10.w),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 140,
-                                        child: Text(
-                                          product.name.toString(),
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: black,
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              title: const Text("Delete Item"),
-                                              content: const Text("Are you sure want to delete this item?"),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text("Cancel"),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () async {
-                                                    setState(() {
-                                                      cartFilterz.remove(cart[index]);
-                                                      cart.remove(cart[index]);
-                                                    });
-                                                    await ref
-                                                        .read(cartControllerProvider.notifier)
-                                                        .deleteItem(widget.users.uid.toString(), product);
-                                                    await ref
-                                                        .read(cartControllerProvider.notifier)
-                                                        .getCartsLength(widget.users.uid.toString());
-
-                                                    if (!mounted) return;
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text("Delete"),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          width: 20.w,
-                                          height: 20.h,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey,
-                                            borderRadius: BorderRadius.circular(5.r),
-                                          ),
-                                          child: const Icon(
-                                            size: 16,
-                                            //  const Icon(
-                                            Icons.close,
-                                            color: Colors.white,
-                                            // ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 5.h),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        // "Rp ${product.price.toString()}",
-                                        NumberFormat.currency(
-                                          locale: "id",
-                                          symbol: "Rp ",
-                                          decimalDigits: 0,
-                                        ).format(product.price),
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: black,
-                                        ),
-                                      ),
-                                      SizedBox(width: 25.w),
-                                      Row(
+                                SizedBox(width: 12.w),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 188.w,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          InkWell(
-                                            onTap: () async {
-                                              // update qty from product index
-                                              if (qty > 1) {
-                                                setState(() {
-                                                  cart[index].update(product, (value) => --value);
-                                                });
-                                                ref
-                                                    .read(cartControllerProvider.notifier)
-                                                    .decrementItem(widget.users.uid.toString(), product);
-                                              }
-                                              // decrement itemCount from firestore
-                                              // setState(() {
-                                              // qty++;
-                                              // // items.clear();
-                                              // // cartFilter.map((e) => e.update(product, (value) => value - 1)).toList();
-                                              // // items.addAll(cartFilter.map((e) => e.keys.first).toList());
-                                              // print(qty);
-                                              // });
-
-                                              // updatePrice(index);
-                                            },
-                                            child: Image.asset(
-                                              qty > 1
-                                                  ? "assets/icons/subtract-primary-icon.png"
-                                                  : "assets/icons/subtract-icon.png",
-                                              width: 20.w,
-                                              height: 20.h,
+                                          SizedBox(
+                                            width: 165.w,
+                                            child: Text(
+                                              product.name.toString(),
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w500,
+                                                color: black,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: 8.w,
+                                          InkWell(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) => AlertDialog(
+                                                  title: const Text("Delete Item"),
+                                                  content: const Text("Are you sure want to delete this item?"),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text("Cancel"),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        setState(() {
+                                                          cartFilterz.remove(cart[index]);
+                                                          cart.remove(cart[index]);
+                                                        });
+                                                        await ref
+                                                            .read(cartControllerProvider.notifier)
+                                                            .deleteItem(widget.users.uid.toString(), product);
+                                                        await ref
+                                                            .read(cartControllerProvider.notifier)
+                                                            .getCartsLength(widget.users.uid.toString());
+
+                                                        if (!mounted) return;
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text("Delete"),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                            child: Image.asset("assets/icons/remove-icon.png", width: 20.w, height: 20.h,),
                                           ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 5.h),
+                                    SizedBox(
+                                      width: 188.w,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
                                           Text(
-                                            qty.toString(),
+                                            // "Rp ${product.price.toString()}",
+                                            NumberFormat.currency(
+                                              locale: "id",
+                                              symbol: "Rp ",
+                                              decimalDigits: 0,
+                                            ).format(product.price),
                                             style: GoogleFonts.poppins(
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500,
                                               color: black,
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: 8.w,
-                                          ),
-                                          InkWell(
-                                              onTap: () async {
-                                                // update qty from product index
-                                                setState(() {
-                                                  cart[index].update(product, (value) => ++value);
-                                                });
-                                                ref
-                                                    .read(cartControllerProvider.notifier)
-                                                    .incrementItem(widget.users.uid.toString(), product);
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  // update qty from product index
+                                                  if (qty > 1) {
+                                                    setState(() {
+                                                      cart[index].update(product, (value) => --value);
+                                                    });
+                                                    ref
+                                                        .read(cartControllerProvider.notifier)
+                                                        .decrementItem(widget.users.uid.toString(), product);
+                                                  }
+                                                  // decrement itemCount from firestore
+                                                  // setState(() {
+                                                  // qty++;
+                                                  // // items.clear();
+                                                  // // cartFilter.map((e) => e.update(product, (value) => value - 1)).toList();
+                                                  // // items.addAll(cartFilter.map((e) => e.keys.first).toList());
+                                                  // print(qty);
+                                                  // });
 
-                                                // updatePrice(index);
-                                              },
-                                              child: Image.asset(
-                                                "assets/icons/add-primary-icon.png",
-                                                width: 20.w,
-                                                height: 20.h,
-                                              )),
+                                                  // updatePrice(index);
+                                                },
+                                                child: Image.asset(
+                                                  qty > 1
+                                                      ? "assets/icons/subtract-primary-icon.png"
+                                                      : "assets/icons/subtract-icon.png",
+                                                  width: 20.w,
+                                                  height: 20.h,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 8.w,
+                                              ),
+                                              Text(
+                                                qty.toString(),
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: black,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 8.w,
+                                              ),
+                                              InkWell(
+                                                  onTap: () async {
+                                                    // update qty from product index
+                                                    setState(() {
+                                                      cart[index].update(product, (value) => ++value);
+                                                    });
+                                                    ref
+                                                        .read(cartControllerProvider.notifier)
+                                                        .incrementItem(widget.users.uid.toString(), product);
+
+                                                    // updatePrice(index);
+                                                  },
+                                                  child: Image.asset(
+                                                    "assets/icons/add-primary-icon.png",
+                                                    width: 20.w,
+                                                    height: 20.h,
+                                                  )),
+                                            ],
+                                          )
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

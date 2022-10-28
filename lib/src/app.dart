@@ -42,7 +42,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 760),
+      designSize: const Size(360, 640),
       builder: (context, child) {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
