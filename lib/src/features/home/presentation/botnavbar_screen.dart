@@ -36,6 +36,7 @@ class _BotNavBarScreenState extends ConsumerState<BotNavBarScreen> {
           child: currentScreen,
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: whitish,
           fixedColor: primary,
           selectedLabelStyle: botNavSelected,
           unselectedLabelStyle: botNavUnSelected,

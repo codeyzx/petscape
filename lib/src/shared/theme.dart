@@ -979,3 +979,33 @@ TextStyle chatSearch = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
   color: black,
 );
+
+TextStyle profileName2 = GoogleFonts.poppins(
+  fontSize: 20.sp,
+  fontWeight: FontWeight.w600,
+  color: black,
+);
+
+TextStyle profileEmail2 = GoogleFonts.poppins(
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w400,
+  color: black.withOpacity(0.75),
+);
+
+TextStyle profileItemLabel = GoogleFonts.poppins(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w600,
+  color: black,
+);
+
+TextStyle profileItemName = GoogleFonts.poppins(
+  fontSize: 15.sp,
+  fontWeight: FontWeight.w400,
+  color: black.withOpacity(0.75),
+);
+
+TextStyle profileItemNamePrimary = GoogleFonts.poppins(
+  fontSize: 15.sp,
+  fontWeight: FontWeight.w400,
+  color: primary,
+);
