@@ -310,7 +310,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 32.h,
+                height: 2.h,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18.w),
