@@ -36,7 +36,7 @@ https://github.com/codeyzx/petscape.git
 
 |Shop|
 |--|
-|![](demo/shops.gif)
+|![](demo/shops.gif)|
 |Pets|Vets|
 |--|--|
 |![](demo/pets.gif)|![](demo/vets.gif)|
