@@ -34,15 +34,15 @@ https://github.com/codeyzx/petscape.git
 
 ## Demo
 
-<!-- |Shop|
+|Shop|
 |--|
-|![](demo/shop.gif)
+|![](demo/shops.gif)
 |Pets|Vets|
 |--|--|
 |![](demo/pets.gif)|![](demo/vets.gif)|
 |Feed|Chat|
 |--|--|
-|![](demo/feed.gif)|![](demo/chat.gif)| -->
+|![](demo/feeds.gif)|![](demo/chats.gif)|
 
 ## Features
 - Shop
