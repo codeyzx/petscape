@@ -298,8 +298,6 @@
 //   }
 // }
 
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -307,11 +305,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 // import 'package:mime/mime.dart';
-import 'package:open_filex/open_filex.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:petscape/src/features/auth/presentation/auth_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -328,7 +323,7 @@ class ChatDetailScreen extends ConsumerStatefulWidget {
 
 class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   final textController = TextEditingController();
-  List<types.Message> _messages = [];
+  final List<types.Message> _messages = [];
 
   @override
   Widget build(BuildContext context) {
@@ -695,57 +690,57 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     }
   }
 
-  void _handleMessageTap(BuildContext _, types.Message message) async {
-    if (message is types.FileMessage) {
-      var localPath = message.uri;
+  // void _handleMessageTap(BuildContext _, types.Message message) async {
+  //   if (message is types.FileMessage) {
+  //     var localPath = message.uri;
 
-      if (message.uri.startsWith('http')) {
-        try {
-          final index = _messages.indexWhere((element) => element.id == message.id);
-          final updatedMessage = (_messages[index] as types.FileMessage).copyWith(
-            // isLoading: true,
-          );
+  //     if (message.uri.startsWith('http')) {
+  //       try {
+  //         final index = _messages.indexWhere((element) => element.id == message.id);
+  //         final updatedMessage = (_messages[index] as types.FileMessage).copyWith(
+  //           // isLoading: true,
+  //         );
 
-          setState(() {
-            _messages[index] = updatedMessage;
-          });
+  //         setState(() {
+  //           _messages[index] = updatedMessage;
+  //         });
 
-          final client = http.Client();
-          final request = await client.get(Uri.parse(message.uri));
-          final bytes = request.bodyBytes;
-          final documentsDir = (await getApplicationDocumentsDirectory()).path;
-          localPath = '$documentsDir/${message.name}';
+  //         final client = http.Client();
+  //         final request = await client.get(Uri.parse(message.uri));
+  //         final bytes = request.bodyBytes;
+  //         final documentsDir = (await getApplicationDocumentsDirectory()).path;
+  //         localPath = '$documentsDir/${message.name}';
 
-          if (!File(localPath).existsSync()) {
-            final file = File(localPath);
-            await file.writeAsBytes(bytes);
-          }
-        } finally {
-          final index = _messages.indexWhere((element) => element.id == message.id);
-          final updatedMessage = (_messages[index] as types.FileMessage).copyWith(
-            // isLoading: null,
-          );
+  //         if (!File(localPath).existsSync()) {
+  //           final file = File(localPath);
+  //           await file.writeAsBytes(bytes);
+  //         }
+  //       } finally {
+  //         final index = _messages.indexWhere((element) => element.id == message.id);
+  //         final updatedMessage = (_messages[index] as types.FileMessage).copyWith(
+  //           // isLoading: null,
+  //         );
 
-          setState(() {
-            _messages[index] = updatedMessage;
-          });
-        }
-      }
+  //         setState(() {
+  //           _messages[index] = updatedMessage;
+  //         });
+  //       }
+  //     }
 
-      await OpenFilex.open(localPath);
-    }
-  }
+  //     await OpenFilex.open(localPath);
+  //   }
+  // }
 
-  void _handleSendPressed(types.PartialText message) {
-    print('object'); // final textMessage = types.TextMessage(
-    //   author: _user,
-    //   createdAt: DateTime.now().millisecondsSinceEpoch,
-    //   id: const Uuid().v4(),
-    //   text: message.text,
-    // );
+  // void _handleSendPressed(types.PartialText message) {
+  //   print('object'); // final textMessage = types.TextMessage(
+  //   //   author: _user,
+  //   //   createdAt: DateTime.now().millisecondsSinceEpoch,
+  //   //   id: const Uuid().v4(),
+  //   //   text: message.text,
+  //   // );
 
-    // _addMessage(textMessage);
-  }
+  //   // _addMessage(textMessage);
+  // }
 
   void _handlePreviewDataFetched(
     types.TextMessage message,
@@ -761,16 +756,17 @@ class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     });
   }
 
-  void _loadMessages() async {
-    // final response = await rootBundle.loadString('assets/messages.json');
-    // final messages = (jsonDecode(response) as List).map((e) => types.Message.fromJson(e as Map<String, dynamic>)).toList();
+  // void _loadMessages() async {
+  //   // final response = await rootBundle.loadString('assets/messages.json');
+  //   // final messages = (jsonDecode(response) as List).map((e) => types.Message.fromJson(e as Map<String, dynamic>)).toList();
 
-    final db = FirebaseFirestore.instance.collection('messages');
-    final data = await db.get();
-    final messages = data.docs.map((e) => types.Message.fromJson(e.data())).toList();
+  //   final db = FirebaseFirestore.instance.collection('messages');
+  //   final data = await db.get();
+  //   final messages = data.docs.map((e) => types.Message.fromJson(e.data())).toList();
 
-    setState(() {
-      _messages = messages;
-    });
-  }
+  //   setState(() {
+  //     _messages = messages;
+  //   });
+  // }
+
 }

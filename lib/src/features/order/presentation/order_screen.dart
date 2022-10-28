@@ -58,7 +58,7 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 12.h),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -119,7 +119,7 @@ class _OrderScreenState extends ConsumerState<OrderScreen> {
                                         child: Center(
                                           child: Text(
                                             // "Success",
-                                            '${order[index].statusPayment}',
+                                            '${order[index].statusPayment == 'settlement' ? 'Success' : order[index].statusPayment}',
                                             style: orderItemStatusSuccess,
                                           ),
                                         ),

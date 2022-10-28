@@ -1,19 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
 import 'package:petscape/src/features/order/domain/order/order.dart';
+import 'package:petscape/src/features/product/domain/product.dart';
+import 'package:petscape/src/features/product/presentation/product_controller.dart';
 import 'package:petscape/src/shared/theme.dart';
 
-class OrderDetailScreen extends StatefulWidget {
+class OrderDetailScreen extends ConsumerStatefulWidget {
   final Order order;
   const OrderDetailScreen({Key? key, required this.order}) : super(key: key);
 
   @override
-  State<OrderDetailScreen> createState() => _OrderDetailScreenState();
+  ConsumerState<OrderDetailScreen> createState() => _OrderDetailScreenState();
 }
 
-class _OrderDetailScreenState extends State<OrderDetailScreen> {
+class _OrderDetailScreenState extends ConsumerState<OrderDetailScreen> {
+  List<Product> products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getListProduct();
+  }
+
+  Future<void> getListProduct() async {
+    // Logger().e(widget.order.toJson());
+    if (widget.order.itemsCategory == 'Barang') {
+      List<String> docId = [];
+      for (var i = 0; i < widget.order.items!.length; i++) {
+        docId.add(widget.order.items![i].keys.first);
+      }
+
+      final product = await ref.read(productControllerProvider.notifier).getListData(docId);
+      setState(() {
+        products = product;
+      });
+    } else if (widget.order.itemsCategory == 'Treatment') {
+      List<String> docId = [];
+      for (var i = 0; i < widget.order.items!.length; i++) {
+        docId.add(widget.order.items![i]['product']);
+      }
+
+      final product = await ref.read(productControllerProvider.notifier).getListData(docId);
+      setState(() {
+        products = product;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,31 +157,68 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
               width: 324.w,
-              height: 96.h,
+              height: 50.h,
               decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
                 buildPrimaryBoxShadow(),
               ]),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Transfer Ke",
+                    "Tanggal Pembelian",
                     style: orderStatusLabel,
                   ),
                   Text(
-                    "${widget.order.methodPayment?.toUpperCase()} - ${widget.order.tokenPayment}",
+                    DateFormat("dd MMMM yyyy")
+                        .format(DateTime.fromMillisecondsSinceEpoch(int.tryParse(widget.order.createdAt!)!)),
                     style: orderBankAccount,
                   ),
-                  Text(
-                    "Waktu Pembelian: ${DateFormat("dd MMMM yyyy, HH:mm").format(DateTime.fromMillisecondsSinceEpoch(int.tryParse(widget.order.createdAt!)!))}",
-                    style: orderPaymentDeadline,
-                  ),
+                  // Text(
+                  //   style: orderPaymentDeadline,
+                  // ),
                 ],
               ),
             ),
             SizedBox(
               height: 12.h,
+            ),
+            Visibility(
+              visible: widget.order.statusPayment == 'settlement' || widget.order.statusPayment == 'success' ? false : true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
+                    width: 324.w,
+                    height: 80.h,
+                    decoration: BoxDecoration(color: whitish, borderRadius: BorderRadius.circular(6.r), boxShadow: [
+                      buildPrimaryBoxShadow(),
+                    ]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "Transfer Ke",
+                          style: orderStatusLabel,
+                        ),
+                        Text(
+                          "${widget.order.methodPayment?.toUpperCase()} - ${widget.order.tokenPayment}",
+                          style: orderBankAccount,
+                        ),
+                        // Text(
+                        //   "Waktu Pembelian: ${DateFormat("dd MMMM yyyy, HH:mm").format(DateTime.fromMillisecondsSinceEpoch(int.tryParse(widget.order.createdAt!)!))}",
+                        //   style: orderPaymentDeadline,
+                        // ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                ],
+              ),
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
@@ -167,53 +240,149 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  ListView.builder(
-                    itemCount: widget.order.items!.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      var item = widget.order.items![index];
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6.r),
-                            child: Image.network(
-                              "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
-                              width: 64.w,
-                              height: 64.h,
-                              fit: BoxFit.cover,
+                  // TODO: CHANGE DYNAMIC
+                  widget.order.itemsCategory == 'Barang'
+                      ? ListView.builder(
+                          itemCount: products.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            Map orderItem = widget.order.items![index];
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.0.w),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(6.r),
+                                    child: Image.network(
+                                      // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
+                                      products[index].image.toString(),
+                                      width: 64.w,
+                                      height: 64.h,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 12.w,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        // "Dog Care - Showering",
+                                        products[index].name.toString(),
+                                        style: orderStatusLabel,
+                                      ),
+                                      SizedBox(
+                                        height: 4.h,
+                                      ),
+                                      Text(
+                                        "${orderItem.values.first} barang",
+                                        style: orderLocation,
+                                      ),
+                                      SizedBox(
+                                        height: 4.h,
+                                      ),
+                                      Text(
+                                        // "Rp56.000",
+                                        "Rp${products[index].price}",
+                                        style: orderPriceSmall,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        )
+                      : widget.order.itemsCategory == 'Treatmet'
+                          ? ListView.builder(
+                              itemCount: products.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                Map orderItem = widget.order.items![index];
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0.w),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(6.r),
+                                        child: Image.network(
+                                          // "https://www.wikihow.com/images_en/thumb/f/f0/Make-a-Dog-Love-You-Step-6-Version-4.jpg/v4-1200px-Make-a-Dog-Love-You-Step-6-Version-4.jpg",
+                                          products[index].image.toString(),
+                                          // orderItem
+                                          width: 64.w,
+                                          height: 64.h,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 12.w,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            // "Dog Care - Showering",
+                                            products[index].name.toString(),
+                                            style: orderStatusLabel,
+                                          ),
+                                          SizedBox(
+                                            height: 4.h,
+                                          ),
+                                          Text(
+                                            // "Rp56.000",
+                                            "Rp${products[index].price}",
+                                            style: orderPriceSmall,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : ListView.builder(
+                              itemCount: 1,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                Map orderItem = widget.order.items?.first;
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0.w),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            // "Dog Care - Showering",
+                                            // products[index].name.toString(),
+                                            orderItem['name'],
+                                            style: orderStatusLabel,
+                                          ),
+                                          SizedBox(
+                                            height: 4.h,
+                                          ),
+                                          Text(
+                                            // "Rp56.000",
+                                            // "Rp${products[index].price}",
+                                            NumberFormat.currency(
+                                              locale: 'id',
+                                              symbol: 'Rp',
+                                              decimalDigits: 0,
+                                            ).format(orderItem['price']),
+                                            style: orderPriceSmall,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          ),
-                          SizedBox(
-                            width: 12.w,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Dog Care - Showering",
-                                style: orderStatusLabel,
-                              ),
-                              SizedBox(
-                                height: 4.h,
-                              ),
-                              Text(
-                                "1 barang",
-                                style: orderLocation,
-                              ),
-                              SizedBox(
-                                height: 4.h,
-                              ),
-                              Text(
-                                "Rp56.000",
-                                style: orderPriceSmall,
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+
                   SizedBox(
                     height: 12.h,
                   ),
@@ -233,7 +402,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         style: orderTotalTxt,
                       ),
                       Text(
-                        "Rp56.000",
+                        // "Rp56.000",
+                        NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0)
+                            .format(widget.order.totalPayment),
                         style: orderStatusLabel,
                       ),
                     ],
@@ -244,33 +415,101 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             SizedBox(
               height: 12.h,
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
-              width: 323.w,
-              decoration: BoxDecoration(
-                color: whitish,
-                borderRadius: BorderRadius.circular(6.r),
-                boxShadow: [
-                  buildPrimaryBoxShadow(),
-                ],
-              ),
-              child: Column(
+            widget.order.itemsCategory == 'Barang'
+                ? Container(
+                    padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
+                    width: 323.w,
+                    decoration: BoxDecoration(
+                      color: whitish,
+                      borderRadius: BorderRadius.circular(6.r),
+                      boxShadow: [
+                        buildPrimaryBoxShadow(),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Info pengiriman",
+                          style: orderStatusLabel,
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        Text(
+                          "Jalan Kliningan No.6 Buah Batu, Bandung, Indonesia",
+                          style: orderLocation,
+                        ),
+                      ],
+                    ))
+                : widget.order.itemsCategory == 'Treatment'
+                    ? Container(
+                        padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
+                        width: 323.w,
+                        decoration: BoxDecoration(
+                          color: whitish,
+                          borderRadius: BorderRadius.circular(6.r),
+                          boxShadow: [
+                            buildPrimaryBoxShadow(),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Lokasi Toko",
+                              style: orderStatusLabel,
+                            ),
+                            SizedBox(
+                              height: 4.h,
+                            ),
+                            Text(
+                              "Jalan Kliningan No.6 Buah Batu, Bandung, Indonesia",
+                              // widget.order.storeAddress.toString(),
+                              style: orderLocation,
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox(),
+            if (widget.order.itemsCategory == 'Treatment')
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Info pengiriman",
-                    style: orderStatusLabel,
-                  ),
                   SizedBox(
-                    height: 4.h,
+                    height: 12.h,
                   ),
-                  Text(
-                    "Jalan Kliningan No.6 Buah Batu, Bandung, Indonesia",
-                    style: orderLocation,
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 12.h),
+                    width: 323.w,
+                    decoration: BoxDecoration(
+                      color: whitish,
+                      borderRadius: BorderRadius.circular(6.r),
+                      boxShadow: [
+                        buildPrimaryBoxShadow(),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Detail Waktu",
+                          style: orderStatusLabel,
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        Text(
+                          // "Jalan Kliningan No.6 Buah Batu, Bandung, Indonesia",
+                          '${DateFormat('dd MMMM').format(DateTime.parse(widget.order.items!.first['date']))} - ${widget.order.items!.first['time']}',
+                          // widget.order.storeAddress.toString(),
+                          style: orderLocation,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
-              ),
-            ),
+              )
           ],
         ),
       ),

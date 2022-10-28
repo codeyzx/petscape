@@ -42,13 +42,24 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 91.67.h,),
-                Image.asset("assets/images/petscape/onboard-1-img.png", width: 289.09.w, height: 202.65.h,),
-                SizedBox(height: 55.67.h,),
-                Text(
-                  'Save articles with ease',
-                  style: onBoardTitle,
-                  textAlign: TextAlign.center,
+                SizedBox(
+                  height: 91.67.h,
+                ),
+                Image.asset(
+                  "assets/images/petscape/onboard-1-img.png",
+                  width: 289.09.w,
+                  height: 202.65.h,
+                ),
+                SizedBox(
+                  height: 55.67.h,
+                ),
+                SizedBox(
+                  width: 300.w,
+                  child: Text(
+                    'Solusi Kebutuhan Hewan Peliharaanmu',
+                    style: onBoardTitle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 SizedBox(
                     width: 256.w,
@@ -62,13 +73,24 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 64.25.h,),
-                Image.asset("assets/images/petscape/onboard-2-img.png", width: 289.09.w, height: 202.65.h,),
-                SizedBox(height: 55.67.h,),
-                Text(
-                  'Temukan Dokter Hewanmu',
-                  style: onBoardTitle,
-                  textAlign: TextAlign.center,
+                SizedBox(
+                  height: 64.25.h,
+                ),
+                Image.asset(
+                  "assets/images/petscape/onboard-2-img.png",
+                  width: 289.09.w,
+                  height: 202.65.h,
+                ),
+                SizedBox(
+                  height: 55.67.h,
+                ),
+                SizedBox(
+                  width: 300.w,
+                  child: Text(
+                    'Temukan Dokter Hewanmu',
+                    style: onBoardTitle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 SizedBox(
                     width: 256.w,
@@ -82,9 +104,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 64.25.h,),
-                Image.asset("assets/images/petscape/onboard-3-img.png", width: 289.09.w, height: 202.65.h,),
-                SizedBox(height: 55.67.h,),
+                SizedBox(
+                  height: 64.25.h,
+                ),
+                Image.asset(
+                  "assets/images/petscape/onboard-3-img.png",
+                  width: 289.09.w,
+                  height: 202.65.h,
+                ),
+                SizedBox(
+                  height: 55.67.h,
+                ),
                 Text(
                   'Beli Kebutuhan Cepat',
                   style: onBoardTitle,
@@ -104,108 +134,102 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
       bottomSheet: isLastPage
           ? Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
-        height: 150.h,
-        width: 1.sw,
-        color: whitish,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SmoothPageIndicator(
-              controller: controller,
-              count: 3,
-              effect: WormEffect(
-                spacing: 10.w,
-                dotHeight: 12.h,
-                dotWidth: 12.w,
-                type: WormType.normal,
-                dotColor: gray,
-                activeDotColor: primary,
-              ),
-            ),
-            SizedBox(height: 54.h),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4.r),
-              child: SizedBox(
-                width: 329.w,
-                height: 48.h,
-                child: TextButton(
-                  onPressed: () {
-                    context.goNamed(SignInScreen.routeName);
-                  },
-                  child: Text(
-                    'Mulai',
-                    style: onBoardWhiteOnBtn,
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              height: 150.h,
+              width: 1.sw,
+              color: whitish,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SmoothPageIndicator(
+                    controller: controller,
+                    count: 3,
+                    effect: WormEffect(
+                      spacing: 10.w,
+                      dotHeight: 12.h,
+                      dotWidth: 12.w,
+                      type: WormType.normal,
+                      dotColor: gray,
+                      activeDotColor: primary,
+                    ),
                   ),
-                  style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all(primary)),
-                ),
+                  SizedBox(height: 54.h),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4.r),
+                    child: SizedBox(
+                      width: 329.w,
+                      height: 48.h,
+                      child: TextButton(
+                        onPressed: () {
+                          context.goNamed(SignInScreen.routeName);
+                        },
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primary)),
+                        child: Text(
+                          'Mulai',
+                          style: onBoardWhiteOnBtn,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      )
+            )
           : Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
-        height: 150.h,
-        width: 1.sw,
-        color: whitish,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SmoothPageIndicator(
-              controller: controller,
-              count: 3,
-              effect: WormEffect(
-                spacing: 10.w,
-                dotHeight: 12.h,
-                dotWidth: 12.w,
-                type: WormType.normal,
-                dotColor: gray,
-                activeDotColor: primary,
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              height: 150.h,
+              width: 1.sw,
+              color: whitish,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SmoothPageIndicator(
+                    controller: controller,
+                    count: 3,
+                    effect: WormEffect(
+                      spacing: 10.w,
+                      dotHeight: 12.h,
+                      dotWidth: 12.w,
+                      type: WormType.normal,
+                      dotColor: gray,
+                      activeDotColor: primary,
+                    ),
+                  ),
+                  SizedBox(height: 51.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 121.w,
+                        height: 40.h,
+                        child: TextButton(
+                          onPressed: () {
+                            controller.jumpToPage(2);
+                          },
+                          child: Text(
+                            'Lewati',
+                            style: onBoardSkipBtn,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 121.w,
+                        height: 40.h,
+                        child: TextButton(
+                          onPressed: () {
+                            controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                          },
+                          style: ButtonStyle(backgroundColor: MaterialStateProperty.all(primary)),
+                          child: Text(
+                            'Lanjut',
+                            style: onBoardWhiteOnBtnSmall,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 51.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 121.w,
-                  height: 40.h,
-                  child: TextButton(
-                    onPressed: () {
-                      controller.jumpToPage(2);
-                    },
-                    child: Text(
-                      'Lewati',
-                      style: onBoardSkipBtn,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 121.w,
-                  height: 40.h,
-                  child: TextButton(
-                    onPressed: () {
-                      controller.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeInOut);
-                    },
-                    child: Text(
-                      'Lanjut',
-                      style: onBoardWhiteOnBtnSmall,
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all(primary)),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

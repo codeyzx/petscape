@@ -297,6 +297,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => FeedDetailScreen(
+                                              users: users,
                                                   feed: item,
                                                 )));
                                   },

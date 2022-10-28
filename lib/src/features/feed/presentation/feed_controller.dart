@@ -22,6 +22,13 @@ class FeedController extends StateNotifier<List<Feed>> {
     state = data.docs.map((e) => e.data()).toList();
   }
 
+  Future<void> increment({required String id, required int value}) async {
+    final ref = db.doc(id);
+    final data = await ref.get();
+    final feed = data.data();
+    await ref.update({'donationTotal': feed!.donationTotal! + value});
+    await getData();
+  }
 }
 
 final feedControllerProvider = StateNotifierProvider<FeedController, List<Feed>>(

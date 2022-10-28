@@ -109,7 +109,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 100),
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 100),
         child: isLoading
             ? ListView.builder(
                 shrinkWrap: true,
@@ -251,14 +251,18 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                 ),
                                               );
                                             },
-                                            child: Image.asset("assets/icons/remove-icon.png", width: 20.w, height: 20.h,),
+                                            child: Image.asset(
+                                              "assets/icons/remove-icon.png",
+                                              width: 20.w,
+                                              height: 20.h,
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     SizedBox(height: 5.h),
                                     SizedBox(
-                                      width: 188.w,
+                                      width: 150.w,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [

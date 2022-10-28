@@ -109,8 +109,6 @@ class _VetsAddScreenState extends ConsumerState<VetsAddScreen> {
                     phone: _phoneController.text,
                   );
                   await ref.read(vetsControllerProvider.notifier).add(vets);
-                  print('masuk');
-                  print(vets);
                 }
               },
               child: Text(

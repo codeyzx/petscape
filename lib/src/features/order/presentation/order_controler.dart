@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:petscape/src/features/order/domain/order/order.dart';
+import 'package:petscape/src/features/product/domain/product.dart';
 
 class OrderController extends StateNotifier<List<Order>> {
   OrderController() : super(const []);
@@ -16,6 +17,19 @@ class OrderController extends StateNotifier<List<Order>> {
     await db.add(temp);
     await getData(usersId);
   }
+
+  // Future<List<Product>> getListData(List<String> docId) async {
+  //   // final firestore = FirebaseFirestore.instance.co;
+  //   final data = await db.where(FieldPath.documentId, whereIn: docId).get();
+  //   final carts = data.docs;
+  //   final List<Product> products = [];
+  //   for (var i = 0; i < carts.length; i++) {
+  //     final item = carts[i].data();
+  //     final product = item.product;
+  //     products.add(product);
+  //   }
+  //   return products;
+  // }
 
   Future<void> patientIncrement(String docId) async {
     final doc = await FirebaseFirestore.instance.collection('vets').doc(docId).get();

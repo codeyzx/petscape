@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/feed/domain/feed.dart';
 import 'package:petscape/src/features/feed/presentation/feed_donation_screen.dart';
 import 'package:petscape/src/features/home/widgets/box_shadow.dart';
@@ -9,7 +10,8 @@ import 'package:petscape/src/shared/theme.dart';
 
 class FeedDetailScreen extends StatefulWidget {
   final Feed feed;
-  const FeedDetailScreen({Key? key, required this.feed}) : super(key: key);
+  final Users users;
+  const FeedDetailScreen({Key? key, required this.feed, required this.users}) : super(key: key);
 
   @override
   State<FeedDetailScreen> createState() => _FeedDetailScreenState();
@@ -167,9 +169,18 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Target: ${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(widget.feed.donationTarget)}",
-                    style: feedDonationMoney,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Target: ${NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(widget.feed.donationTarget)}",
+                        style: feedDonationMoney,
+                      ),
+                      Text(
+                        "Terkumpul: ${NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(widget.feed.donationTotal)}",
+                        style: feedDonationMoney,
+                      ),
+                    ],
                   ),
                   Text(
                     "${(((widget.feed.donationTotal ?? 0) / (widget.feed.donationTarget ?? 0)) * 100).toStringAsFixed(0)}%",
@@ -226,6 +237,7 @@ class _FeedDetailScreenState extends State<FeedDetailScreen> {
                   MaterialPageRoute(
                       builder: (context) => FeedDonationScreen(
                             feed: widget.feed,
+                            users: widget.users,
                           )),
                 );
               },

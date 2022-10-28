@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 import 'package:petscape/src/features/auth/domain/users.dart';
 import 'package:petscape/src/features/order/domain/pet/pet.dart';
 import 'package:petscape/src/features/order/presentation/pet_controller.dart';
