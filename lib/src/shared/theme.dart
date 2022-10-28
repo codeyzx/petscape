@@ -949,3 +949,33 @@ TextStyle onBoardSubTitle = GoogleFonts.poppins(
   fontWeight: FontWeight.w400,
   color: black.withOpacity(0.80),
 );
+
+TextStyle botNavSelected = GoogleFonts.poppins(
+  fontSize: 11.sp,
+  fontWeight: FontWeight.w500,
+  color: black,
+);
+
+TextStyle botNavUnSelected = GoogleFonts.poppins(
+  fontSize: 11.sp,
+  fontWeight: FontWeight.w500,
+  color: black.withOpacity(0.50),
+);
+
+TextStyle chatTitleBig = GoogleFonts.poppins(
+  fontSize: 24.sp,
+  fontWeight: FontWeight.w600,
+  color: black,
+);
+
+TextStyle chatHint = GoogleFonts.poppins(
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w400,
+  color: black.withOpacity(0.50),
+);
+
+TextStyle chatSearch = GoogleFonts.poppins(
+  fontSize: 14.sp,
+  fontWeight: FontWeight.w400,
+  color: black,
+);

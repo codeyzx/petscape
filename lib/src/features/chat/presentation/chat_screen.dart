@@ -25,22 +25,34 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   Widget build(BuildContext context) {
     final users = ref.watch(authControllerProvider);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: whitish,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(66.h),
+        child: AppBar(
+          primary: true,
+          backgroundColor: whitish,
+          elevation: 0,
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Image.asset("assets/icons/arrow-left-icon.png"),
+          ),
+          title: Text(
+            "Chat",
+            style: appBarTitle,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 30.h, left: 18.w, right: 18.w),
+            padding: EdgeInsets.only(top: 24.h, left: 18.w, right: 18.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  'Chat',
-                  style: appBarTitle,
-                ),
-                SizedBox(
-                  height: 12.h,
-                ),
                 SizedBox(
                   height: 42.h,
                   width: 324.w,

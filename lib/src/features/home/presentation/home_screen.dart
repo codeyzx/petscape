@@ -112,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatScreen()));
                             },
                             child: Image.asset(
-                              "assets/icons/bell-icon.png",
+                              "assets/icons/chat-black-icon.png",
                               width: 24.w,
                               height: 24.h,
                             )),
